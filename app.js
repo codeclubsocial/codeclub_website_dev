@@ -15,7 +15,7 @@ app.use(methodOverride("_method"));
 
 
 //Database Schema and conversion to Model
-var Schema = mongoose.Schema 
+var Schema = mongoose.Schema
 var msgSchema = new Schema ({
 	title: String,
 	body: String,
@@ -73,7 +73,7 @@ app.get("/msgs/:id", function(req, res){
 
 //Edit Route - Editing the post
 app.get("/msgs/:id/edit", function(req, res){
-//mongodb commands, 
+//mongodb commands,
 });
 
 //Update Route - Updating the post
@@ -91,7 +91,6 @@ app.delete("/blogs/:id", function(req, res){
 
 
 app.listen(3000, function(){
-	console.log("App Started!!");
-	console.log("Successfully conncted to the Database");
+	console.log("Starting Server on port 3000...");
+	console.log("Successfully connected to the Database");
 });
-
