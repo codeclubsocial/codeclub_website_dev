@@ -19,7 +19,7 @@ var Schema = mongoose.Schema
 var msgSchema = new Schema ({
 	title: String,
 	body: String,
-	author: String, //should be fetched from user authentication.
+	author: String, //should be fetched from user info after Authentication (Passport.js)
 	date: {type: Date, default: Date.now}
 });
 
