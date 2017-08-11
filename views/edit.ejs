@@ -1,0 +1,21 @@
+<% include ./partials/header %>
+
+
+<h1>Edit the Message</h1>
+
+
+<div>
+	<form action="/msgs/<%= msg._id %>?_method=PUT" method="POST">
+		<input type="text" name="msg[title]" placeholder="Message Title" value="<%= msg.title %>">
+		<textarea name="msg[body]" placeholder="Message body"><%= msg.body %></textarea>
+		<button type="submit">Update</button>
+	</form>
+</div>
+
+<a href="/msgs">Back to main page!</a>
+
+
+
+
+
+<% include ./partials/footer %>

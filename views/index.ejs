@@ -2,14 +2,17 @@
 
 <h1>This is index page!</h1>
 
+<a href="/msgs/new">Add a new message</a>
+
 
 <% msg.forEach(function(msg){ %> <!-- Start of content loop -->
 
 
 <div>
 	<h3><%= msg.title %></h3>
-	<p><%= msg.body %></p>
+	<p><%= msg.body.substring(0,100) %>...</p>
 	<p><%= msg.author %></p> <!-- Should be fetched from the user info-->
+	<a href="/msgs/<%= msg._id %>">Show full Message</a>
 	<p><%= msg.date.toDateString() %></p>
 </div>
 	
@@ -19,7 +22,6 @@
 
 <% }); %> <!-- End of content loop -->
 
-<a href="/msgs/new">Add a new message</a>
 
 
 
