@@ -9,9 +9,12 @@
 
 <br>
 <a href="/msgs/<%= msg._id %>/edit">Edit the Message</a>
+
 <form action="/msgs/<%= msg._id %>?_method=DELETE" method="POST">
     <button role="submit">Delete Message</button>
 </form>
 
 <a href="/msgs">Go to main page</a>
+
+
 <% include ./partials/footer %>

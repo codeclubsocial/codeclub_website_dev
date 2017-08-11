@@ -82,8 +82,6 @@ msgBoard.findById(req.params.id, function(err, msg){
 //Edit Route - Editing the post
 app.get("/msgs/:id/edit", function(req, res){
 //mongodb commands,
-<<<<<<< HEAD
-=======
 msgBoard.findById(req.params.id, function(err, msg){
 		if(err){
 			console.log(err);
@@ -92,28 +90,42 @@ msgBoard.findById(req.params.id, function(err, msg){
 			res.render("edit", {msg: msg});
 		}
 	});
->>>>>>> master
 });
 
 //Update Route - Updating the post
 app.put("/msgs/:id", function(req, res){
-
+	msgBoard.findByIdAndUpdate(req.params.id, req.body.msg, function(err, msg){
+		if(err){
+			console.log(err);
+			res.redirect("/msgs");
+		} else {
+			res.redirect("/msgs");
+		}
+	});
 });
 
 //Delete Route - Deleting the post
-app.delete("/blogs/:id", function(req, res){
-
+app.delete("/msgs/:id", function(req, res){
+	msgBoard.findByIdAndRemove(req.params.id, function(err, msg){
+		if(err){
+			console.log(err);	
+		} else {
+			res.redirect("/msgs");
+		}
+	});
 });
 
 
 
 
 
+
+
+
+//Port configuration
+
 app.listen(3000, function(){
-<<<<<<< HEAD
 	console.log("Starting Server on port 3000...");
-=======
-	console.log("Server Started on port 3000...");
->>>>>>> master
+
 	console.log("Successfully connected to the Database");
 });
