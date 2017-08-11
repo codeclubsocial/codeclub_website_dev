@@ -69,11 +69,30 @@ app.post("/msgs", function(req, res){
 //Show Route - Viewing the full message/page of the created post
 app.get("/msgs/:id", function(req, res){
 //mongodb commands, showing/finding msgs in detail (full)
+msgBoard.findById(req.params.id, function(err, msg){
+		if(err){
+			console.log(err);
+			res.redirect("/msgs");
+		} else {
+			res.render("show", {msg: msg});
+		}
+	});
 });
 
 //Edit Route - Editing the post
 app.get("/msgs/:id/edit", function(req, res){
 //mongodb commands,
+<<<<<<< HEAD
+=======
+msgBoard.findById(req.params.id, function(err, msg){
+		if(err){
+			console.log(err);
+			res.redirect("/msgs");
+		} else {
+			res.render("edit", {msg: msg});
+		}
+	});
+>>>>>>> master
 });
 
 //Update Route - Updating the post
@@ -91,6 +110,10 @@ app.delete("/blogs/:id", function(req, res){
 
 
 app.listen(3000, function(){
+<<<<<<< HEAD
 	console.log("Starting Server on port 3000...");
+=======
+	console.log("Server Started on port 3000...");
+>>>>>>> master
 	console.log("Successfully connected to the Database");
 });
