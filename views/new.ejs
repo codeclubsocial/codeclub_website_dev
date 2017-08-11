@@ -1,0 +1,21 @@
+<% include ./partials/header %>
+
+
+<h1>This is new page!</h1>
+
+
+<div>
+	<form action="/msgs" method="POST">
+		<input type="text" name="msg[title]" placeholder="Message Title">
+		<textarea name="msg[body]" placeholder="Message body"></textarea>
+		<input type="submit">
+	</form>
+</div>
+
+<a href="/msgs">Back to main page!</a>
+
+
+
+
+
+<% include ./partials/footer %>
