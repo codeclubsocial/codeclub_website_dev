@@ -1,1 +1,11 @@
+.label{
+  font-weight: 600;
+}
 
+.section1{
+  margin: 2em 15%;
+}
+
+.modal{
+  position: fixed;
+}

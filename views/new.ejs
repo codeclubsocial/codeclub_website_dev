@@ -1,21 +1,22 @@
 <% include ./partials/header %>
 
-
-<h1>This is new page!</h1>
-
-
-<div>
-	<form action="/msgs" method="POST">
-		<input type="text" name="msg[title]" placeholder="Message Title">
-		<textarea name="msg[body]" placeholder="Message body"></textarea>
-		<input type="submit">
-	</form>
+<section class="section1">
+<div class="container">
+	<div class=""><h1>Write New Message</h1></div>
+    <form action="/msgs" method="POST">
+        <div class="form-group">
+            <label class="label">Title</label>
+            <input type="text" name="msg[title]" placeholder="Message Title" class="form-control">
+        </div>
+          <div class="form-group">
+            <label for="exampleTextarea" class="label">Content</label>
+            <textarea class="form-control" name="msg[body]" rows="5" placeholder="Write your message here..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 </div>
 
-<a href="/msgs">Back to main page!</a>
-
-
-
+</section>
 
 
 <% include ./partials/footer %>

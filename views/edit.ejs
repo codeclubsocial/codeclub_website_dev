@@ -1,20 +1,24 @@
 <% include ./partials/header %>
 
-
-<h1>Edit the Message</h1>
-
+<section class="section1">
+<div class="container">
+  <div class=""><h1>Edit Message</h1></div>
   <form action="/msgs/<%= msg._id %>?_method=PUT" method="POST">
-        <div>
-            <input type="text" name="msg[title]" placeholder="Post Title" value="<%= msg.title %>">
+        <div class="form-group">
+            <label class="label">Title</label>
+            <input type="text" name="msg[title]" placeholder="Message Title" class="form-control" value="<%= msg.title %>">
         </div>
-  
-          <div>
-            <textarea name="msg[body]" rows="5" placeholder="Write your content here..."><%= msg.body %></textarea>
+          <div class="form-group">
+            <label for="exampleTextarea" class="label">Content</label>
+            <textarea class="form-control" name="msg[body]" rows="5" placeholder="Write your message here..."><%= msg.body %></textarea>
           </div>
-          <button type="submit">Submit</button>
+          <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+</div>
 
-<a href="/msgs">Back to main page!</a>
+
+
+
 
 
 
