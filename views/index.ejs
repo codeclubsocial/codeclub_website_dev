@@ -1,10 +1,9 @@
 <% include ./partials/header %>
+<div class="div-body">
 
-<h1>This is index page!</h1>
-
+<h1>Message Board</h1>
 
 <% msg.forEach(function(msg){ %> <!-- Start of content loop -->
-
 
 <div>
 	<h3><%= msg.title %></h3>
@@ -12,16 +11,12 @@
 	<p><%= msg.author %></p> <!-- Should be fetched from the user info-->
 	<p><%= msg.date.toDateString() %></p>
 </div>
-	
-
-
-
 
 <% }); %> <!-- End of content loop -->
 
-<a href="/msgs/new">Add a new message</a>
+<a href="/msgs/new">Add a new discussion</a>
 
-
+</div>
 
 
 <% include ./partials/footer %>

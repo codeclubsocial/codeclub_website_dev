@@ -29,7 +29,7 @@ var msgBoard = mongoose.model("msgBoard", msgSchema);
 //=========== Routes Below =============
 
 
-//Landing page - First page
+//Landing page - First page (root)
 app.get("/", function(req, res){
 	res.render("landing");
 });
