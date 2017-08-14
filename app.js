@@ -19,8 +19,10 @@ app.use(methodOverride("_method"));
 
 if(process.env.MONGODB_URI !== undefined) {
 	var uri = process.env.MONGODB_URI
+	var port = 8080
 } else {
 	var uri = "mongodb://127.0.0.1/test_db"
+	var port = 3000
 }
 
 
@@ -106,8 +108,9 @@ db.once('open', function callback ()	{
 
 	});
 
-	app.listen(3000, function(){
-		console.log("\nStarting Server on port 3000...");
+	app.listen(port, function(){
+		console.log("\n");
+		console.log("Starting Server on port " + port + "...");
 		//console.log("Successfully connected to the Database");
 		console.log("MongoDB database => " + uri);
 	});
