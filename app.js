@@ -6,8 +6,16 @@ var methodOverride = require("method-override");
 
 var app = express();
 
+// localhost or heroku?
+var deployment = 'heroku';
+
+if(deployment == 'heroku') {
+	mongoose.connect("mongodb://heroku_lqjlfs09:8gpk00scqsdp3k2an9oktsma76@ds035836.mlab.com:35836/heroku_lqjlfs09");
+} else {
+	mongoose.connect("mongodb://127.0.0.1/test_db");
+}
+
 //Setup
-mongoose.connect("mongodb://127.0.0.1/test_db");
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
