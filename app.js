@@ -1,38 +1,25 @@
-// mongoose config needs to be updated according to:
+// mongoose config has been updated according to:
 // https://github.com/mongolab/mongodb-driver-examples/blob/master/nodejs/mongooseSimpleExample.js
-
 var express = require("express");
 var mongoose = require("mongoose");
+
 var ejs = require("ejs");
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
 
 var app = express();
 
+var uri = 'mongodb://admin:CTWEudbiZuG6@ds149743.mlab.com:49743/codeclubsocial';
+var port = process.env.PORT || 3000;
+mongoose.connect(uri);
+
 //Setup
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
-app.use(methodOverride("_method"));
+app.use(methodOverride("_method"))''
 
-// MONGODB URI: localhost or heroku?
-
-if(process.env.MONGODB_URI !== undefined) {
-	var uri = process.env.MONGODB_URI
-	var port = 8080
-} else {
-	var uri = "mongodb://127.0.0.1/test_db"
-	var port = 3000
-}
-
-
-// var uri = process.env.MONGODB_URI
-// var uri = "mongodb://127.0.0.1/test_db"
-
-mongoose.Promise = global.Promise
-mongoose.connect(uri);
 var db = mongoose.connection;
-
 db.on('error', console.error.bind(console, 'connection error:'));
 
 db.once('open', function callback ()	{
