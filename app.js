@@ -6,8 +6,13 @@ var methodOverride = require("method-override");
 
 var app = express();
 
+
+//Database setup with mLab
+
+ mongoose.connect("mongodb://admin:CTWEudbiZuG6@ds149743.mlab.com:49743/codeclubsocial");
+
 //Setup
-mongoose.connect("mongodb://127.0.0.1/test_db");
+// mongoose.connect("mongodb://127.0.0.1/test_db");
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
@@ -108,7 +113,7 @@ app.put("/msgs/:id", function(req, res){
 app.delete("/msgs/:id", function(req, res){
 	msgBoard.findByIdAndRemove(req.params.id, function(err, msg){
 		if(err){
-			console.log(err);	
+			console.log(err);
 		} else {
 			res.redirect("/msgs");
 		}
@@ -125,7 +130,7 @@ app.delete("/msgs/:id", function(req, res){
 //Port configuration
 
 app.listen(3000, function(){
-	console.log("Starting Server on port 3000...");
 
+	console.log("Starting Server on port 3000...");
 	console.log("Successfully connected to the Database");
 });
