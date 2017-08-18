@@ -8,7 +8,6 @@ var app = express();
 
 
 //Database setup with mLab
-
  mongoose.connect("mongodb://admin:CTWEudbiZuG6@ds149743.mlab.com:49743/codeclubsocial");
 
 //Setup
