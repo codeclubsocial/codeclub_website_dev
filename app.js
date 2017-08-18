@@ -5,7 +5,7 @@ var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
 
 var app = express();
-
+var port = process.env.PORT || 3000;
 
 //Database setup with mLab
  mongoose.connect("mongodb://admin:CTWEudbiZuG6@ds149743.mlab.com:49743/codeclubsocial");
@@ -128,7 +128,7 @@ app.delete("/msgs/:id", function(req, res){
 
 //Port configuration
 
-app.listen(3000, function(){
+app.listen(port, function(){
 
 	console.log("Starting Server on port 3000...");
 	console.log("Successfully connected to the Database");
