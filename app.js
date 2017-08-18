@@ -8,7 +8,7 @@ var app = express();
 var port = process.env.PORT || 3000;
 
 //Database setup with mLab
- mongoose.connect("mongodb://admin:CTWEudbiZuG6@ds149743.mlab.com:49743/codeclubsocial");
+ mongoose.connect(process.env.MONGODB_URI);
 
 //Setup
 // mongoose.connect("mongodb://127.0.0.1/test_db");
