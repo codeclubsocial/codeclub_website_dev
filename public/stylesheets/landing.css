@@ -1,0 +1,32 @@
+body {
+  background: url(/imgs/landing.jpg);
+  background-size: cover;
+  background-position: center;
+}
+
+#main{
+  background: rgba(0, 0, 0, 0.7);
+  max-width: 100%;
+  height: auto;
+  box-shadow: 1em;
+  color: white;
+  margin: 200px auto;
+  padding: 0.3em 45% 0.2em 10%;
+  box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.7);
+}
+
+h1 {
+  max-width: 100%;
+  font-weight: 800;
+  font-family: serif;
+}
+ #cc {
+   font-weight: 600;
+   font-family: sans-serif;
+   color: orange;
+ }
+
+#cb{
+  color: white;
+  font-weight: 800;
+}

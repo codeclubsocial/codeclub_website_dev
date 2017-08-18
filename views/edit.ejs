@@ -2,21 +2,26 @@
 
 <section class="section1">
 <div class="container">
-	<div class=""><h1>Write New Message</h1></div>
-    <form action="/msgs" method="POST">
+  <div class=""><h1>Edit Message</h1></div>
+  <form action="/msgs/<%= msg._id %>?_method=PUT" method="POST">
         <div class="form-group">
             <label class="label">Title</label>
-            <input type="text" name="msg[title]" placeholder="Message Title" class="form-control">
+            <input type="text" name="msg[title]" placeholder="Message Title" class="form-control" value="<%= msg.title %>">
         </div>
           <div class="form-group">
             <label for="exampleTextarea" class="label">Content</label>
-            <textarea class="form-control" name="msg[body]" rows="5" placeholder="Write your message here..."></textarea>
+            <textarea class="form-control" name="msg[body]" rows="5" placeholder="Write your message here..."><%= msg.body %></textarea>
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 
-</section>
+
+
+
+
+
+
 
 
 <% include ./partials/footer %>
