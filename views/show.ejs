@@ -8,8 +8,8 @@
     <div class="card-block">
       <span class="badge badge-pill badge-primary" style="float: right;"><%= msg.date.toDateString() %></span>
       <p class="card-text" style="margin: 2em auto; text-align: justify;"><%= msg.body %></p>
-      <a href="/msgs/<%= msg._id %>/edit" class="btn btn-primary">Edit Message</a>
-        <form class="" action="/msgs/<%= msg._id %>?_method=DELETE" method="post" style="display: inline;">
+      <a href="/forum/<%= msg._id %>/edit" class="btn btn-primary">Edit Message</a>
+        <form class="" action="/forum/<%= msg._id %>?_method=DELETE" method="post" style="display: inline;">
           <a href="#" class="btn btn-danger">Delete</a>
         </form>
     </div>

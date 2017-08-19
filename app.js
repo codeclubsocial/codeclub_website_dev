@@ -8,7 +8,7 @@ var app = express();
 var port = process.env.PORT || 3000;
 
 //Database setup with mLab
- mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI);
 
 //Setup
 // mongoose.connect("mongodb://127.0.0.1/test_db");
@@ -35,48 +35,57 @@ var msgBoard = mongoose.model("msgBoard", msgSchema);
 
 //Landing page - First page
 app.get("/", function(req, res){
-	res.render("landing");
+  res.render("landing");
+  //res.render("index");
+
+  /*
+  if(process.env.HEROKU == 'true') {
+    res.render("landing");
+  } else {
+    // to save time during development
+    res.render("index");
+  } */
 });
 
 
 
-//Index Page - Showing all the posts
-app.get("/msgs", function(req, res){
+//Message Board Page - Showing all the posts
+app.get("/forum", function(req, res){
 	msgBoard.find({}, function(err, msg){
 		if(err){
 			console.log(err)
 		} else {
-			res.render("index", {msg: msg});
+			res.render("forum", {msg: msg});
 		}
 	});
 });
 
 
 //New Route - Form/page where you create a new post
-app.get("/msgs/new", function(req, res){
+app.get("/forum/new", function(req, res){
 	res.render("new")
 });
 
 //Create(ing/ed) Route - The page the post has been created
-app.post("/msgs", function(req, res){
-//mongodb commands, reading the parsing data, redirecting to index page
+app.post("/forum", function(req, res){
+//mongodb commands, reading the parsing data, redirecting to Message Board page
 	msgBoard.create(req.body.msg, function(err, msg){
 		if(err){
 			console.log(err);
-			res.redirect("/msgs");
+			res.redirect("/forum");
 		} else {
-			res.redirect("/msgs");
+			res.redirect("/forum");
 		}
 	});
 });
 
 //Show Route - Viewing the full message/page of the created post
-app.get("/msgs/:id", function(req, res){
+app.get("/forum/:id", function(req, res){
 //mongodb commands, showing/finding msgs in detail (full)
 msgBoard.findById(req.params.id, function(err, msg){
 		if(err){
 			console.log(err);
-			res.redirect("/msgs");
+			res.redirect("/forum");
 		} else {
 			res.render("show", {msg: msg});
 		}
@@ -84,12 +93,12 @@ msgBoard.findById(req.params.id, function(err, msg){
 });
 
 //Edit Route - Editing the post
-app.get("/msgs/:id/edit", function(req, res){
+app.get("/forum/:id/edit", function(req, res){
 //mongodb commands,
 msgBoard.findById(req.params.id, function(err, msg){
 		if(err){
 			console.log(err);
-			res.redirect("/msgs");
+			res.redirect("/forum");
 		} else {
 			res.render("edit", {msg: msg});
 		}
@@ -97,24 +106,24 @@ msgBoard.findById(req.params.id, function(err, msg){
 });
 
 //Update Route - Updating the post
-app.put("/msgs/:id", function(req, res){
+app.put("/forum/:id", function(req, res){
 	msgBoard.findByIdAndUpdate(req.params.id, req.body.msg, function(err, msg){
 		if(err){
 			console.log(err);
-			res.redirect("/msgs");
+			res.redirect("/forum");
 		} else {
-			res.redirect("/msgs");
+			res.redirect("/forum");
 		}
 	});
 });
 
 //Delete Route - Deleting the post
-app.delete("/msgs/:id", function(req, res){
+app.delete("/forum/:id", function(req, res){
 	msgBoard.findByIdAndRemove(req.params.id, function(err, msg){
 		if(err){
 			console.log(err);
 		} else {
-			res.redirect("/msgs");
+			res.redirect("/forum");
 		}
 	});
 });

@@ -1,8 +1,10 @@
 <% include ./partials/header %>
 
-<h1>This is index page!</h1>
+<!-- TODO: insert div to add padding-->
 
-<a href="/forum/new">Add a new message</a>
+<h1>Forum</h1>
+
+<a href="/forum/new">New Post</a>
 
 
 <% msg.forEach(function(msg){ %> <!-- Start of content loop -->
@@ -12,7 +14,7 @@
 	<h3><%= msg.title %></h3>
 	<p><%= msg.body.substring(0,100) %>...</p>
 	<p><%= msg.author %></p> <!-- Should be fetched from the user info-->
-	<a href="/forum/<%= msg._id %>">Show full Message</a>
+	<a href="/forum/<%= msg._id %>">View Post</a>
 	<p><%= msg.date.toDateString() %></p>
 </div>
 

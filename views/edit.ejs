@@ -3,7 +3,7 @@
 <section class="section1">
 <div class="container">
   <div class=""><h1>Edit Message</h1></div>
-  <form action="/msgs/<%= msg._id %>?_method=PUT" method="POST">
+  <form action="/forum/<%= msg._id %>?_method=PUT" method="POST">
         <div class="form-group">
             <label class="label">Title</label>
             <input type="text" name="msg[title]" placeholder="Message Title" class="form-control" value="<%= msg.title %>">
