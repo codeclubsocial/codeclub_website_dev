@@ -1,18 +1,70 @@
+
+<!DOCTYPE html>
 <html>
 <head>
-	<title>Code Club | Welcome to the Code Club website!</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" type="text/css" href="/libs/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="/stylesheets/landing.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CodeClub | Welcome to our team!</title>
+
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+
 </head>
+
 <body>
 
-  <div class="jumbotron jumbotron-fluid" id="main">
-    <div class="container">
-      <h1 class="display-3">Hey, Welcome!</h1>
-      <p class="lead">This is the <span id="cc">Code Club</span> website. Want to learn more? <br><span id="cb"><a href="/msgs">Click Here</a></span></p>
-    </div>
-  </div>
+	<header>
+		<h2><a href="#">CodeClub</a></h2>
+		<nav>
+			<li><a href="/msgs">Forum</a></li>
+			<li><a href="#">About</a></li>
+			<li><a href="#">Contact</a></li>
+			<li><a href="#">Login</a></li>
+			<li><a href="">Sign Up</a></li>
+		</nav>
+	</header>
+
+
+	<section class="hero">
+		<div class="background-image" style="background-image: url(/imgs/hero.jpg);"></div>
+		<h1>The Landing page</h1>
+		<h3>We can later decide what to add/remove</h3>
+		<a href="#" class="btn">Join Our Team</a>
+	</section>
+
+
+<section class="our-work">
+		<h3 class="title">Where We Meet</h3>
+			<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1574.758297342437!2d-122.26895770288027!3d37.871599904202455!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80857e9e60317c95%3A0xcfd5ee224fa07e15!2s85C+Bakery+Cafe+-+Berkeley!5e0!3m2!1sen!2sus!4v1503138976672" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+</section>
+
+	<section class="contact">
+		<h3 class="title">Subscribe to our ...</h3>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id felis et ipsum bibendum ultrices. Morbi vitae pulvinar velit. Sed aliquam dictum sapien, id sagittis augue malesuada eu.</p>
+		<hr>
+
+		<form>
+			<input type="email" placeholder="Email">
+			<a href="#" class="btn">Subscribe now</a>
+		</form>
+	</section>
+
+	<footer>
+		<ul>
+			<li><a href="#"><i class="fa fa-twitter-square" target="_blank"></i></a></li>
+			<li><a href="#"><i class="fa fa-facebook-square" target="_blank"></i></a></li>
+			<li><a href="https://github.com/codeclubsocial" target="_blank"><i class="fa fa-github-square"></i></a></li>
+		</ul>
+		<p>Made by whoever</p>
+		<p>the quick brown fox jumps right over the lazy dog</p>
+	</footer>
+
+</body>
+
+</html>
+
 
 <% include ./partials/footer %>
