@@ -1,0 +1,8 @@
+1- landing page navigation buttons hover effect added
+2- delete button issue fixed
+3- show page and edit page forms have been better visualized (.section1) edited
+4- jquery has been added in the header.ejs file and we can now write scripts
+5- textarea has been fixed (edit/new) pages, every enter will automatically resize the box
+6- landing page icon (brand) linked to landing itself.
+7- home button added for index page
+8- links navigation placed at the end
