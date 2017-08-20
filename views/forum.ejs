@@ -1,32 +1,30 @@
 <% include ./partials/header %>
 <div class="body-container">
+		<h1>Forum</h1>
+		<p>&nbsp;</p>
 
-<div>
-	<h1>Forum</h1>
-	<p align="right">
-	<a class="btn btn-primary" href="/forum/new" role="button">New Post</a>
-<div>
+	<table class="table table-bordered table-striped table-responsive">
+		<thead>
+			<tr>
+				<th style="width: 150px;">Poster</th>
+				<th>Description</th>
+				<th style="width: 150px;"><a class="btn btn-primary" href="/forum/new" role="button">New Post</a></th>
+			</tr>
+		</thead>
+		<tbody>
+			<% msg.forEach(function(msg){ %> <!-- Start of content loop -->
+				<tr>
+					<td>
+						By: anonymous <%= msg.author %><br>
+						<%= msg.date.toDateString() %>
+					</td>
+					<td colspan="2"><h5><a href="/forum/<%= msg._id %>"><%= msg.title %></a></h5><%= msg.body.substring(0,100) %>...</td> <!-- Should be fetched from the user info-->
+				</tr>
+			<% }); %> <!-- End of content loop -->
+		</tbody>
+	</table>
 
-<table class="table table-bordered table-striped table-responsive">
-	<thead>
-	<tr>
-		<th style="width: 150px;">Poster</th>
-		<th>Description</th>
-	</tr>
-	</thead>
-	<tbody>
-<% msg.forEach(function(msg){ %> <!-- Start of content loop -->
-	<tr>
-		<td>
-			By: anonymous <%= msg.author %><br>
-			<%= msg.date.toDateString() %>
-		</td>
-		<td><h5><a href="/forum/<%= msg._id %>"><%= msg.title %></a></h5><%= msg.body.substring(0,100) %>...</td> <!-- Should be fetched from the user info-->
-	</tr>
-<% }); %> <!-- End of content loop -->
-
-</tbody>
-</table>
-<p>&nbsp;</p>
+	<p>&nbsp;</p>
 </div>
+
 <% include ./partials/footer %>
