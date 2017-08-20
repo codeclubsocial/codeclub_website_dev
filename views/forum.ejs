@@ -3,16 +3,24 @@
 
 <h1>Forum</h1>
 <a href="/forum/new">New Post</a>
-
+<table class="table table-bordered table-striped table-responsive">
+	<thead></thead>
+	<tbody>
+			<tr>
+      <th style="width: 150px;">Poster</th>
+      <th colspan="2">Description</th>
+    </tr>
 <% msg.forEach(function(msg){ %> <!-- Start of content loop -->
-	<div>
-		<h3><%= msg.title %></h3>
-		<p><%= msg.body.substring(0,100) %>...</p>
-		<p><%= msg.author %></p> <!-- Should be fetched from the user info-->
-		<a href="/forum/<%= msg._id %>">View Post</a>
-		<p><%= msg.date.toDateString() %></p>
-	</div>
+	<tr>
+		<td>
+			By: <%= msg.author %><br>
+			<%= msg.date.toDateString() %>
+		</td>
+		<td><h5><a href="/forum/<%= msg._id %>"><%= msg.title %></a></h5><%= msg.body.substring(0,100) %>...</td> <!-- Should be fetched from the user info-->
+	</tr>
 <% }); %> <!-- End of content loop -->
 
+</tbody>
+</table>
 </div>
 <% include ./partials/footer %>
