@@ -13,3 +13,10 @@
 .body-container{
   padding: 15px;
 }
+
+#footer-special-container{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}

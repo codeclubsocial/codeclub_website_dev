@@ -36,18 +36,37 @@ var msgBoard = mongoose.model("msgBoard", msgSchema);
 //Landing page - First page
 app.get("/", function(req, res){
   res.render("landing");
-  //res.render("index");
-
-  /*
-  if(process.env.HEROKU == 'true') {
-    res.render("landing");
-  } else {
-    // to save time during development
-    res.render("index");
-  } */
 });
 
+//Index page - Second page
+app.get("/index", function(req, res){
+  res.render("index");
+});
 
+//Links page
+app.get("/links", function(req, res){
+  res.render("links");
+});
+
+//About CodeClub Page
+app.get("/about", function(req, res){
+  res.render("about");
+});
+
+//Contact Us Page
+app.get("/contact", function(req, res){
+  res.render("contact");
+});
+
+//Login Page
+app.get("/login", function(req, res){
+  res.render("login");
+});
+
+//Sign Up Page
+app.get("/signup", function(req, res){
+  res.render("signup");
+});
 
 //Message Board Page - Showing all the posts
 app.get("/forum", function(req, res){
