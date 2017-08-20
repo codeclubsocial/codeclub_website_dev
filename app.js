@@ -129,16 +129,11 @@ app.delete("/forum/:id", function(req, res){
 });
 
 
-
-
-
-
-
-
-//Port configuration
-
 app.listen(port, function(){
-
-	console.log("Starting Server on port 3000...");
+	console.log("\n" + "=".repeat(40));
+	console.log("*** INITIALIZATION ***");
+	console.log("-".repeat(40));
+	console.log("Starting Server on http://localhost:3000");
 	console.log("Successfully connected to the Database");
+	console.log("=".repeat(40) + "\n");
 });
