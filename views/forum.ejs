@@ -1,19 +1,24 @@
 <% include ./partials/header %>
 <div class="body-container">
 
-<h1>Forum</h1>
-<a href="/forum/new">New Post</a>
+<div>
+	<h1>Forum</h1>
+	<p align="right">
+	<a class="btn btn-primary" href="/forum/new" role="button">New Post</a>
+<div>
+
 <table class="table table-bordered table-striped table-responsive">
-	<thead></thead>
+	<thead>
+	<tr>
+		<th style="width: 150px;">Poster</th>
+		<th>Description</th>
+	</tr>
+	</thead>
 	<tbody>
-			<tr>
-      <th style="width: 150px;">Poster</th>
-      <th colspan="2">Description</th>
-    </tr>
 <% msg.forEach(function(msg){ %> <!-- Start of content loop -->
 	<tr>
 		<td>
-			By: <%= msg.author %><br>
+			By: anonymous <%= msg.author %><br>
 			<%= msg.date.toDateString() %>
 		</td>
 		<td><h5><a href="/forum/<%= msg._id %>"><%= msg.title %></a></h5><%= msg.body.substring(0,100) %>...</td> <!-- Should be fetched from the user info-->
@@ -22,5 +27,6 @@
 
 </tbody>
 </table>
+<p>&nbsp;</p>
 </div>
 <% include ./partials/footer %>
