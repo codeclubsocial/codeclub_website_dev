@@ -432,7 +432,7 @@ footer ul li:last-child{
 }
 
 footer p{
-	text-transform: uppercase;
+	// text-transform: uppercase;
 	font-size: 14px;
 	color: rgba(255,255,255,0.6);
 	margin-bottom: 10px;
