@@ -9,3 +9,7 @@
 .modal{
   position: fixed;
 }
+
+.body-container{
+  padding: 15px;
+}

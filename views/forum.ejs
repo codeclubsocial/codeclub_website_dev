@@ -1,27 +1,18 @@
 <% include ./partials/header %>
-
-<!-- TODO: insert div to add padding-->
+<div class="body-container">
 
 <h1>Forum</h1>
-
 <a href="/forum/new">New Post</a>
 
-
 <% msg.forEach(function(msg){ %> <!-- Start of content loop -->
-
-
-<div>
-	<h3><%= msg.title %></h3>
-	<p><%= msg.body.substring(0,100) %>...</p>
-	<p><%= msg.author %></p> <!-- Should be fetched from the user info-->
-	<a href="/forum/<%= msg._id %>">View Post</a>
-	<p><%= msg.date.toDateString() %></p>
-</div>
-
-
-
-
-
+	<div>
+		<h3><%= msg.title %></h3>
+		<p><%= msg.body.substring(0,100) %>...</p>
+		<p><%= msg.author %></p> <!-- Should be fetched from the user info-->
+		<a href="/forum/<%= msg._id %>">View Post</a>
+		<p><%= msg.date.toDateString() %></p>
+	</div>
 <% }); %> <!-- End of content loop -->
 
+</div>
 <% include ./partials/footer %>
