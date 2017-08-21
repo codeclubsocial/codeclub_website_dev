@@ -10,14 +10,16 @@
 
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="/libs/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script type="text/javascript" src="/libs/jquery.js"></script>
   <link rel="stylesheet" href="/stylesheets/styles.css">
 </head>
 
 <body>
 
 	<header>
-		<h2><a href="/">CodeClub</a></h2>
+		<h2><a href="/" id="landingBrand">CodeClub</a></h2>
 		<nav>
       <li><a href="/index" class="landingNav">Home</a></li>
 			<li><a href="/forum" class="landingNav">Forum</a></li>
@@ -27,7 +29,6 @@
 		</nav>
 	</header>
 
-
 	<section class="hero">
 		<div class="background-image" style="background-image: url(/imgs/hero.jpg);"></div>
 		<h1>CodeClub</h1>
@@ -35,11 +36,8 @@
 		<a href="/index" class="btn">Join the Club</a>
 	</section>
 
+<!-- Image slider should be added here -->
 
-  <section class="our-work">
-		<h3 class="title">Where We Meet</h3>
-			<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1574.758297342437!2d-122.26895770288027!3d37.871599904202455!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80857e9e60317c95%3A0xcfd5ee224fa07e15!2s85C+Bakery+Cafe+-+Berkeley!5e0!3m2!1sen!2sus!4v1503138976672" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
-  </section>
 
 	<section class="contact">
 		<h3 class="title">Subscribe</h3>
@@ -51,4 +49,12 @@
 			<a href="#" class="btn">Subscribe now</a>
 		</form>
 	</section>
+
+
+
+
+
+
+
+
 <% include ./partials/footer %>

@@ -25,3 +25,25 @@ textarea {
     box-sizing: border-box;
     resize: none;
 }
+
+.btn {
+  cursor: pointer;
+}
+
+
+.jumbotron{
+  background-color: white;
+}
+
+.google-maps {
+		position: relative;
+		padding-bottom: 75%; // This is the aspect ratio
+		height: 100%;
+		width: 100%;
+		overflow: hidden;
+}
+
+.card{
+  border: none;
+  margin: 2rem;
+}

@@ -1,21 +1,22 @@
 <% include ./partials/header %>
 
-<div class="container" style="margin-top: 1.5rem;">
-  <div class="card">
-    <div class="card-header">
-      <h3><%= msg.title %> </h3>
-    </div>
-    <div class="card-block">
-      <span class="badge badge-pill badge-primary" style="float: right;"><%= msg.date.toDateString() %></span>
-      <p class="card-text" style="margin: 2em auto; text-align: justify;"><%= msg.body %></p>
-      <a href="/forum/<%= msg._id %>/edit" class="btn btn-primary">Edit</a>
-
-        <form class="" action="/forum/<%= msg._id %>?_method=DELETE" method="POST" style="display: inline;">
-          <button role="submit" class="btn btn-danger">Delete <i class="fa fa-trash-o" aria-hidden="true"></i></button>
-      </form>
+<section class="section1">
+  <div class="container" style="margin-top: 1.5rem;">
+    <div class="card">
+      <div class="card-header">
+        <h3><%= msg.title %> </h3>
+      </div>
+      <div class="card-block">
+        <span class="badge badge-pill badge-primary" style="float: right;"><%= msg.date.toDateString() %></span>
+        <p class="card-text" style="margin: 2em auto; text-align: justify;"><%= msg.body %></p>
+        <a href="/forum/<%= msg._id %>/edit" class="btn btn-default"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>          <form class="" action="/forum/<%= msg._id %>?_method=DELETE" method="POST" style="display: inline;">
+            <button role="submit button" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+        </form>
+      </div>
     </div>
   </div>
-</div>
+</section>
+
 
 <br><br><br><br><br>
 <% include ./partials/footer %>
