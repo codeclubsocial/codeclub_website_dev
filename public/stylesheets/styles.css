@@ -466,7 +466,21 @@ footer p a{
 		overflow: hidden;
 }
 
-
 .landingNav:hover{
 	color: #2196F3;
+	text-decoration: none;
+}
+
+#landingBrand {
+	text-decoration: none;
+	color: white;
+
+}
+
+#carousel{
+    width: 150px;
+    height: 100px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
 }
