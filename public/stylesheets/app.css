@@ -69,7 +69,7 @@ textarea {
     margin: 5px;
 }
 
-<<<<<<< HEAD
+
 #forum-index-body {
   padding: 5px;
   border-color: skyblue;
@@ -94,7 +94,8 @@ textarea {
   width: 75%;
   margin: 0 auto;
   padding-top: 20px;
-=======
+}
+
 .left-div {
     display: inline-block;
     max-width: 60%;
@@ -114,5 +115,4 @@ textarea {
     padding: 30px;
     border-radius: 3px;
     margin: 5px;
->>>>>>> dev
 }
