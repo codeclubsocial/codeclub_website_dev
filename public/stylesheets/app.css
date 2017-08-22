@@ -36,36 +36,20 @@ textarea {
 }
 
 .google-maps {
-		position: relative;
-		padding-bottom: 75%; // This is the aspect ratio
-		height: 100%;
-		width: 100%;
-		overflow: hidden;
+    position: relative;
+    padding-bottom: 90%; // (450 ÷ 500 = 0.9 = 90%)
+    height: 0;
+    overflow: hidden;
+}
+.google-maps iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
-.card{
-  border: none;
-  margin: 2rem;
-}
-
-
-.left-div {
-    display: inline-block;
-    max-width: 60%;
-    width: 55%;
-    text-align: left;
-    vertical-align: top;
-    padding: 30px;
-    border-radius: 3px;
-    margin: 5px;
-}
-
-.right-div {
-    display: inline-block;
-    max-width: 30%;
-    width: 30%;
-    text-align: left;
-    padding: 30px;
-    border-radius: 3px;
-    margin: 5px;
+#map:hover{
+	text-decoration: none;
+	color: #2196F3;
 }

@@ -1,36 +1,42 @@
 <% include ./partials/header %>
+<div class="container">
 
-<div class="container" style="margin-top: 1.6rem; margin-bottom: -1em; margin-left: 2.2em;">
-	<h1>Contact Us</h1>
-	<p>You can send send us any inquiry with below form. Or, if you are willing,
-	you can always join our Meetups on the provided address. <br>
-	We meet every Thursday 06:00 - 08:00 P.M.</p>
-</div>
-<div class="container-fluid">
-	<div class="left-div">
-		<form action="" method="POST">
-				<div class="form-group">
-						<label class="label">Your Name</label>
-						<input type="text" name="name" placeholder="Albert Einstein" class="form-control">
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card" style="border: none;">
+      <div class="card-block">
+        <h4 class="card-title"><div>
+      		<a href="https://www.google.com/maps/place/85C+Bakery+Cafe+-+Berkeley/@37.8719641,-122.270272,17z/data=!3m1!4b1!4m5!3m4!1s0x80857e9e60317c95:0xcfd5ee224fa07e15!8m2!3d37.8719641!4d-122.2680833" id="map" target="_blank">Take Me There!</a></div></h4>
+				<div class="google-maps">
+					<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12597.865078485956!2d-122.27628013339182!3d37.87277711631092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80857e9e60317c95%3A0xcfd5ee224fa07e15!2s85C+Bakery+Cafe+-+Berkeley!5e0!3m2!1sen!2sus!4v1503378631325" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
 				</div>
-				<div class="form-group">
-						<label class="label">Your Email</label>
-						<input type="text" name="email" placeholder="albert@einstein.com" class="form-control">
-				</div>
-					<div class="form-group">
-						<label for="exampleTextarea" class="label">Your Message</label>
-						<textarea class="form-control" name="message" rows="5" placeholder="Write your message here..." data-autoresize rows="2"></textarea>
-					</div>
-					<button type="submit" class="btn btn-primary">Submit</button>
-		</form>
-	</div>
-	<div class="right-div">
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3149.501026555928!2d-122.27027198527776!3d37.87196407974184!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80857e9e60317c95%3A0xcfd5ee224fa07e15!2s85C+Bakery+Cafe+-+Berkeley!5e0!3m2!1sen!2sus!4v1503371431557" width="517" height="317" frameborder="0" style="border:0" allowfullscreen></iframe>
-<a href="https://www.google.com/maps/place/85C+Bakery+Cafe+-+Berkeley/@37.8719641,-122.270272,17z/data=!3m1!4b1!4m5!3m4!1s0x80857e9e60317c95:0xcfd5ee224fa07e15!8m2!3d37.8719641!4d-122.2680833" class="btn btn-primary" style="text-transform: capitalize; margin-top: .9em;">Take Me There!</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card" style="border: none">
+      <div class="card-block">
+        <h3 class="card-title">Have a Question?</h3>
+        <p class="card-text">Send us a mail and we will get back to you.</p>
+				<form action="mailto:user@example.com" method="POST">
+						<div class="form-group">
+								<label class="label">Name</label>
+								<input type="text" placeholder="Albert Einstein" class="form-control">
+						</div>
+						<div class="form-group">
+								<label class="label">Email</label>
+								<input type="email" placeholder="albert@einstein.com" class="form-control" required>
+						</div>
+							<div class="form-group">
+								<label for="exampleTextarea" class="label">Inquiry</label>
+								<textarea class="form-control" rows="5" placeholder="Write your question here..." data-autoresize rows="2"></textarea>
+							</div>
+							<button type="submit" class="btn btn-primary">Submit</button>
+				</form>
+      </div>
+    </div>
+  </div>
 </div>
-
-
-
 </div>
-
+</div>
 <% include ./partials/footer %>
