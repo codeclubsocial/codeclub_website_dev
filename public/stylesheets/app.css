@@ -92,24 +92,16 @@ textarea {
   padding-top: 20px;
 }
 
-.left-div {
-    display: inline-block;
-    max-width: 60%;
-    width: 55%;
-    text-align: left;
-    vertical-align: top;
-    padding: 30px;
-    border-radius: 3px;
-    margin: 5px;
+.google-maps {
+    position: relative;
+    padding-bottom: 90%; // (450 ÷ 500 = 0.9 = 90%)
+    height: 0;
+    overflow: hidden;
 }
-
-.right-div {
-    display: inline-block;
-    max-width: 30%;
-    width: 30%;
-    text-align: left;
-    padding: 30px;
-    border-radius: 3px;
-    margin: 5px;
->>>>>>> 44ac795767cb24c67be1a39f1d190143bf820341
+.google-maps iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
