@@ -21,61 +21,6 @@
   left: 0;
 }
 
-textarea {
-    box-sizing: border-box;
-    resize: none;
-}
-
-.btn {
-  cursor: pointer;
-}
-
-
-.jumbotron{
-  background-color: white;
-}
-
-#map:hover{
-	text-decoration: none;
-	color: #2196F3;
-	position: relative;
-	padding-bottom: 75%; // This is the aspect ratio
-	height: 100%;
-	width: 100%;
-	overflow: hidden;
-}
-
-.card{
-  border: none;
-  margin: 2rem;
-}
-
-#forum-index-body {
-  padding: 5px;
-  border-color: skyblue;
-  border-left-width: 3px;
-  border-left-style: solid;
-  background-color: azure;
-  font-size: 0.90em;
-}
-
-#forum-index-title {
-  font-size: 1.2em;
-  font-weight: 500;
-}
-
-#forum-page-title {
-  width: 75%;
-  margin: 0 auto;
-  padding-top: 20px;
-}
-
-#forum-page-body {
-  width: 75%;
-  margin: 0 auto;
-  padding-top: 20px;
-}
-
 .google-maps {
     position: relative;
     padding-bottom: 90%; // (450 ÷ 500 = 0.9 = 90%)
