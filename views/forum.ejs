@@ -1,8 +1,10 @@
 <% include ./partials/header %>
-<div class="body-container">
+<div class="body-container" style="margin: 0 auto;">
+	<div style="width: 75%; margin: 0 auto; padding-top: 20px;">
 		<h1>Forum</h1>
-		<p>&nbsp;</p>
+	</div>
 
+	<div style="width: 75%; margin: 0 auto; padding-top: 20px;">
 	<table class="table table-bordered table-striped table-responsive">
 		<thead>
 			<tr>
@@ -18,12 +20,32 @@
 						By: anonymous <%= msg.author %><br>
 						<%= msg.date.toDateString() %>
 					</td>
-					<td colspan="2"><h5><a href="/forum/<%= msg._id %>"><%= msg.title %></a></h5><%= msg.body.substring(0,100) %>...</td> <!-- Should be fetched from the user info-->
+					<td colspan="2">
+						<a href="/forum/<%= msg._id %>">
+							<div>
+								<div style="font-size: 1.2em; font-weight: 500;"><%= msg.title %></div>
+								<div style="
+								padding: 5px;
+								border-color: skyblue;
+								border-left-width: 3px;
+								border-left-style: solid;
+								background-color: azure;
+								font-size: 0.90em;
+								">
+									<% if(typeof msg.body != 'undefined') { %>
+										<%= msg.body.substring(0,100) %>...
+									<% } else { %>
+										<%= "..." %>
+									<% } %>
+								</div>
+							</div>
+						</a>
+					</td> <!-- Should be fetched from the user info-->
 				</tr>
 			<% }); %> <!-- End of content loop -->
 		</tbody>
 	</table>
-
+</div>
 	<p>&nbsp;</p>
 </div>
 
