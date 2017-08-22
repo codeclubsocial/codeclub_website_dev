@@ -47,3 +47,25 @@ textarea {
   border: none;
   margin: 2rem;
 }
+
+
+.left-div {
+    display: inline-block;
+    max-width: 60%;
+    width: 55%;
+    text-align: left;
+    vertical-align: top;
+    padding: 30px;
+    border-radius: 3px;
+    margin: 5px;
+}
+
+.right-div {
+    display: inline-block;
+    max-width: 30%;
+    width: 30%;
+    text-align: left;
+    padding: 30px;
+    border-radius: 3px;
+    margin: 5px;
+}
