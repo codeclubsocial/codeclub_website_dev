@@ -47,3 +47,30 @@ textarea {
   border: none;
   margin: 2rem;
 }
+
+
+#forum-index-body {
+  padding: 5px;
+  border-color: skyblue;
+  border-left-width: 3px;
+  border-left-style: solid;
+  background-color: azure;
+  font-size: 0.90em;
+}
+
+#forum-index-title {
+  font-size: 1.2em;
+  font-weight: 500;
+}
+
+#forum-page-title {
+  width: 75%;
+  margin: 0 auto;
+  padding-top: 20px;
+}
+
+#forum-page-body {
+  width: 75%;
+  margin: 0 auto;
+  padding-top: 20px;
+}

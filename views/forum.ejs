@@ -1,11 +1,11 @@
 <% include ./partials/header %>
 <div class="body-container" style="margin: 0 auto;">
-	<div style="width: 75%; margin: 0 auto; padding-top: 20px;">
+	<div id="forum-page-title">
 		<h1>Forum</h1>
 	</div>
 
-	<div style="width: 75%; margin: 0 auto; padding-top: 20px;">
-	<table class="table table-bordered table-striped table-responsive">
+	<div id="forum-page-body">
+	<table class="table table-bordered table-hover table-striped table-responsive">
 		<thead>
 			<tr>
 				<th style="width: 150px;">Poster</th>
@@ -21,25 +21,20 @@
 						<%= msg.date.toDateString() %>
 					</td>
 					<td colspan="2">
-						<a href="/forum/<%= msg._id %>">
-							<div>
-								<div style="font-size: 1.2em; font-weight: 500;"><%= msg.title %></div>
-								<div style="
-								padding: 5px;
-								border-color: skyblue;
-								border-left-width: 3px;
-								border-left-style: solid;
-								background-color: azure;
-								font-size: 0.90em;
-								">
+						<!--a href="/forum/<%= msg._id %>"-->
+							<div onclick="location.href='/forum/<%= msg._id %>';" style="cursor: pointer;"	>
+								<div id="forum-index-title"><%= msg.title %></div>
+								<div id="forum-index-body">
+
 									<% if(typeof msg.body != 'undefined') { %>
 										<%= msg.body.substring(0,100) %>...
 									<% } else { %>
 										<%= "..." %>
 									<% } %>
+
 								</div>
 							</div>
-						</a>
+						<!--/a-->
 					</td> <!-- Should be fetched from the user info-->
 				</tr>
 			<% }); %> <!-- End of content loop -->
