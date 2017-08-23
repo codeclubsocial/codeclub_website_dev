@@ -1,26 +1,22 @@
 {
-  "name": "test",
-  "version": "1.0.0",
+  "name": "codeclub_website",
+  "version": "0.1.0",
   "engines": {
     "node": "6.11.1"
   },
-  "description": "CC trial",
+  "description": "CodeClub Website",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Zaki",
-  "license": "ISC",
+  "author": "CodeClub",
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.17.2",
-    "draft-js": "^0.10.1",
-    "draft-js-plugins-editor": "^2.0.0-beta1",
     "ejs": "^2.5.7",
     "express": "^4.15.4",
     "method-override": "^2.3.9",
     "mongodb": "^2.2.31",
-    "mongoose": "^4.11.7",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "mongoose": "^4.11.7"
   }
 }
