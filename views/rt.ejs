@@ -1,0 +1,39 @@
+<% include ./partials/header %>
+<div class="body-container" style="margin: 0 auto;">
+
+  <!-- Create the toolbar container -->
+  <div id="toolbar">
+  </div>
+
+  <!-- Create the editor container -->
+  <div id="editor">
+  </div>
+
+  <!-- Include the Quill library -->
+  <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
+
+  <!-- Initialize Quill editor -->
+  <script>
+  var options = {
+    debug: 'info',
+    modules: {
+      toolbar: '#toolbar'
+    },
+    placeholder: '',
+    readOnly: false,
+    theme: 'snow'
+  };
+
+  var editor = new Quill('#editor', options);
+
+  var toolbarOptions = ['bold', 'italic', 'underline', 'strike'];
+
+
+  var quill = new Quill('#editor', {
+    modules: {
+      toolbar: toolbarOptions
+    }
+  });
+  </script>
+</div>
+<% include ./partials/footer %>
