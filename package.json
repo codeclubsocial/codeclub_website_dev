@@ -17,6 +17,7 @@
     "express": "^4.15.4",
     "method-override": "^2.3.9",
     "mongodb": "^2.2.31",
-    "mongoose": "^4.11.7"
+    "mongoose": "^4.11.7",
+    "quilljs": "^0.18.1"
   }
 }
