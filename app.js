@@ -32,7 +32,7 @@ var msgBoard = mongoose.model("msgBoard", msgSchema);
 
 //=========== Routes Below =============
 
-//Landing page - First page
+//Rich Text Test page
 app.get("/rt", function(req, res){
   res.render("rt");
 });
