@@ -1,22 +1,26 @@
 <% include ./partials/header %>
-<div class="body-container">
-	<h1>Login</h1>
-	<p>&nbsp;</p>
 
-	<div style="width: 25em;">
-	<div class="input-group margin-bottom-sm">
-  <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw" aria-hidden="true"></i></span>
-  <input class="form-control" type="text" placeholder="Email address">
+<div class="container">
+	<h1 style="margin: 2rem 10rem; padding: 0 10rem;">Login</h1>
+	<form style="margin: 0 10rem; padding: 0 10rem;">
+	  <div class="form-group">
+	    <label for="exampleInputEmail1">Email</label>
+	    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+	    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+	  </div>
+	  <div class="form-group">
+	    <label for="exampleInputPassword1">Password</label>
+	    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+	  </div>
+		<div class="form-group">
+			<button type="submit" name="button" class="btn btn-primary">Login</button>
+		</div>
+	</form>
+	<div class="">
+		<p style="margin: 2rem 10rem; padding: 0 10rem;">Don't have an account yet? <a href="/signup">Sign Up</a> here.</p>
+	</div>
 </div>
 
-<div class="input-group">
-  <span class="input-group-addon"><i class="fa fa-key fa-fw" aria-hidden="true"></i></span>
-  <input class="form-control" type="password" placeholder="Password">
-</div>
 
-	<hr>
-	<p>Don't have an account? <a href="/signup">Sign up</a></p>
-	<p>&nbsp;</p>
-</div>
-</div>
+
 <% include ./partials/footer %>
