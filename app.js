@@ -102,6 +102,32 @@ app.post("/forum", function(req, res){
 	});
 });
 
+/*** Working On this with Zaki & Baijian
+
+//Create(ing/ed) Route - The page the post has been created
+app.post("/contactForm", function(req, res){
+	//req.body.title
+	// setup email data with unicode symbols
+	let mailOptions = {
+	    from: '"Fred Foo 👻" <foo@blurdybloop.com>', // sender address
+	    to: 'bar@blurdybloop.com, baz@blurdybloop.com', // list of receivers
+	    subject: 'Hello ✔', // Subject line
+	    text: 'Hello world ?', // plain text body
+	    html: '<b>Hello world ?</b>' // html body
+	};
+
+	// send mail with defined transport object
+	transporter.sendMail(mailOptions, (error, info) => {
+	    if (error) {
+	        return console.log(error);
+	    }
+	    console.log('Message %s sent: %s', info.messageId, info.response);
+			**/
+	});
+});
+
+
+
 //Show Route - Viewing the full message/page of the created post
 app.get("/forum/:id", function(req, res){
 //mongodb commands, showing/finding msgs in detail (full)
