@@ -1,6 +1,9 @@
 <% include ./partials/header %>
 <div class="container">
-
+  <div class="alert alert-success">
+    <strong>Success!</strong> Indicates a successful or positive action.
+  </div>
+  
 <div class="row">
   <div class="col-sm-6">
     <div class="card" style="border: none;">
@@ -18,7 +21,7 @@
       <div class="card-block">
         <h3 class="card-title">Have a Question?</h3>
         <p class="card-text">Send us a mail and we will get back to you.</p>
-				<form action="mailto:user@example.com" method="POST">
+				<form action="/contactForm" method="POST">
 						<div class="form-group">
 								<label class="label">Name</label>
 								<input type="text" placeholder="Albert Einstein" name="contactName" class="form-control">

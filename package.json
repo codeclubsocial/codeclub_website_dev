@@ -18,6 +18,7 @@
     "method-override": "^2.3.9",
     "mongodb": "^2.2.31",
     "mongoose": "^4.11.7",
+    "nodemailer": "^4.0.1",
     "quilljs": "^0.18.1"
   }
 }
