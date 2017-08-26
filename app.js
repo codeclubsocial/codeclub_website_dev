@@ -3,6 +3,8 @@ var mongoose = require("mongoose");
 var ejs = require("ejs");
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
+var nodemailer = require('nodemailer');
+
 
 
 var app = express();
@@ -33,6 +35,10 @@ var msgBoard = mongoose.model("msgBoard", msgSchema);
 
 //=========== Routes Below =============
 
+//Rich Text Test page
+app.get("/rt", function(req, res){
+  res.render("rt");
+});
 
 //Landing page - First page
 app.get("/", function(req, res){
@@ -98,6 +104,67 @@ app.post("/forum", function(req, res){
 		}
 	});
 });
+
+app.post("/contactForm", function(req, res){
+	console.log(req.body.contactName);
+  console.log(req.body.contactEmailAddress);
+  console.log(req.body.contactInquiry);
+
+
+	let transporter = nodemailer.createTransport({
+	    host: 'gator4210.hostgator.com',
+	    port: 465,
+	    secure: true,
+	    auth: {
+	        user: 'mailbot@codeclub.social',
+	        pass: 'aD9edxHQPFzE9MxcZk'
+	    }
+		});
+
+	let mailOptions = {
+			from: '"Contact Us Form" <mailbot@codeclub.social>', // sender address
+			to: ['brianjason@gmail.com', 'zaki.sediqyar@gmail.com'], // list of receivers
+			subject: req.body.contactName + " has submitted an inqury", // Subject line
+			text: "From: " + req.body.contactName + " <" + req.body.contactEmailAddress + ">\n" +
+						"Message: " + req.body.contactInquiry, // plain text body
+			html: '<div style="text-color: lightgray;">##### Submitted from www.codeclub.social/contact #####</div><br>' + "<b>From:</b> " + req.body.contactName + " <" + req.body.contactEmailAddress + "><br>" +
+						'<b>Message:</b> ' + req.body.contactInquiry // html body
+	};
+
+	transporter.sendMail(mailOptions, (error, info) => {
+			if (error) {
+					return console.log(error);
+			}
+			console.log('Message %s sent: %s', info.messageId, info.response);
+	});
+
+});
+
+/*** Working On this with Zaki & Baijian
+gator4210.hostgator.com
+//Create(ing/ed) Route - The page the post has been created
+app.post("/contactForm", function(req, res){
+	//req.body.title
+	// setup email data with unicode symbols
+	let mailOptions = {
+	    from: '"Fred Foo 👻" <foo@blurdybloop.com>', // sender address
+	    to: 'bar@blurdybloop.com, baz@blurdybloop.com', // list of receivers
+	    subject: 'Hello ✔', // Subject line
+	    text: 'Hello world ?', // plain text body
+	    html: '<b>Hello world ?</b>' // html body
+	};
+
+	// send mail with defined transport object
+	transporter.sendMail(mailOptions, (error, info) => {
+	    if (error) {
+	        return console.log(error);
+	    }
+	    console.log('Message %s sent: %s', info.messageId, info.response);
+	});
+});
+**/
+
+
 
 //Show Route - Viewing the full message/page of the created post
 app.get("/forum/:id", function(req, res){
