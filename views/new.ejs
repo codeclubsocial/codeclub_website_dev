@@ -2,23 +2,88 @@
 
 <section class="section1">
 <div class="container">
-	<div class=""><h1>Write New Post</h1></div>
+	<div class="form-group"><h1>New Post</h1></div>
+
     <form action="/forum" method="POST">
         <div class="form-group">
             <label class="label">Title</label>
             <input type="text" name="msg[title]" placeholder="Post Title" class="form-control">
         </div>
-          <div class="form-group">
-            <label for="exampleTextarea" class="label">Content</label>
 
-            <textarea class="form-control" name="msg[body]" rows="5" placeholder="Write your message here..." data-autoresize rows="2"></textarea>
-          </div>
+					<!-- TOOLBAR -->
+
+					<div id="toolbar-container">
+
+						<span class="ql-formats">
+							<select class="ql-size"></select>
+						</span>
+
+						<span class="ql-formats">
+							<button class="ql-bold"></button>
+							<button class="ql-italic"></button>
+							<button class="ql-underline"></button>
+						</span>
+
+						<span class="ql-formats">
+							<button class="ql-code-block"></button>
+						</span>
+
+						<span class="ql-formats">
+							<select class="ql-color"></select>
+							<select class="ql-background"></select>
+						</span>
+
+					  <span class="ql-formats">
+							<button class="ql-list" value="ordered"></button>
+							<button class="ql-list" value="bullet"></button>
+					  </span>
+
+					  <span class="ql-formats">
+							<select class="ql-align"></select>
+							<button class="ql-blockquote"></button>
+					  </span>
+
+					  <span class="ql-formats">
+					    <button class="ql-link"></button>
+					    <button class="ql-image"></button>
+					    <button class="ql-video"></button>
+					  </span>
+
+				  	<span class="ql-formats">
+				    	<button class="ql-clean"></button>
+				  	</span>
+
+				  </div>
+
+					<!-- EDITOR -->
+				  <div id="editor-container">
+						<!--textarea class="form-control" name="msg[body]" rows="5" placeholder="Write your message here..." data-autoresize rows="2"></textarea-->
+					</div>
+
+					<!--div class="form-group">
+					<label for="exampleTextarea" class="label">Content</label>
+
+					<textarea class="form-control" name="msg[body]" rows="5" placeholder="Write your message here..." data-autoresize rows="2"></textarea>
+				</div-->
+
           <button type="submit" class="btn btn-primary">Submit</button>
+
     </form>
 </div>
-
 </section>
 
-<script type="text/javascript" src="/jquery/textarea.js"></script>
+<!-- Initialize Quill editor -->
+<script>
+
+var quill = new Quill('#editor-container', {
+	modules: {toolbar: '#toolbar-container'},
+	placeholder: '',
+	theme: 'snow'  // or 'bubble'
+});
+
+var delta = quill.getContents();
+
+</script>
+<!--script type="text/javascript" src="/jquery/textarea.js"></script-->
 
 <% include ./partials/footer %>
