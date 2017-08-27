@@ -86,14 +86,6 @@ app.get("/forum", function(req, res){
 	});
 });
 
-//Message Board Page - Showing all the posts
-app.get("/test", function(req, res){
-	var contactAlert = '<div class="alert alert-success alert-dismissable"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Message Sent!</strong> Thanks for reaching out. Our team will be getting back to you shortly.</div>';
-	res.render("test", {alert: contactAlert});
-});
-
-
-
 //New Route - Form/page where you create a new post
 app.get("/forum/new", function(req, res){
 	res.render("new")
