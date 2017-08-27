@@ -62,7 +62,7 @@ app.get("/about", function(req, res){
 
 //Contact Us Page
 app.get("/contact", function(req, res){
-  res.render("contact");
+	res.render("contact");
 });
 
 //Login Page
@@ -85,6 +85,13 @@ app.get("/forum", function(req, res){
 		}
 	});
 });
+
+//Message Board Page - Showing all the posts
+app.get("/test", function(req, res){
+	var contactAlert = '<div class="alert alert-success alert-dismissable"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Message Sent!</strong> Thanks for reaching out. Our team will be getting back to you shortly.</div>';
+	res.render("test", {alert: contactAlert});
+});
+
 
 
 //New Route - Form/page where you create a new post
@@ -123,14 +130,21 @@ app.post("/contactForm", function(req, res){
 	    }
 		});
 
+	var textMessage = "------ Submitted from www.codeclub.social/contact ------ \nFrom: " + req.body.contactName + "\nEmail: " + req.body.contactEmailAddress +
+			"\nMessage: " + req.body.contactInquiry + "\n-------------------------------------------------------";
+
+
+	var htmlMessage = "------ Submitted from www.codeclub.social/contact ------<br><b>From: </b>" + req.body.contactName + "<br><b>Email: </b>" + req.body.contactEmailAddress +
+			"<br><b>Message: </b>" + req.body.contactInquiry + "<br>-------------------------------------------------------";
+
+
 	let mailOptions = {
 			from: '"Contact Us Form" <mailbot@codeclub.social>', // sender address
-			to: ['brianjason@gmail.com', 'zaki.sediqyar@gmail.com'], // list of receivers   ,
+			to: ['brianjason@gmail.com', 'zaki.sediqyar@gmail.com'], // list of receivers
+			//to: ['brianjason@gmail.com'], // list of receivers
 			subject: req.body.contactName + " has submitted an inqury", // Subject line
-			text: "From: " + req.body.contactName + " <" + req.body.contactEmailAddress + ">\n" +
-						"Message: " + req.body.contactInquiry, // plain text body
-			html: '<div style="text-color: lightgray;">##### Submitted from www.codeclub.social/contact #####</div><br>' + "<b>From:</b> " + req.body.contactName + " <" + req.body.contactEmailAddress + "><br>" +
-						'<b>Message:</b> ' + req.body.contactInquiry // html body
+			text: textMessage, // plain text body
+			html: htmlMessage // html body
 	};
 
 	transporter.sendMail(mailOptions, (error, info) => {
@@ -138,9 +152,7 @@ app.post("/contactForm", function(req, res){
 					return console.log(error);
 			}
 			console.log('Message %s sent: %s', info.messageId, info.response);
-			alertSuccess = true;
 	});
-	res.render("/contact", {alert: alertSuccess});
 });
 
 
