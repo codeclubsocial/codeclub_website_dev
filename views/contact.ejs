@@ -1,9 +1,12 @@
 <% include ./partials/header %>
 <div class="container">
-  <div class="alert alert-success">
-    <strong>Success!</strong> Indicates a successful or positive action.
-  </div>
-  
+
+<% if(alert) { %>
+<%= '<div class="alert alert-success alert-dismissable">'; %>
+<%= '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'; %>
+<%= '<strong>Message Sent!</strong> Thanks for reaching out. Our team will be getting back to you shortly.</div>;' %>
+<% } %>
+
 <div class="row">
   <div class="col-sm-6">
     <div class="card" style="border: none;">
