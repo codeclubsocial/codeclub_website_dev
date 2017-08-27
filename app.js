@@ -125,7 +125,7 @@ app.post("/contactForm", function(req, res){
 
 	let mailOptions = {
 			from: '"Contact Us Form" <mailbot@codeclub.social>', // sender address
-			to: ['brianjason@gmail.com', 'zaki.sediqyar@gmail.com'], // list of receivers   , 
+			to: ['brianjason@gmail.com', 'zaki.sediqyar@gmail.com'], // list of receivers   ,
 			subject: req.body.contactName + " has submitted an inqury", // Subject line
 			text: "From: " + req.body.contactName + " <" + req.body.contactEmailAddress + ">\n" +
 						"Message: " + req.body.contactInquiry, // plain text body
