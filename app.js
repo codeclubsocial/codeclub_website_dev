@@ -8,6 +8,7 @@ var methodOverride = require("method-override");
 var nodemailer = require('nodemailer');
 var passport = require('passport'),LocalStrategy = require('passport-local').Strategy;
 
+
 var app = express();
 var port = process.env.PORT || 3000;
 
@@ -119,7 +120,7 @@ app.get("/about", function(req, res){
 
 //Contact Us Page
 app.get("/contact", function(req, res){
-  res.render("contact");
+	res.render("contact");
 });
 
 //Login Page
@@ -180,7 +181,6 @@ app.get("/forum", function(req, res){
 	});
 });
 
-
 //New Route - Form/page where you create a new post
 app.get("/forum/new", function(req, res){
 	res.render("new")
@@ -199,11 +199,13 @@ app.post("/forum", function(req, res){
 	});
 });
 
-app.post("/contactForm", function(req, res){
-	console.log(req.body.contactName);
-  console.log(req.body.contactEmailAddress);
-  console.log(req.body.contactInquiry);
 
+// Contact Form Handler
+app.post("/contactForm", function(req, res){
+	var alertSuccess = false;
+	//console.log(req.body.contactName);
+  //console.log(req.body.contactEmailAddress);
+  //console.log(req.body.contactInquiry);
 
 	let transporter = nodemailer.createTransport({
 	    host: 'gator4210.hostgator.com',
@@ -215,14 +217,21 @@ app.post("/contactForm", function(req, res){
 	    }
 		});
 
+	var textMessage = "------ Submitted from www.codeclub.social/contact ------ \nFrom: " + req.body.contactName + "\nEmail: " + req.body.contactEmailAddress +
+			"\nMessage: " + req.body.contactInquiry + "\n-------------------------------------------------------";
+
+
+	var htmlMessage = "------ Submitted from www.codeclub.social/contact ------<br><b>From: </b>" + req.body.contactName + "<br><b>Email: </b>" + req.body.contactEmailAddress +
+			"<br><b>Message: </b>" + req.body.contactInquiry + "<br>-------------------------------------------------------";
+
+
 	let mailOptions = {
 			from: '"Contact Us Form" <mailbot@codeclub.social>', // sender address
 			to: ['brianjason@gmail.com', 'zaki.sediqyar@gmail.com'], // list of receivers
+			//to: ['brianjason@gmail.com'], // list of receivers
 			subject: req.body.contactName + " has submitted an inqury", // Subject line
-			text: "From: " + req.body.contactName + " <" + req.body.contactEmailAddress + ">\n" +
-						"Message: " + req.body.contactInquiry, // plain text body
-			html: '<div style="text-color: lightgray;">##### Submitted from www.codeclub.social/contact #####</div><br>' + "<b>From:</b> " + req.body.contactName + " <" + req.body.contactEmailAddress + "><br>" +
-						'<b>Message:</b> ' + req.body.contactInquiry // html body
+			text: textMessage, // plain text body
+			html: htmlMessage // html body
 	};
 
 	transporter.sendMail(mailOptions, (error, info) => {
@@ -231,32 +240,7 @@ app.post("/contactForm", function(req, res){
 			}
 			console.log('Message %s sent: %s', info.messageId, info.response);
 	});
-
 });
-
-/*** Working On this with Zaki & Baijian
-gator4210.hostgator.com
-//Create(ing/ed) Route - The page the post has been created
-app.post("/contactForm", function(req, res){
-	//req.body.title
-	// setup email data with unicode symbols
-	let mailOptions = {
-	    from: '"Fred Foo 👻" <foo@blurdybloop.com>', // sender address
-	    to: 'bar@blurdybloop.com, baz@blurdybloop.com', // list of receivers
-	    subject: 'Hello ✔', // Subject line
-	    text: 'Hello world ?', // plain text body
-	    html: '<b>Hello world ?</b>' // html body
-	};
-
-	// send mail with defined transport object
-	transporter.sendMail(mailOptions, (error, info) => {
-	    if (error) {
-	        return console.log(error);
-	    }
-	    console.log('Message %s sent: %s', info.messageId, info.response);
-	});
-});
-**/
 
 
 

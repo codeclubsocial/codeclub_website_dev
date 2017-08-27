@@ -1,9 +1,11 @@
 <% include ./partials/header %>
 <div class="container">
-  <div class="alert alert-success">
-    <strong>Success!</strong> Indicates a successful or positive action.
+
+  <div class="alert alert-success alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      Success! message sent successfully.
   </div>
-  
+
 <div class="row">
   <div class="col-sm-6">
     <div class="card" style="border: none;">
@@ -42,4 +44,12 @@
 </div>
 </div>
 </div>
+
+<script>
+  $(document).ready(function(){
+      $('button').click(function(){
+          $('.alert').show()
+      })
+  });
+</script>
 <% include ./partials/footer %>

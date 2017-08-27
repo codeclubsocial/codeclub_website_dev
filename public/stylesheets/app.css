@@ -89,3 +89,7 @@ textarea {
 #editor-container {
   height: 375px;
 }
+
+.alert{
+    display: none;
+}
