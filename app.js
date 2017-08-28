@@ -11,6 +11,7 @@ var passport = require('passport'),LocalStrategy = require('passport-local').Str
 
 var app = express();
 var port = process.env.PORT || 3000;
+var user_cache=[];
 
 if(localDB == true){
     //Local Database 
@@ -26,7 +27,7 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 app.use(methodOverride("_method"));
-app.use(session({ secret: 'keyboard cat' }));
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -71,22 +72,48 @@ var userSchema = new Schema ({
 
 var userData = mongoose.model("userData", userSchema);
 
+passport.serializeUser(function(user, done) {
+  let id = user._id;
+  user_cache[id] = user;
+//  next(null, id);
+
+//  done(null, user.username);
+//  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  userData.findById(user._id, function(err, user) {
+    done(err, user);
+  });
+});
+
 // Setup login for simple username/password auth
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    console.log("Marker 1")
+    console.log(" ")
+    console.log(" ")
+    console.log(" ")
+    console.log(" ")
+    console.log("Username: " + username )
+    console.log("Password: " + password )
     userData.findOne({ username: username }, function(err, user) {
-      if (err) { console.log("Marker 2"); return done(err); }
-      if (!user) {
-        console.log("Marker 3");
+      console.log( "Marker 1" );
+      if (err) { console.log( "Marker 2" ); return done(err) }
+      else if (!user) {
+        console.log( "Marker 3" );
+        console.log("User %s not registered!", username );
         return done(null, false, { message: 'Incorrect username.' });
       }
-      if (!user.validPassword(password)) {
-        console.log("Marker 4");
+      else if (password != user.password) {
+        console.log( "Incorrect password for %s. Should be: %s.", user.username,  user.password )
         return done(null, false, { message: 'Incorrect password.' });
       }
-      console.log("Marker 5");
-      return done(null, user);
+      else {
+        console.log("User %s authenicated!", user.username );
+        return done(null, true );
+//        return done(null, true, { message: 'Good stuff.' });
+//        return done();
+      }
     });
   }
 ));
@@ -114,8 +141,19 @@ app.get("/links", function(req, res){
 });
 
 //About CodeClub Page
-app.get("/about", function(req, res){
-  res.render("about");
+// app.get("/about", function(req, res){
+app.get('/about', function(req, res, next) {
+  if (req.session.views) {
+    req.session.views++
+    res.setHeader('Content-Type', 'text/html')
+    res.write('<p>views: ' + req.session.views + '</p>')
+    res.write('<p>expires in: ' + (req.session.cookie.maxAge / 1000) + 's</p>')
+    res.end()
+  } else {
+    req.session.views = 1
+    res.end('welcome to the session demo. refresh!')
+  }
+//  res.render("about");
 });
 
 //Contact Us Page
@@ -129,14 +167,18 @@ app.get("/login", function(req, res){
 });
 
 // Credentials check from login
-app.post("/login", function(req, res){
+// app.post("/login", passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login' }));
 
-/*
+app.post("/login", passport.authenticate('local'), function(req, res){
+
   userData.count({ username }, function(err, count){
     if(err){ console.log(err);}
     else{console.log('There are %d users registered.', count);}
   });
-*/
+
+  successRedirect: '/';
+  failureRedirect: '/';
+/*
   userData.findOne({ username: req.body.username }, function(err, user){
     if(err){ console.log(err);}
     else{
@@ -150,6 +192,7 @@ app.post("/login", function(req, res){
       }
     }
   });
+*/
 });
 
 //Sign Up Page
