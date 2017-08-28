@@ -93,3 +93,10 @@ textarea {
 .alert{
     display: none;
 }
+
+.bluehover:hover {
+  -webkit-box-shadow: 1px 1px 5px 1px rgba(33,150,243,0.3);
+  -moz-box-shadow: 1px 1px 5px 1px rgba(33,150,243,0.3);
+  box-shadow: 1px 1px 5px 1px rgba(33,150,243,0.6);
+  cursor: pointer;
+}
