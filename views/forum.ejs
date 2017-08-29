@@ -1,47 +1,28 @@
 <% include ./partials/header %>
-<div class="body-container" style="margin: 0 auto;">
-	<div id="forum-page-title">
-		<h1>Forum</h1>
+
+
+	<div class="container" style="margin-top: 2rem;">
+		<h1 style="display: inline;">Forum</h1>
+			<a href="/forum/new" class="btn btn-primary" style="float: right; text-transform: capitalize; text-decoration: none;">New Post</a>
 	</div>
 
-	<div id="forum-page-body">
-	<table class="table table-bordered table-hover table-striped table-responsive">
-		<thead>
-			<tr>
-				<th style="width: 150px;">Poster</th>
-				<th style="border-right-color: white;">Description</th>
-				<th style="width: 150px; border-left-color: white;"><a class="btn btn-primary" href="/forum/new" role="button">New Post</a></th>
-			</tr>
-		</thead>
-		<tbody>
-			<% msg.forEach(function(msg){ %> <!-- Start of content loop -->
-				<tr>
-					<td>
-						By: anonymous <%= msg.author %><br>
-						<%= msg.date.toDateString() %>
-					</td>
-					<td colspan="2">
-						<!--a href="/forum/<%= msg._id %>"-->
-							<div onclick="location.href='/forum/<%= msg._id %>';" style="cursor: pointer;"	>
-								<div id="forum-index-title"><%= msg.title %></div>
-								<div id="forum-index-body">
-
-									<% if(typeof msg.body != 'undefined') { %>
-										<%= msg.body.substring(0,100) %>...
-									<% } else { %>
-										<%= "..." %>
-									<% } %>
-
-								</div>
-							</div>
-						<!--/a-->
-					</td> <!-- Should be fetched from the user info-->
-				</tr>
-			<% }); %> <!-- End of content loop -->
-		</tbody>
-	</table>
+<% msg.forEach(function(msg){ %> <!-- Start of content loop -->
+<div class="container">
+		<div class="forumPost" style="margin: 2rem 0;" id="cardblock">
+			<div class="card" style="border-top-right-radius: 3rem; border-bottom-left-radius: 2rem;">
+				<div class="card-block" style="background-color: rgba(0, 0, 0, 0.1); border-top-right-radius: 3rem; border-bottom-left-radius: 2rem;">
+					<h4 class="card-title"><%= msg.title %></h4>
+					<h6 class="badge badge-default"><%= msg.date.toDateString() %></h6>
+					<p class="card-text"><%= msg.body %>... <a href="/forum/<%=msg._id%>" class="card-link" style="color: #2196F3;">Read More</a></p>
+					<p style="float: right; color: grey; font-size: 15px;">
+						<em>By: Author</em
+					</p>
+				</div>
+			</div>
+	</div>
 </div>
-	<p>&nbsp;</p>
-</div>
+
+<% }); %> <!-- End of content loop -->
+
 
 <% include ./partials/footer %>
