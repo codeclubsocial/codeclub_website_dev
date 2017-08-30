@@ -1,3 +1,6 @@
+body {
+  margin-top: 5rem;
+}
 .label{
   font-weight: 600;
 }
@@ -92,4 +95,47 @@ textarea {
 
 .alert{
     display: none;
+}
+
+.bluehover:hover {
+  -webkit-box-shadow: 1px 1px 5px 1px rgba(33,150,243,0.3);
+  -moz-box-shadow: 1px 1px 5px 1px rgba(33,150,243,0.3);
+  box-shadow: 1px 1px 5px 1px rgba(33,150,243,0.6);
+  cursor: pointer;
+}
+
+
+.forumPost
+{
+  position: relative;
+}
+.forumPost:before, .forumPost:after
+{
+  z-index: -1;
+  position: absolute;
+  content: "";
+  bottom: 15px;
+  left: 10px;
+  width: 50%;
+  top: 80%;
+  max-width:300px;
+  background: #777;
+  -webkit-box-shadow: 0 15px 10px #777;
+  -moz-box-shadow: 0 15px 10px #777;
+  box-shadow: 0 15px 10px #777;
+  -webkit-transform: rotate(-3deg);
+  -moz-transform: rotate(-3deg);
+  -o-transform: rotate(-3deg);
+  -ms-transform: rotate(-3deg);
+  transform: rotate(-3deg);
+}
+.forumPost:after
+{
+  -webkit-transform: rotate(3deg);
+  -moz-transform: rotate(3deg);
+  -o-transform: rotate(3deg);
+  -ms-transform: rotate(3deg);
+  transform: rotate(3deg);
+  right: 10px;
+  left: auto;
 }

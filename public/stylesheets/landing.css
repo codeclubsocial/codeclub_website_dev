@@ -467,13 +467,13 @@ footer p a{
 }
 
 .landingNav:hover{
-	color: #2196F3;
+	color: #F67720;
 	text-decoration: none;
 }
 
 #landingBrand {
 	text-decoration: none;
-	color: white;
+	color: #F67720;
 
 }
 
@@ -483,4 +483,15 @@ footer p a{
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 50% 50%;
+}
+
+.navHead {
+	background-color: rgba(0, 0, 0, 0.65);
+	margin-top: -1rem;
+	padding-bottom: 1rem;
+}
+
+#navheader {
+	margin-top: -1rem;
+	padding-bottom: 1rem;
 }

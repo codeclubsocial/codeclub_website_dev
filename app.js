@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var localDB = true;
 var express = require("express");
 var session = require("express-session");
@@ -7,8 +9,6 @@ var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
 var nodemailer = require('nodemailer');
 var passport = require('passport'),LocalStrategy = require('passport-local').Strategy;
-
-
 var app = express();
 var port = process.env.PORT || 3000;
 var user_cache=[];
@@ -52,6 +52,7 @@ app.use('/about', function (req, res, next) {
 
 //Message collection schema and conversion to Model
 var Schema = mongoose.Schema
+
 var msgSchema = new Schema ({
 	title: String,
 	body: String,
@@ -118,12 +119,15 @@ passport.use(new LocalStrategy(
   }
 ));
 
-//=========== Routes Below =============
+
+//=========== Test Routes =============
 
 //Rich Text Test page
 app.get("/rt", function(req, res){
   res.render("rt");
 });
+
+//=========== Main Routes =============
 
 //Landing page - First page
 app.get("/", function(req, res){
@@ -154,11 +158,6 @@ app.get('/about', function(req, res, next) {
     res.end('welcome to the session demo. refresh!')
   }
 //  res.render("about");
-});
-
-//Contact Us Page
-app.get("/contact", function(req, res){
-	res.render("contact");
 });
 
 //Login Page
@@ -224,31 +223,24 @@ app.get("/forum", function(req, res){
 	});
 });
 
-//New Route - Form/page where you create a new post
-app.get("/forum/new", function(req, res){
-	res.render("new")
+// Contact Us Page
+app.get('/contact', function(req,res) {
+  res.render('contact', {alertDisplay: 'none'});
 });
 
-//Create(ing/ed) Route - The page the post has been created
-app.post("/forum", function(req, res){
-//mongodb commands, reading the parsing data, redirecting to Message Board page
-	msgBoard.create(req.body.msg, function(err, msg){
-		if(err){
-			console.log(err);
-			res.redirect("/forum");
-		} else {
-			res.redirect("/forum");
-		}
-	});
-});
+// Contact Us with BS alert after form submit
+app.get('/contact/alert/:alert', function(req,res) {
+  console.log(req.params.alert);
 
+  if(req.params.alert == 'true') {
+    res.render('contact', {alertDisplay: 'block'});
+  } else {
+    res.render('contact', {alertDisplay: 'none'});
+  }
+});
 
 // Contact Form Handler
 app.post("/contactForm", function(req, res){
-	var alertSuccess = false;
-	//console.log(req.body.contactName);
-  //console.log(req.body.contactEmailAddress);
-  //console.log(req.body.contactInquiry);
 
 	let transporter = nodemailer.createTransport({
 	    host: 'gator4210.hostgator.com',
@@ -256,7 +248,7 @@ app.post("/contactForm", function(req, res){
 	    secure: true,
 	    auth: {
 	        user: 'mailbot@codeclub.social',
-	        pass: 'aD9edxHQPFzE9MxcZk'
+	        pass: 'aD9edxHQPFzE9MxcZk' // need to save as env
 	    }
 		});
 
@@ -283,9 +275,39 @@ app.post("/contactForm", function(req, res){
 			}
 			console.log('Message %s sent: %s', info.messageId, info.response);
 	});
+
+	res.redirect("/contact/alert/true")
 });
 
 
+//=========== Forum Routes =============
+
+//Message Board Page - Showing all the posts
+app.get("/forum", function(req, res){
+	msgBoard.find({}, function(err, msg){
+		if(err){
+			console.log(err)
+		} else {
+			res.render("forum", {msg: msg});
+		}
+	});
+});
+
+//New Route - Form/page where you create a new post
+app.get("/forum/new", function(req, res){
+	res.render("new")
+});
+
+//Create(ing/ed) Route - The page the post has been created
+app.post("/forum", function(req, res){
+//mongodb commands, reading the parsing data, redirecting to Message Board page
+	msgBoard.create(req.body.msg, function(err, msg){
+		if(err){
+			console.log(err);
+		}
+		res.redirect("/forum");
+	});
+});
 
 //Show Route - Viewing the full message/page of the created post
 app.get("/forum/:id", function(req, res){
@@ -302,15 +324,15 @@ msgBoard.findById(req.params.id, function(err, msg){
 
 //Edit Route - Editing the post
 app.get("/forum/:id/edit", function(req, res){
-//mongodb commands,
-msgBoard.findById(req.params.id, function(err, msg){
-		if(err){
-			console.log(err);
-			res.redirect("/forum");
-		} else {
-			res.render("edit", {msg: msg});
-		}
-	});
+//mongodb commands
+	msgBoard.findById(req.params.id, function(err, msg){
+			if(err){
+				console.log(err);
+				res.redirect("/forum");
+			} else {
+				res.render("edit", {msg: msg});
+			}
+		});
 });
 
 //Update Route - Updating the post
@@ -336,6 +358,9 @@ app.delete("/forum/:id", function(req, res){
 	});
 });
 
+
+
+// ---------------------------------------------------------------
 
 app.listen(port, function(){
 	console.log("\n" + "=".repeat(40));

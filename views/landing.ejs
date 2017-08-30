@@ -13,27 +13,48 @@
   <link rel="stylesheet" type="text/css" href="/libs/bootstrap.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script type="text/javascript" src="/libs/jquery.js"></script>
-  <link rel="stylesheet" href="/stylesheets/styles.css">
+  <link rel="stylesheet" href="/stylesheets/landing.css">
+
+  <script type="text/javascript">
+
+  $(document).ready(function(){
+    $(window).scroll(function(){
+      if($(window).scrollTop() > 100 ) {
+        $("#navheader").addClass("navHead");
+      } else {
+        $("#navheader").removeClass("navHead");
+      }
+    });
+  });
+
+  </script>
+
 </head>
 
 <body>
 
-	<header>
-		<h2><a href="/" id="landingBrand">CodeClub</a></h2>
-		<nav>
-      <li><a href="/index" class="landingNav">Home</a></li>
-			<li><a href="/forum" class="landingNav">Forum</a></li>
-			<li><a href="/about" class="landingNav">About</a></li>
-			<li><a href="/contact" class="landingNav">Contact</a></li>
-			<li><a href="/login" class="landingNav">Login</a></li>
-		</nav>
-	</header>
+
+<div class="container-fluid">
+  <div class="row">
+    <header class="fixed-top" id="navheader">
+      <h2><a href="/" id="landingBrand">CodeClub</a></h2>
+      <nav>
+        <li><a href="/index" class="landingNav">Home</a></li>
+        <li><a href="/forum" class="landingNav">Forum</a></li>
+        <li><a href="/about" class="landingNav">About</a></li>
+        <li><a href="/contact" class="landingNav">Contact</a></li>
+        <li><a href="/login" class="landingNav">Login</a></li>
+      </nav>
+    </header>
+  </div>
+</div>
+
 
 	<section class="hero">
-		<div class="background-image" style="background-image: url(/imgs/hero.jpg);"></div>
+		<div class="background-image" style="background-image: url(/imgs/landing.jpg);"></div>
 		<h1>CodeClub</h1>
 		<h3>Learn to code, make friends, build cool stuff</h3>
-		<a href="/index" class="btn">Enter</a>
+		<a href="/index" class="btn" style="background-color: #F67720;">Enter</a>
 	</section>
 
 <!-- Image slider should be added here -->
@@ -46,10 +67,9 @@
 
 		<form>
 			<input type="email" placeholder="Email (this feature is currently under construction)">
-			<a href="#" class="btn">Subscribe now</a>
+			<a href="#" class="btn" style="background-color: #F67720;">Subscribe now</a>
 		</form>
 	</section>
-
 
 
 

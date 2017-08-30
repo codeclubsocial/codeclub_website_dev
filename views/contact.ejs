@@ -1,9 +1,9 @@
 <% include ./partials/header %>
 <div class="container">
 
-  <div class="alert alert-success alert-dismissable">
+  <div class="alert alert-success alert-dismissable" style="margin-top: 5px; display:<%- alertDisplay %>;">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      Success! message sent successfully.
+      Message sent! We'll get back to you soon!
   </div>
 
 <div class="row">
@@ -45,11 +45,4 @@
 </div>
 </div>
 
-<script>
-  $(document).ready(function(){
-      $('button').click(function(){
-          $('.alert').show()
-      })
-  });
-</script>
 <% include ./partials/footer %>
