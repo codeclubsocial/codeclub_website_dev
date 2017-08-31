@@ -1,27 +1,50 @@
 #!/usr/bin/env node
 
+var localDB = true;
 var express = require("express");
+var session = require("express-session");
 var mongoose = require("mongoose");
 var ejs = require("ejs");
 var bodyParser = require("body-parser");
+var cookieParser = require('cookie-parser');
+var path = require('path');
+var logger = require('morgan');
+var port = process.env.PORT || 3000;
 var methodOverride = require("method-override");
 var nodemailer = require('nodemailer');
 
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var flash = require('connect-flash');
+
+if(localDB == true){
+    //Local Database 
+    mongoose.connect("mongodb://127.0.0.1/test_db");
+  }
+  else{
+    //Database setup with mLab
+    mongoose.connect(process.env.MONGODB_URI);
+  }
+
 var app = express();
-var port = process.env.PORT || 3000;
-
-
-//Database setup with mLab
-mongoose.connect(process.env.MONGODB_URI);
 
 //Setup
 app.set("view engine", "ejs");
+// app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 app.use(methodOverride("_method"));
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+require('./config/passport')(passport);
 
-
-//Database Schema and conversion to Model
+//Message collection schema and conversion to Model
 var Schema = mongoose.Schema
 
 var msgSchema = new Schema ({
@@ -32,8 +55,6 @@ var msgSchema = new Schema ({
 });
 
 var msgBoard = mongoose.model("msgBoard", msgSchema);
-
-
 
 //=========== Test Routes =============
 
@@ -54,7 +75,12 @@ app.get("/index", function(req, res){
   res.render("index");
 });
 
-//About Page
+//Links page
+app.get("/links", function(req, res){
+  res.render("links");
+});
+
+//About CodeClub Page
 app.get("/about", function(req, res){
   res.render("about");
 });
@@ -64,12 +90,47 @@ app.get("/login", function(req, res){
   res.render("login");
 });
 
+// Credentials check from login
+app.post('/login', passport.authenticate('local-login', {
+  successRedirect: '/secret',
+  failureRedirect: '/login',
+  failureFlash: 'Bad login'
+}));
+
+//Secret page - For testing passport sessions
+app.get("/secret", function(req, res){
+  if ( req.isAuthenticated() ){
+    // Only authenticated users can reach the Secret page
+    res.render("secret");
+  }
+  else{
+    // Else they go somewhere else
+    res.render("landing");
+  }
+});
+
 //Sign Up Page
 app.get("/signup", function(req, res){
   res.render("signup");
 });
 
-//=========== Contact Routes =============
+//Post from Sign Up Page
+app.post('/signup', passport.authenticate('local-signup', {
+  successRedirect: '/forum',
+  failureRedirect: '/signup',
+  failureFlash: 'User email already registered'
+}));
+
+//Message Board Page - Showing all the posts
+app.get("/forum", function(req, res){
+	msgBoard.find({}, function(err, msg){
+		if(err){
+			console.log(err)
+		} else {
+			res.render("forum", {msg: msg});
+		}
+	});
+});
 
 // Contact Us Page
 app.get('/contact', function(req,res) {
@@ -214,7 +275,8 @@ app.listen(port, function(){
 	console.log("\n" + "=".repeat(40));
 	console.log("*** INITIALIZATION ***");
 	console.log("-".repeat(40));
-	console.log("Starting Server on http://localhost:3000");
+  if(localDB == true) { console.log("Starting Server on http://localhost:3000"); }
+  else                { console.log("Starting Server on ", process.env.MONGODB_URI); }
 	console.log("Successfully connected to the Database");
 	console.log("=".repeat(40) + "\n");
 });
