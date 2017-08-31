@@ -6,12 +6,16 @@ var session = require("express-session");
 var mongoose = require("mongoose");
 var ejs = require("ejs");
 var bodyParser = require("body-parser");
+var cookieParser = require('cookie-parser');
+var path = require('path');
+var logger = require('morgan');
+var port = process.env.PORT || 3000;
 var methodOverride = require("method-override");
 var nodemailer = require('nodemailer');
-var passport = require('passport'),LocalStrategy = require('passport-local').Strategy;
-var app = express();
-var port = process.env.PORT || 3000;
-var user_cache=[];
+
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var flash = require('connect-flash');
 
 if(localDB == true){
     //Local Database 
@@ -22,33 +26,23 @@ if(localDB == true){
     mongoose.connect(process.env.MONGODB_URI);
   }
 
+var app = express();
+
 //Setup
 app.set("view engine", "ejs");
+// app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 app.use(methodOverride("_method"));
 app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}));
 app.use(passport.initialize());
 app.use(passport.session());
-
-/*
-// Experimental middleware calls
-app.use(function (req, res, next) {
-  console.log('App call @ ', Date.now())
-  next()
-})
-app.use('/forum', function (req, res, next) {
-  console.log('FRequest Type:', req.method)
-  next()
-})
-app.use('/about', function (req, res, next) {
-  console.log('Request URL:', req.originalUrl)
-  next()
-}, function (req, res, next) {
-  console.log('ARequest Type:', req.method)
-  next()
-})
-*/
+app.use(flash());
+require('./config/passport')(passport);
 
 //Message collection schema and conversion to Model
 var Schema = mongoose.Schema
@@ -61,64 +55,6 @@ var msgSchema = new Schema ({
 });
 
 var msgBoard = mongoose.model("msgBoard", msgSchema);
-
-//Database collection and conversion to Model
-var userSchema = mongoose.Schema
-var userSchema = new Schema ({
-  username: String,
-  password: String,
-  extra: String,
-  date: {type: Date, default: Date.now}
-});
-
-var userData = mongoose.model("userData", userSchema);
-
-passport.serializeUser(function(user, done) {
-  let id = user._id;
-  user_cache[id] = user;
-//  next(null, id);
-
-//  done(null, user.username);
-//  done(null, user);
-});
-
-passport.deserializeUser(function(user, done) {
-  userData.findById(user._id, function(err, user) {
-    done(err, user);
-  });
-});
-
-// Setup login for simple username/password auth
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    console.log(" ")
-    console.log(" ")
-    console.log(" ")
-    console.log(" ")
-    console.log("Username: " + username )
-    console.log("Password: " + password )
-    userData.findOne({ username: username }, function(err, user) {
-      console.log( "Marker 1" );
-      if (err) { console.log( "Marker 2" ); return done(err) }
-      else if (!user) {
-        console.log( "Marker 3" );
-        console.log("User %s not registered!", username );
-        return done(null, false, { message: 'Incorrect username.' });
-      }
-      else if (password != user.password) {
-        console.log( "Incorrect password for %s. Should be: %s.", user.username,  user.password )
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      else {
-        console.log("User %s authenicated!", user.username );
-        return done(null, true );
-//        return done(null, true, { message: 'Good stuff.' });
-//        return done();
-      }
-    });
-  }
-));
-
 
 //=========== Test Routes =============
 
@@ -145,19 +81,8 @@ app.get("/links", function(req, res){
 });
 
 //About CodeClub Page
-// app.get("/about", function(req, res){
-app.get('/about', function(req, res, next) {
-  if (req.session.views) {
-    req.session.views++
-    res.setHeader('Content-Type', 'text/html')
-    res.write('<p>views: ' + req.session.views + '</p>')
-    res.write('<p>expires in: ' + (req.session.cookie.maxAge / 1000) + 's</p>')
-    res.end()
-  } else {
-    req.session.views = 1
-    res.end('welcome to the session demo. refresh!')
-  }
-//  res.render("about");
+app.get("/about", function(req, res){
+  res.render("about");
 });
 
 //Login Page
@@ -166,32 +91,22 @@ app.get("/login", function(req, res){
 });
 
 // Credentials check from login
-// app.post("/login", passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login' }));
+app.post('/login', passport.authenticate('local-login', {
+  successRedirect: '/secret',
+  failureRedirect: '/login',
+  failureFlash: 'Bad login'
+}));
 
-app.post("/login", passport.authenticate('local'), function(req, res){
-
-  userData.count({ username }, function(err, count){
-    if(err){ console.log(err);}
-    else{console.log('There are %d users registered.', count);}
-  });
-
-  successRedirect: '/';
-  failureRedirect: '/';
-/*
-  userData.findOne({ username: req.body.username }, function(err, user){
-    if(err){ console.log(err);}
-    else{
-      if( !user ){
-        console.log( "Could not find user "+req.body.username + " in our database!" ); 
-        res.render("signup");
-      }
-      else{
-        console.log('Logging in: ', user.username)
-        res.redirect("/forum");
-      }
-    }
-  });
-*/
+//Secret page - For testing passport sessions
+app.get("/secret", function(req, res){
+  if ( req.isAuthenticated() ){
+    // Only authenticated users can reach the Secret page
+    res.render("secret");
+  }
+  else{
+    // Else they go somewhere else
+    res.render("landing");
+  }
 });
 
 //Sign Up Page
@@ -200,17 +115,11 @@ app.get("/signup", function(req, res){
 });
 
 //Post from Sign Up Page
-app.post("/signup", function(req, res){
-  userData.create(req.body.msg, function(err, msg){
-    if(err){
-      console.log(err);
-      res.redirect("/index");
-    } else {
-      console.log("Created new user: ", req.body.msg.username);
-      res.redirect("/forum");
-    }
-  });
-});
+app.post('/signup', passport.authenticate('local-signup', {
+  successRedirect: '/forum',
+  failureRedirect: '/signup',
+  failureFlash: 'User email already registered'
+}));
 
 //Message Board Page - Showing all the posts
 app.get("/forum", function(req, res){
