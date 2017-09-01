@@ -18,19 +18,20 @@ var flash = require('connect-flash');
 var app = express();
 var port = process.env.PORT || 3000;
 
-var localDB = false;
 
-
+// Toggle Database Dev Mode
+//=================================================
+  var localDB = false; /* true: local, false: production */
 //=================================================
 
-if(localDB == true) {
-    //Local Database
-    mongoose.connect("mongodb://127.0.0.1/test_db");
-  }
-else {
-    //Database setup with mLab
-    mongoose.connect(process.env.MONGODB_URI);
-  }
+  if(localDB == true) {
+      // LOCAL
+      mongoose.connect("mongodb://127.0.0.1/test_db");
+    }
+  else {
+      // PRODUCTION
+      mongoose.connect(process.env.MONGODB_URI);
+    }
 
 //=================================================
 
