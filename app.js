@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var localDB = true;
+var localDB = false;
 var express = require("express");
 var session = require("express-session");
 var mongoose = require("mongoose");
