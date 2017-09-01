@@ -18,7 +18,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 
 if(localDB == true){
-    //Local Database 
+    //Local Database
     mongoose.connect("mongodb://127.0.0.1/test_db");
   }
   else{
@@ -116,7 +116,7 @@ app.get("/signup", function(req, res){
 
 //Post from Sign Up Page
 app.post('/signup', passport.authenticate('local-signup', {
-  successRedirect: '/forum',
+  successRedirect: '/index',
   failureRedirect: '/signup',
   failureFlash: 'User email already registered'
 }));
