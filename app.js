@@ -1,47 +1,54 @@
 #!/usr/bin/env node
 
-var localDB = false;
 var express = require("express");
 var session = require("express-session");
-var mongoose = require("mongoose");
-var ejs = require("ejs");
-var bodyParser = require("body-parser");
 var cookieParser = require('cookie-parser');
-var path = require('path');
-var logger = require('morgan');
-var port = process.env.PORT || 3000;
 var methodOverride = require("method-override");
+var bodyParser = require("body-parser");
 var nodemailer = require('nodemailer');
+var mongoose = require("mongoose");
+var logger = require('morgan');
+var path = require('path');
+var ejs = require("ejs");
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 
-if(localDB == true){
+var app = express();
+var port = process.env.PORT || 3000;
+
+var localDB = false;
+
+
+//=================================================
+
+if(localDB == true) {
     //Local Database
     mongoose.connect("mongodb://127.0.0.1/test_db");
   }
-  else{
+else {
     //Database setup with mLab
     mongoose.connect(process.env.MONGODB_URI);
   }
 
-var app = express();
+//=================================================
+
 
 //Setup
 app.set("view engine", "ejs");
 // app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-
-app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
-app.use(methodOverride("_method"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(cookieParser());
+app.use(methodOverride("_method"));
 app.use(flash());
+
 require('./config/passport')(passport);
 
 //Message collection schema and conversion to Model
@@ -73,11 +80,6 @@ app.get("/", function(req, res){
 //Index page - Second page
 app.get("/index", function(req, res){
   res.render("index");
-});
-
-//Links page
-app.get("/links", function(req, res){
-  res.render("links");
 });
 
 //About CodeClub Page
