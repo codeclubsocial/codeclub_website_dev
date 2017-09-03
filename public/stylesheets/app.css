@@ -200,3 +200,8 @@ footer p a{
 	}
 
 }
+
+#contribute-list li {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
