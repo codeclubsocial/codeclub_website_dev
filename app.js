@@ -140,6 +140,11 @@ app.get('/contact', function(req,res) {
   res.render('contact', {alertDisplay: 'none'});
 });
 
+// Contribute Page
+app.get('/contribute', function(req,res) {
+  res.render("contribute");
+});
+
 // Contact Us with BS alert after form submit
 app.get('/contact/alert/:alert', function(req,res) {
   console.log(req.params.alert);
