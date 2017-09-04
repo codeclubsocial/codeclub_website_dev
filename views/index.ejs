@@ -4,6 +4,11 @@
 	<h1>Welcome to CodeClub!</h1>
 	<p>&nbsp;</p>
 	<p>Hello World!</p>
+<%      if ( !req.isAuthenticated() ){  %>
+	<p>You are not logged in, but still have access to lots of cool stuff.</p>
+<%      } else {                        %>
+	<p>You are logged in. You can access the entire CodeClub site!</p>
+<%      } 				%>
 	<p>&nbsp;</p>
 
 </div>

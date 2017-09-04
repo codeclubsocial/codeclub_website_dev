@@ -75,22 +75,28 @@ app.get("/rt", function(req, res){
 
 //Landing page - First page
 app.get("/", function(req, res){
-  res.render("landing");
+  res.render("landing", {req: req});
 });
 
 //Index page - Second page
 app.get("/index", function(req, res){
-  res.render("index");
+  res.render("index", {req: req});
 });
 
 //About CodeClub Page
 app.get("/about", function(req, res){
-  res.render("about");
+  res.render("about", {req: req});
+});
+
+//Logout Page
+app.get("/logout", function(req, res){
+  req.logout();
+  res.render("landing", {req: req});
 });
 
 //Login Page
 app.get("/login", function(req, res){
-  res.render("login");
+  res.render("login", {req: req});
 });
 
 // Credentials check from login
@@ -104,17 +110,17 @@ app.post('/login', passport.authenticate('local-login', {
 app.get("/secret", function(req, res){
   if ( req.isAuthenticated() ){
     // Only authenticated users can reach the Secret page
-    res.render("secret");
+    res.render("secret", {req: req});
   }
   else{
     // Else they go somewhere else
-    res.render("landing");
+    res.render("notsosecret", {req: req});
   }
 });
 
 //Sign Up Page
 app.get("/signup", function(req, res){
-  res.render("signup");
+  res.render("signup", {req: req});
 });
 
 //Post from Sign Up Page
@@ -130,19 +136,19 @@ app.get("/forum", function(req, res){
 		if(err){
 			console.log(err)
 		} else {
-			res.render("forum", {msg: msg});
+			res.render("forum", {msg: msg, req: req});
 		}
 	});
 });
 
 // Contact Us Page
 app.get('/contact', function(req,res) {
-  res.render('contact', {alertDisplay: 'none'});
+  res.render('contact', {alertDisplay: 'none', req: req});
 });
 
 // Contribute Page
 app.get('/contribute', function(req,res) {
-  res.render("contribute");
+  res.render("contribute", {req: req});
 });
 
 // Contact Us with BS alert after form submit
@@ -205,14 +211,14 @@ app.get("/forum", function(req, res){
 		if(err){
 			console.log(err)
 		} else {
-			res.render("forum", {msg: msg});
+			res.render("forum", {msg: msg, req: req});
 		}
 	});
 });
 
 //New Route - Form/page where you create a new post
 app.get("/forum/new", function(req, res){
-	res.render("new")
+	res.render("new", {req: req})
 });
 
 //Create(ing/ed) Route - The page the post has been created
@@ -234,7 +240,7 @@ msgBoard.findById(req.params.id, function(err, msg){
 			console.log(err);
 			res.redirect("/forum");
 		} else {
-			res.render("show", {msg: msg});
+			res.render("show", {msg: msg, req: req});
 		}
 	});
 });
@@ -247,7 +253,7 @@ app.get("/forum/:id/edit", function(req, res){
 				console.log(err);
 				res.redirect("/forum");
 			} else {
-				res.render("edit", {msg: msg});
+				res.render("edit", {msg: msg, req: req});
 			}
 		});
 });

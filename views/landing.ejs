@@ -43,7 +43,11 @@
         <li><a href="/forum" class="landingNav">Forum</a></li>
         <li><a href="/about" class="landingNav">About</a></li>
         <li><a href="/contact" class="landingNav">Contact</a></li>
+<%      if ( !req.isAuthenticated() ){ 	%>
         <li><a href="/login" class="landingNav">Login</a></li>
+<%      } else {			%>
+        <li><a href="/logout" class="landingNav">Logout</a></li>
+<%      }				%>
       </nav>
     </header>
   </div>
