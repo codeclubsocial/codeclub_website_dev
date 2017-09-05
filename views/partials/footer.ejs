@@ -8,6 +8,28 @@
 
   <p>&copy; <script>new Date().getFullYear()>2010&&document.write(new Date().getFullYear());</script> CodeClub | Learn to code, make friends, build cool stuff<br>Berkeley, CA</p>
 </footer>
+</div>
+
+<script type="text/javascript">
+  function toggleDisplay(){
+    var chatDiv = document.getElementById('chatApp');
+    var bodyDiv = document.getElementById('bodyContents');
+
+    if (chatDiv.style.display === 'none'){
+      chatDiv.style.display="block";
+      bodyDiv.style.display="none";
+      document.body.style.marginTop="3.5rem";
+      document.body.style.backgroundColor="#04436a";
+    }
+    else {
+      chatDiv.style.display="none";
+      bodyDiv.style.display="block";
+      document.body.style.marginTop="5rem";
+      document.body.style.backgroundColor="";
+
+    }
+  };
+</script>
 
 <script type="text/javascript" src="/libs/jquery.js"></script>
 <script type="text/javascript" src="/libs/bootstrap.min.js"></script>
