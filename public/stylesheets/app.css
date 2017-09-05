@@ -149,3 +149,11 @@ footer{
   right: 10px;
   left: auto;
 }
+
+.like{
+  color: #0275d8;
+}
+
+.dislike {
+  color: #d9534f;
+}
