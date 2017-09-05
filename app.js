@@ -24,7 +24,7 @@ var port = process.env.PORT || 3000;
   var localDB = true; /* true: local, false: production */
 //=================================================
 
-  if(localDB == true) {
+  if(localDB == false) {
       // LOCAL
       mongoose.connect("mongodb://127.0.0.1/test_db");
     }
