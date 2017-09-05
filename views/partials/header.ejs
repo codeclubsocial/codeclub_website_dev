@@ -10,7 +10,6 @@
 	<link rel="stylesheet" type="text/css" href="/stylesheets/app.css">
   <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
 	<script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
-
 </head>
 <body>
 
@@ -35,6 +34,9 @@
 			<li class="nav-item">
 				<a class="nav-link" href="/contact">Contact</a>
 			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/contribute">Contribute</a>
+			</li>
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="/links" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Links
@@ -45,8 +47,8 @@
 					<a class="dropdown-item" href="https://github.com/codeclubsocial/" target="_blank">Github Repositories</a>
 				</div>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="https://codeclub-chat.herokuapp.com/channel/Lobby" target="_blank">Chat</a>
+			<li class="nav-item" id="chatButton">
+				<a class="nav-link" href="#" onclick="toggleDisplay()">Chat</a>
 			</li>
 
     </ul>
@@ -58,8 +60,14 @@
 					<a class="nav-link" href="/login"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>
 			</li>
 		</ul>
-    <form action="#" method="POST" class="form-inline my-2 my-lg-0">
-
-    </form>
+    <form action="#" method="POST" class="form-inline my-2 my-lg-0"></form>
   </div>
 </nav>
+
+<div id="chatApp" style="margin: 0 auto; width:100vw; height:90vh; display: none;">
+	<object type="text/html" data="https://codeclub-chat.herokuapp.com/channel/Lobby"
+					style="width:100%; height: 100%;">
+	</object>
+</div>
+
+<div id="bodyContents" style="display: block;">

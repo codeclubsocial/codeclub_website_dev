@@ -140,6 +140,14 @@ textarea {
   left: auto;
 }
 
+.like{
+  color: #0275d8;
+}
+
+.dislike {
+  color: #d9534f;
+}
+
 /*-------------
  	Footer
 -------------*/
@@ -192,6 +200,7 @@ footer p{
 footer p a{
 	color: #fff;
 }
+
 
 @media (max-width: 700px){
 

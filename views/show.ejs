@@ -1,7 +1,12 @@
 <% include ./partials/header %>
 
+<<<<<<< HEAD
+<section class="section1" style="margin-top: 5rem;">
+  <div class="container">
+=======
 <section class="section1">
-  <div class="container" style="margin-top: 1.5rem;">
+  <div class="container" style="margin-top: 200px;">
+>>>>>>> febf74e4048e1f737bb1213283de1fee148f72e5
     <div class="card">
       <div class="card-header">
         <h3><%= msg.title %> </h3>
@@ -9,14 +14,22 @@
       <div class="card-block">
         <span class="badge badge-pill badge-primary" style="float: right;"><%= msg.date.toDateString() %></span>
         <p class="card-text" style="margin: 2em auto; text-align: justify;"><%= msg.body %></p>
-        <a href="/forum/<%= msg._id %>/edit" class="btn btn-default"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>          <form class="" action="/forum/<%= msg._id %>?_method=DELETE" method="POST" style="display: inline;">
-            <button role="submit button" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+        <a href="/forum/<%= msg._id %>/edit" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
+        <form class="" action="/forum/<%= msg._id %>?_method=DELETE" method="POST" style="display: inline;">
+            <button role="submit button" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
         </form>
+        <p style="float: right; color: grey; font-size: 15px;">
+          <em style="margin-right: 2rem;">By: Author </em>
+          <span style="margin-right: 0.5rem;" id="likeText"><i class="fa fa-thumbs-up" aria-hidden="true" id="like" style="font-size: 1.3rem;"></i> 0</span>
+          <span><i class="fa fa-thumbs-down" aria-hidden="true" style="font-size: 1.3rem;"id="dislike"></i> 0</span>
+        </p>
       </div>
     </div>
   </div>
 </section>
 
 
+
+<script type="text/javascript" src="/js/like.js"></script>
 <br><br><br><br><br>
 <% include ./partials/footer %>
