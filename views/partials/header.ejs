@@ -36,6 +36,9 @@
 			<li class="nav-item">
 				<a class="nav-link" href="/contact">Contact</a>
 			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/contribute">Contribute</a>
+			</li>
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="/links" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Links
@@ -47,7 +50,11 @@
 				</div>
 			</li>
 			<li class="nav-item">
+<<<<<<< HEAD
 				<a class="nav-link" href="https://codeclub-chat.herokuapp.com/channel/Lobby" target="_blank" id="chat">Chat</a>
+=======
+				<a class="nav-link" href="#" onclick="toggleDisplay()">Chat</a>
+>>>>>>> febf74e4048e1f737bb1213283de1fee148f72e5
 			</li>
 
     </ul>
@@ -59,8 +66,14 @@
 					<a class="nav-link" href="/login"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>
 			</li>
 		</ul>
-    <form action="#" method="POST" class="form-inline my-2 my-lg-0">
-
-    </form>
+    <form action="#" method="POST" class="form-inline my-2 my-lg-0"></form>
   </div>
 </nav>
+
+<div id="chatApp" style="margin: 0 auto; width:100vw; height:90vh; display: none;">
+	<object type="text/html" data="https://codeclub-chat.herokuapp.com/channel/Lobby"
+					style="width:100%; height: 100%;">
+	</object>
+</div>
+
+<div id="bodyContents" style="display: block;">
