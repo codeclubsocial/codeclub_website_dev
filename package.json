@@ -7,7 +7,7 @@
   "description": "CodeClub Website",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
   },
   "author": "CodeClub",
   "license": "MIT",
@@ -30,6 +30,6 @@
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
     "path": "^0.12.7",
-    "quilljs": "^0.18.1"
+    "quilljs": "^0.18.1",
   }
 }
