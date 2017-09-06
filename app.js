@@ -24,7 +24,7 @@ var port = process.env.PORT || 3000;
   var localDB = false; /* true: local, false: production */
 //=================================================
 
-  if(localDB == true) {
+  if(localDB == false) {
       // LOCAL
       mongoose.connect("mongodb://127.0.0.1/test_db");
     }
@@ -289,8 +289,7 @@ app.listen(port, function(){
 	console.log("\n" + "=".repeat(40));
 	console.log("*** INITIALIZATION ***");
 	console.log("-".repeat(40));
-  if(localDB == true) { console.log("Starting Server on http://localhost:3000"); }
-  else                { console.log("Starting Server on ", process.env.MONGODB_URI); }
+  console.log("Starting Server on http://localhost:3000");
 	console.log("Successfully connected to the Database");
 	console.log("=".repeat(40) + "\n");
 });
