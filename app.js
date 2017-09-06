@@ -24,7 +24,7 @@ var port = process.env.PORT || 3000;
   var localDB = false; /* true: local, false: production */
 //=================================================
 
-  if(localDB == false) {
+  if(localDB == true) {
       // LOCAL
       mongoose.connect("mongodb://127.0.0.1/test_db");
     }
@@ -114,7 +114,7 @@ app.get("/secret", function(req, res){
   }
   else{
     // Else they go somewhere else
-    res.render("notsosecret", {req: req});
+    res.render("errNotLoggedIn", {req: req});
   }
 });
 
@@ -129,17 +129,6 @@ app.post('/signup', passport.authenticate('local-signup', {
   failureRedirect: '/signup',
   failureFlash: 'User email already registered'
 }));
-
-//Message Board Page - Showing all the posts
-app.get("/forum", function(req, res){
-	msgBoard.find({}, function(err, msg){
-		if(err){
-			console.log(err)
-		} else {
-			res.render("forum", {msg: msg, req: req});
-		}
-	});
-});
 
 // Contact Us Page
 app.get('/contact', function(req,res) {
@@ -207,18 +196,29 @@ app.post("/contactForm", function(req, res){
 
 //Message Board Page - Showing all the posts
 app.get("/forum", function(req, res){
-	msgBoard.find({}, function(err, msg){
-		if(err){
-			console.log(err)
-		} else {
-			res.render("forum", {msg: msg, req: req});
-		}
-	});
+	if ( req.isAuthenticated() ){
+		msgBoard.find({}, function(err, msg){
+			if(err){
+				console.log(err)
+			} else {
+				res.render("forum", {msg: msg, req: req});
+			}
+		});
+	}
+	else{
+	    res.render("errNotLoggedIn", {req: req});
+	}
+		
 });
 
 //New Route - Form/page where you create a new post
 app.get("/forum/new", function(req, res){
-	res.render("new", {req: req})
+	if ( req.isAuthenticated() ){
+		res.render("new", {req: req})
+	}
+	else{
+	    res.render("errNotLoggedIn", {req: req});
+	}
 });
 
 //Create(ing/ed) Route - The page the post has been created
