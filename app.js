@@ -18,6 +18,8 @@ var flash = require('connect-flash');
 var app = express();
 var port = process.env.PORT || 3000;
 
+const { check, validationResult } = require('express-validator/check');
+const { matchedData } = require('express-validator/filter');
 
 // Toggle Database Dev Mode
 //=================================================
