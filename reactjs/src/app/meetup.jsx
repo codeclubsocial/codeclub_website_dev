@@ -122,6 +122,10 @@ class Meetup extends React.Component {
           <form action="https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=kksoj0htpfk9ef9c5qcphj0glv&redirect_uri=http://austinsandbox.herokuapp.com/index&state=h3kdj4">
             <input type="submit" value="Log in to Meetup-No Library" />
           </form>
+          <div><a href="https://secure.meetup.com/oauth2/authorize?response_type=token&scope=&client_id=kksoj0htpfk9ef9c5qcphj0glv&redirect_uri=http://austinsandbox.herokuapp.com/index">anchor tag blank scope no state</a></div>
+          <div><a href="https://secure.meetup.com/oauth2/authorize?response_type=token&scope=&client_id=kksoj0htpfk9ef9c5qcphj0glv&redirect_uri=http://austinsandbox.herokuapp.com/index&state=h3kdj4">anchor tag blank scope state</a></div>
+          <div><a href="https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=kksoj0htpfk9ef9c5qcphj0glv&redirect_uri=http://austinsandbox.herokuapp.com/index&state=h3kdj4">anchor tag rsvp scope state</a></div>
+          <div><a href="https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=kksoj0htpfk9ef9c5qcphj0glv&redirect_uri=http://austinsandbox.herokuapp.com/index">anchor tag rsvp scope no state</a></div>
           <button onClick={this.handleLogInClick}>Log in to Meetup - Library</button>
           <button onClick={this.handleRSVPClick}>RSVP</button>
         </div>
