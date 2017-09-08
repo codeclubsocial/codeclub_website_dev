@@ -69,6 +69,9 @@ class Meetup extends React.Component {
     getMeetup().then((list) => {
       this.setState({meetupJson:list});
     });
+    if (window.location.hash.length > 1) {
+      this.handleRSVPClick();
+    }
   }
 
   handleRSVPClick() {
@@ -150,8 +153,8 @@ class Meetup extends React.Component {
           {/* <form action="https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=kksoj0htpfk9ef9c5qcphj0glv&redirect_uri=http://austinsandbox.herokuapp.com/index&state=h3kdj4">
             <input type="submit" value="Log in to Meetup-No Library" />
           </form> */}
-          <a href={hrefAuth} onClick={this.onLogIn} className="button">Log in to Meetup</a>
-          <button onClick={this.handleRSVPClick}>RSVP</button>
+          <a href={hrefAuth} onClick={this.onLogIn} className="button">RSVP</a>
+          {/* <button onClick={this.handleRSVPClick}>RSVP</button> */}
         </div>
       );
     }
