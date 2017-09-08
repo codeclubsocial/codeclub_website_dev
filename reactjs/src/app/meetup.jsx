@@ -32,14 +32,10 @@ async function getMeetup() {
 //   }
 // }
 
-async function postRSVP(rsvpData) {
+async function postRSVP(eventID, access_token) {
   try {
-    let response = await fetch('https://cors-anywhere.herokuapp.com/https://api.meetup.com/codeclub/events/kzxzpnywmbkb/rsvps?key=674441542572b783949516b100104c&sign=true&photo-host=public', {
-      method: "POST",
-      body: JSON.stringify({
-        "guests": 0,
-        "response": "yes"
-      })
+    let response = await fetch('https://cors-anywhere.herokuapp.com/https://api.meetup.com/codeclub/events/' + eventID + '/rsvps?key=674441542572b783949516b100104c&sign=true&response=yes&photo-host=public&access_token='+access_token, {
+      method: "POST"
     });
     let data = await response.json();
     return data;
@@ -55,6 +51,7 @@ class Meetup extends React.Component {
       meetupJson: {},
       meetupRSVP: {}
     }
+    this.handleRSVPClick = this.handleRSVPClick.bind(this);
   }
 
   componentDidMount() {
@@ -65,9 +62,10 @@ class Meetup extends React.Component {
 
   handleRSVPClick() {
     console.log(window.location.hash);
-    var fragments = window.location.hash.split(/&=/);
-    console.log(fragments);
-    postRSVP().then((list) => {
+    var eventID = this.state.meetupJson["0"]["id"];
+    var access_token = window.location.hash.split(/&|=/)[1];
+    console.log(access_token);
+    postRSVP(access_token).then((list) => {
       this.setState({meetupRSVP:list});
     });
   }
