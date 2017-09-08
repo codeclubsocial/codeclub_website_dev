@@ -65,7 +65,7 @@ class Meetup extends React.Component {
     var eventID = this.state.meetupJson["0"]["id"];
     var access_token = window.location.hash.split(/&|=/)[1];
     console.log(access_token);
-    postRSVP(access_token).then((list) => {
+    postRSVP(eventID, access_token).then((list) => {
       this.setState({meetupRSVP:list});
     });
   }
