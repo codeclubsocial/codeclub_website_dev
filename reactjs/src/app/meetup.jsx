@@ -75,7 +75,6 @@ class Meetup extends React.Component {
             <input type="submit" value="Log in to Meetup" />
           </form>
           <button onClick={this.handleRSVPClick}>RSVP</button>
-          <p>hey</p>
         </div>
       );
     }
