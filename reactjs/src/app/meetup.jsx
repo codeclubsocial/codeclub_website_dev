@@ -76,7 +76,7 @@ class Meetup extends React.Component {
     var OAuth = require('@zalando/oauth2-client-js');
     var meetup = new OAuth.Provider({
       id: 'meetup',   // required
-      authorization_url: 'https://api.meetup.com/oauth/request/' // required
+      authorization_url: 'https://secure.meetup.com/oauth2/authorize' // required
     });
     // Create a new request
     var request = new OAuth.Request({
