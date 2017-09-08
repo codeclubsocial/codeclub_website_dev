@@ -117,7 +117,7 @@ class Meetup extends React.Component {
         for (var k in this.state.getMeetupRSVP) {
           rsvpList.push(k["member"]["id"]);
         }
-        if (rsvpList.includes(this.state.meetupRSVP["member"]["id"]) {
+        if (rsvpList.includes(this.state.meetupRSVP["member"]["id"])) {
           return (
             <div>
               <p>The next scheduled meetup will be at {hours}:{minutes} {amPm} on {monthList[month]} {day}{dayXX[day-1]}, {year} at {name}.</p>
