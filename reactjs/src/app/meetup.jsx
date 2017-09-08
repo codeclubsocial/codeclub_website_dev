@@ -68,10 +68,10 @@ class Meetup extends React.Component {
   componentDidMount() {
     getMeetup().then((list) => {
       this.setState({meetupJson:list});
+      if (window.location.hash.length > 1) {
+        this.handleRSVPClick();
+      }
     });
-    if (window.location.hash.length > 1) {
-      this.handleRSVPClick();
-    }
   }
 
   handleRSVPClick() {
