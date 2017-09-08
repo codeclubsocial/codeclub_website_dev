@@ -4,7 +4,7 @@ import './meetup.css';
 
 async function getRSVP(eventID) {
   try {
-    let response = await fetch('https://cors-anywhere.herokuapp.com/https://api.meetup.com/codeclub/events/' + eventID + 'rsvps?key=674441542572b783949516b100104c&sign=true&photo-host=public&page=20');
+    let response = await fetch('https://cors-anywhere.herokuapp.com/https://api.meetup.com/codeclub/events/' + eventID + '/rsvps?key=674441542572b783949516b100104c&sign=true&photo-host=public&page=20');
     let data = await response.json();
     return data;
    } catch(error) {
