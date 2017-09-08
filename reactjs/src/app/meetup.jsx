@@ -69,33 +69,33 @@ class Meetup extends React.Component {
     });
   }
 
-  handleLogInClick() {
-    // requestToken().then((list) => {
-    //   this.setState({meetupToken:list});
-    // });
-    var OAuth = require('@zalando/oauth2-client-js');
-    var meetup = new OAuth.Provider({
-      id: 'meetup',   // required
-      authorization_url: 'https://secure.meetup.com/oauth2/authorize' // required
-    });
-    // Create a new request
-    var request = new OAuth.Request({
-        client_id: 'kksoj0htpfk9ef9c5qcphj0glv',  // required
-        redirect_uri: 'http://austinsandbox.herokuapp.com/index'
-    });
-
-    // Give it to the provider
-    var uri = meetup.requestToken(request);
-
-    // Later we need to check if the response was expected
-    // so save the request
-    meetup.remember(request);
-
-    // Do the redirect
-    window.location.href = uri;
-
-    var response = meetup.parse(window.location.hash);
-  }
+  // handleLogInClick() {
+  //   // requestToken().then((list) => {
+  //   //   this.setState({meetupToken:list});
+  //   // });
+  //   var OAuth = require('@zalando/oauth2-client-js');
+  //   var meetup = new OAuth.Provider({
+  //     id: 'meetup',   // required
+  //     authorization_url: 'https://secure.meetup.com/oauth2/authorize' // required
+  //   });
+  //   // Create a new request
+  //   var request = new OAuth.Request({
+  //       client_id: 'kksoj0htpfk9ef9c5qcphj0glv',  // required
+  //       redirect_uri: 'http://austinsandbox.herokuapp.com/index'
+  //   });
+  //
+  //   // Give it to the provider
+  //   var uri = meetup.requestToken(request);
+  //
+  //   // Later we need to check if the response was expected
+  //   // so save the request
+  //   meetup.remember(request);
+  //
+  //   // Do the redirect
+  //   window.location.href = uri;
+  //
+  //   var response = meetup.parse(window.location.hash);
+  // }
 
   render() {
     if (Object.keys(this.state.meetupJson).length !== 0) {
@@ -119,10 +119,10 @@ class Meetup extends React.Component {
       return (
         <div>
           <p>The next scheduled meetup will be at {hours}:{minutes} {amPm} on {monthList[month]} {day}{dayXX[day-1]}, {year} at {name}.</p>
-          {/* <form action="https://secure.meetup.com/oauth2/authorize?client_id=kksoj0htpfk9ef9c5qcphj0glv&response_type=token&redirect_uri=http://austinsandbox.herokuapp.com/index">
+          <form action="https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=kksoj0htpfk9ef9c5qcphj0glv&response_type=token&redirect_uri=http://austinsandbox.herokuapp.com/index">
             <input type="submit" value="Log in to Meetup" />
-          </form> */}
-          <button onClick={this.handleLogInClick}>Log in to Meetup</button>
+          </form>
+          {/* <button onClick={this.handleLogInClick}>Log in to Meetup</button> */}
           <button onClick={this.handleRSVPClick}>RSVP</button>
         </div>
       );
