@@ -2,6 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './meetup.css';
 
+async function getRSVP(eventID) {
+  try {
+    let response = await fetch('https://cors-anywhere.herokuapp.com/https://api.meetup.com/codeclub/events/' + eventID + 'rsvps?key=674441542572b783949516b100104c&sign=true&photo-host=public&page=20');
+    let data = await response.json();
+    return data;
+   } catch(error) {
+    console.error(error);
+  }
+}
 async function getMeetup() {
   try {
     let response = await fetch('https://cors-anywhere.herokuapp.com/https://api.meetup.com/codeclub/events?key=674441542572b783949516b100104c&sign=true&photo-host=public&page=20');
@@ -11,26 +20,6 @@ async function getMeetup() {
     console.error(error);
   }
 }
-
-// async function requestToken() {
-//   try {
-//     let response = await fetch('https://cors-anywhere.herokuapp.com/https://api.meetup.com/oauth/request/', {
-//       method: "POST",
-//       body: JSON.stringify({
-//         oauth_consumer_key: "kksoj0htpfk9ef9c5qcphj0glv",
-//         oauth_signature_method: "PLAINTEXT",
-//         oauth_signature: The signature as defined in Signing Requests.
-//         oauth_timestamp: As defined in Nonce and Timestamp.
-//         oauth_nonce: As defined in Nonce and Timestamp.
-//         oauth_callback:
-//       })
-//     });
-//     let data = await response.json();
-//     return data;
-//    } catch(error) {
-//     console.error(error);
-//   }
-// }
 
 function makeState() {
   var text = "";
@@ -59,6 +48,7 @@ class Meetup extends React.Component {
     this.state = {
       meetupJson: {},
       meetupRSVP: {},
+      getMeetupRSVP: {},
       urlState: makeState()
     }
     this.handleRSVPClick = this.handleRSVPClick.bind(this);
@@ -75,18 +65,19 @@ class Meetup extends React.Component {
   }
 
   handleRSVPClick() {
-    console.log(document.cookie);
     var eventID = this.state.meetupJson["0"]["id"];
     var fragments = window.location.hash.split(/&|=/)
     var access_token = fragments[1];
-    console.log(fragments[9]);
     var cookieState = document.cookie.split(/(urlStateCookie=)|;/);
-    console.log(cookieState);
     if (fragments[9] == cookieState[2]) {
       postRSVP(eventID, access_token).then((list) => {
         this.setState({meetupRSVP:list});
       });
     }
+    getRSVP(eventID).then((list) => {
+      this.setState({getMeetupRSVP:list});
+    });
+
   }
 
   onLogIn() {
@@ -99,36 +90,9 @@ class Meetup extends React.Component {
     document.cookie = newCookie;
   }
 
-  // handleLogInClick() {
-  //   // requestToken().then((list) => {
-  //   //   this.setState({meetupToken:list});
-  //   // });
-  //   var OAuth = require('@zalando/oauth2-client-js');
-  //   var meetup = new OAuth.Provider({
-  //     id: 'meetup',   // required
-  //     authorization_url: 'https://secure.meetup.com/oauth2/authorize' // required
-  //   });
-  //   // Create a new request
-  //   var request = new OAuth.Request({
-  //       client_id: 'kksoj0htpfk9ef9c5qcphj0glv',  // required
-  //       redirect_uri: 'http://austinsandbox.herokuapp.com/index'
-  //   });
-  //
-  //   // Give it to the provider
-  //   var uri = meetup.requestToken(request);
-  //
-  //   // Later we need to check if the response was expected
-  //   // so save the request
-  //   meetup.remember(request);
-  //
-  //   // Do the redirect
-  //   window.location.href = uri;
-  //
-  //   var response = meetup.parse(window.location.hash);
-  // }
-
   render() {
     if (Object.keys(this.state.meetupJson).length !== 0) {
+      console.log(this.state.meetupJson);
       var date = new Date(this.state.meetupJson["0"]["time"]);
       var year = 1900 + date.getYear();
       var month = date.getMonth();
@@ -147,14 +111,26 @@ class Meetup extends React.Component {
       }
       var name = this.state.meetupJson["0"]["venue"]["name"];
       var hrefAuth = "https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=kksoj0htpfk9ef9c5qcphj0glv&redirect_uri=http://austinsandbox.herokuapp.com/index&state=" + this.state.urlState;
+      console.log(this.state.meetupRSVP);
+      if (Object.keys(this.state.meetupRSVP).length !== 0 && this.state.getMeetupRSVP).length !== 0) {
+        var rsvpList = [];
+        for (var k in this.state.getMeetupRSVP) {
+          rsvpList.push(k["member"]["id"]);
+        }
+        if (rsvpList.includes(this.state.meetupRSVP["member"]["id"]) {
+          return (
+            <div>
+              <p>The next scheduled meetup will be at {hours}:{minutes} {amPm} on {monthList[month]} {day}{dayXX[day-1]}, {year} at {name}.</p>
+              <a href={hrefAuth} onClick={this.onLogIn} className="button">RSVP</a>
+              <p>You RSVP'd!</p>
+            </div>
+          );
+        }
+      }
       return (
         <div>
           <p>The next scheduled meetup will be at {hours}:{minutes} {amPm} on {monthList[month]} {day}{dayXX[day-1]}, {year} at {name}.</p>
-          {/* <form action="https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=kksoj0htpfk9ef9c5qcphj0glv&redirect_uri=http://austinsandbox.herokuapp.com/index&state=h3kdj4">
-            <input type="submit" value="Log in to Meetup-No Library" />
-          </form> */}
           <a href={hrefAuth} onClick={this.onLogIn} className="button">RSVP</a>
-          {/* <button onClick={this.handleRSVPClick}>RSVP</button> */}
         </div>
       );
     }
