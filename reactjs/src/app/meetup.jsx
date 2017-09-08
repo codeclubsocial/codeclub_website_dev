@@ -115,7 +115,7 @@ class Meetup extends React.Component {
       if (Object.keys(this.state.meetupRSVP).length !== 0 && Object.keys(this.state.getMeetupRSVP).length !== 0) {
         var rsvpList = [];
         for (var k in this.state.getMeetupRSVP) {
-          rsvpList.push(k["member"]["id"]);
+          rsvpList.push(this.state.getMeetupRSVP[k]["member"]["id"]);
         }
         if (rsvpList.includes(this.state.meetupRSVP["member"]["id"])) {
           return (
