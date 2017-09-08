@@ -69,33 +69,33 @@ class Meetup extends React.Component {
     });
   }
 
-  handleLogInClick() {
-    // requestToken().then((list) => {
-    //   this.setState({meetupToken:list});
-    // });
-    var OAuth = require('@zalando/oauth2-client-js');
-    var meetup = new OAuth.Provider({
-      id: 'meetup',   // required
-      authorization_url: 'https://secure.meetup.com/oauth2/authorize' // required
-    });
-    // Create a new request
-    var request = new OAuth.Request({
-        client_id: 'kksoj0htpfk9ef9c5qcphj0glv',  // required
-        redirect_uri: 'http://austinsandbox.herokuapp.com/index'
-    });
-
-    // Give it to the provider
-    var uri = meetup.requestToken(request);
-
-    // Later we need to check if the response was expected
-    // so save the request
-    meetup.remember(request);
-
-    // Do the redirect
-    window.location.href = uri;
-
-    var response = meetup.parse(window.location.hash);
-  }
+  // handleLogInClick() {
+  //   // requestToken().then((list) => {
+  //   //   this.setState({meetupToken:list});
+  //   // });
+  //   var OAuth = require('@zalando/oauth2-client-js');
+  //   var meetup = new OAuth.Provider({
+  //     id: 'meetup',   // required
+  //     authorization_url: 'https://secure.meetup.com/oauth2/authorize' // required
+  //   });
+  //   // Create a new request
+  //   var request = new OAuth.Request({
+  //       client_id: 'kksoj0htpfk9ef9c5qcphj0glv',  // required
+  //       redirect_uri: 'http://austinsandbox.herokuapp.com/index'
+  //   });
+  //
+  //   // Give it to the provider
+  //   var uri = meetup.requestToken(request);
+  //
+  //   // Later we need to check if the response was expected
+  //   // so save the request
+  //   meetup.remember(request);
+  //
+  //   // Do the redirect
+  //   window.location.href = uri;
+  //
+  //   var response = meetup.parse(window.location.hash);
+  // }
 
   render() {
     if (Object.keys(this.state.meetupJson).length !== 0) {
@@ -122,11 +122,7 @@ class Meetup extends React.Component {
           <form action="https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=kksoj0htpfk9ef9c5qcphj0glv&redirect_uri=http://austinsandbox.herokuapp.com/index&state=h3kdj4">
             <input type="submit" value="Log in to Meetup-No Library" />
           </form>
-          <div><a href="https://secure.meetup.com/oauth2/authorize?response_type=token&scope=&client_id=kksoj0htpfk9ef9c5qcphj0glv&redirect_uri=http://austinsandbox.herokuapp.com/index">anchor tag blank scope no state</a></div>
-          <div><a href="https://secure.meetup.com/oauth2/authorize?response_type=token&scope=&client_id=kksoj0htpfk9ef9c5qcphj0glv&redirect_uri=http://austinsandbox.herokuapp.com/index&state=h3kdj4">anchor tag blank scope state</a></div>
-          <div><a href="https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=kksoj0htpfk9ef9c5qcphj0glv&redirect_uri=http://austinsandbox.herokuapp.com/index&state=h3kdj4">anchor tag rsvp scope state</a></div>
-          <div><a href="https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=kksoj0htpfk9ef9c5qcphj0glv&redirect_uri=http://austinsandbox.herokuapp.com/index">anchor tag rsvp scope no state</a></div>
-          <button onClick={this.handleLogInClick}>Log in to Meetup - Library</button>
+          <a href="https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=kksoj0htpfk9ef9c5qcphj0glv&redirect_uri=http://austinsandbox.herokuapp.com/index&state=h3kdj4" className="button">Log in to Meetup</a>
           <button onClick={this.handleRSVPClick}>RSVP</button>
         </div>
       );
