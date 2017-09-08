@@ -72,12 +72,14 @@ class Meetup extends React.Component {
   }
 
   handleRSVPClick() {
+    console.log(document.cookie);
     var eventID = this.state.meetupJson["0"]["id"];
     var fragments = window.location.hash.split(/&|=/)
     var access_token = fragments[1];
     console.log(fragments[9]);
-    console.log(this.state.urlState);
-    if (fragments[9] == this.state.urlState) {
+    var cookieState = document.cookie.split(/(urlStateCookie=)|;);
+    console.log(cookieState);
+    if (fragments[9] == cookieState) {
       postRSVP(eventID, access_token).then((list) => {
         this.setState({meetupRSVP:list});
       });
@@ -86,6 +88,12 @@ class Meetup extends React.Component {
 
   onLogIn() {
     this.setState({urlState:makeState()});
+    var d = new Date();
+    // number of days until cookie expires
+    var ndays = 1;
+    d.setTime(d.getTime() + (ndays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = "urlStateCookie=" + this.urlState + ";" + expires + ";path=/";
   }
 
   // handleLogInClick() {
