@@ -41,10 +41,16 @@
       <h2><a href="/" id="landingBrand">CodeClub</a></h2>
       <nav>
         <li><a href="/index" class="landingNav">Home</a></li>
-        <li><a href="/forum" class="landingNav">Forum</a></li>
+<%      if ( req.isAuthenticated() ){ 	%>
+	        <li><a href="/forum" class="landingNav">Forum</a></li>
+<%      }				%>
         <li><a href="/about" class="landingNav">About</a></li>
         <li><a href="/contact" class="landingNav">Contact</a></li>
-        <li><a href="/login" class="landingNav">Login</a></li>
+<%      if ( req.isAuthenticated() ){ 	%>
+        	<li><a href="/logout" class="landingNav">Logout</a></li>
+<%      } else {			%>
+        	<li><a href="/login" class="landingNav">Login</a></li>
+<%      }				%>
       </nav>
     </header>
   </div>
