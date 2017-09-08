@@ -112,7 +112,7 @@ class Meetup extends React.Component {
       var name = this.state.meetupJson["0"]["venue"]["name"];
       var hrefAuth = "https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=kksoj0htpfk9ef9c5qcphj0glv&redirect_uri=http://austinsandbox.herokuapp.com/index&state=" + this.state.urlState;
       console.log(this.state.meetupRSVP);
-      if (Object.keys(this.state.meetupRSVP).length !== 0 && this.state.getMeetupRSVP).length !== 0) {
+      if (Object.keys(this.state.meetupRSVP).length !== 0 && Object.keys(this.state.getMeetupRSVP).length !== 0) {
         var rsvpList = [];
         for (var k in this.state.getMeetupRSVP) {
           rsvpList.push(k["member"]["id"]);
