@@ -110,16 +110,16 @@ class Meetup extends React.Component {
       }
       var name = this.state.meetupJson["0"]["venue"]["name"];
       var hrefAuth = "https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=kksoj0htpfk9ef9c5qcphj0glv&redirect_uri=http://austinsandbox.herokuapp.com/index&state=" + this.state.urlState;
+      var finalJSX = [
+        <h3>Next Meetup</h3>,
+        <p>The next scheduled meetup will be at {hours}:{minutes} {amPm} on {monthList[month]} {day}{dayXX[day-1]}, {year} at {name}.</p>,
+        <a href={hrefAuth} onClick={this.onLogIn} className="button">RSVP</a>
+      ];
       if (Object.keys(this.state.meetupRSVP).length !== 0 && Object.keys(this.state.getMeetupRSVP).length !== 0) {
         var rsvpList = [];
         for (var k in this.state.getMeetupRSVP) {
           rsvpList.push(this.state.getMeetupRSVP[k]["member"]["id"]);
         }
-        var finalJSX = [
-          <h3>Next Meetup</h3>,
-          <p>The next scheduled meetup will be at {hours}:{minutes} {amPm} on {monthList[month]} {day}{dayXX[day-1]}, {year} at {name}.</p>,
-          <a href={hrefAuth} onClick={this.onLogIn} className="button">RSVP</a>
-        ];
         if (rsvpList.includes(this.state.meetupRSVP["member"]["id"])) {
           finalJSX.push(<p></p>);
           finalJSX.push(<p>You RSVP'd!</p>);
