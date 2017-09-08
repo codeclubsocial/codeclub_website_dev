@@ -38,7 +38,6 @@ function makeState() {
 
   for (var i = 0; i < 15; i++)
     text += possible.charAt(Math.floor(Math.random() * possible.length));
-
   return text;
 }
 
@@ -57,10 +56,11 @@ async function postRSVP(eventID, access_token) {
 class Meetup extends React.Component {
   constructor() {
     super();
+    var urlStateVal = makeState();
     this.state = {
       meetupJson: {},
       meetupRSVP: {},
-      urlState: makeState()
+      urlState: urlStateVal
     }
     this.handleRSVPClick = this.handleRSVPClick.bind(this);
   }

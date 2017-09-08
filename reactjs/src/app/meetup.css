@@ -6,5 +6,5 @@ a.button {
     text-decoration: none;
     color: initial;
     padding: 1px 6px 1px 6px;
-    border-width: 2px;
+    border: rgb(221, 221, 221) outset 2px;
 }
