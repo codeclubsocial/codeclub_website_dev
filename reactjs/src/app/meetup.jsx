@@ -76,7 +76,7 @@ class Meetup extends React.Component {
     var fragments = window.location.hash.split(/&|=/)
     var access_token = fragments[1];
     console.log(fragments[9]);
-    if (fragments[7] == this.state.urlState) {
+    if (fragments[9] == this.state.urlState) {
       postRSVP(eventID, access_token).then((list) => {
         this.setState({meetupRSVP:list});
       });
