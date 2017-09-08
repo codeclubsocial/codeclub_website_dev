@@ -117,30 +117,23 @@ class Meetup extends React.Component {
         for (var k in this.state.getMeetupRSVP) {
           rsvpList.push(this.state.getMeetupRSVP[k]["member"]["id"]);
         }
+        var finalJSX = [
+          <h3>Next Meetup</h3>,
+          <p>The next scheduled meetup will be at {hours}:{minutes} {amPm} on {monthList[month]} {day}{dayXX[day-1]}, {year} at {name}.</p>,
+          <a href={hrefAuth} onClick={this.onLogIn} className="button">RSVP</a>
+        ];
         if (rsvpList.includes(this.state.meetupRSVP["member"]["id"])) {
-          return (
-            <div>
-              <p>The next scheduled meetup will be at {hours}:{minutes} {amPm} on {monthList[month]} {day}{dayXX[day-1]}, {year} at {name}.</p>
-              <a href={hrefAuth} onClick={this.onLogIn} className="button">RSVP</a>
-              <p>You RSVP'd!</p>
-            </div>
-          );
+          finalJSX.push(<p></p>);
+          finalJSX.push(<p>You RSVP'd!</p>);
         }
       }
       return (
-        <div>
-          <p>The next scheduled meetup will be at {hours}:{minutes} {amPm} on {monthList[month]} {day}{dayXX[day-1]}, {year} at {name}.</p>
-          <a href={hrefAuth} onClick={this.onLogIn} className="button">RSVP</a>
-        </div>
+        <div>{finalJSX}</div>
       );
     }
     return <p></p>;
   }
-
-
-
 }
-
 
 // ====================================
 
