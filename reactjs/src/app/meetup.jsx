@@ -59,7 +59,7 @@ class Meetup extends React.Component {
     this.state = {
       meetupJson: {},
       meetupRSVP: {},
-      urlState: ''
+      urlState: makeState()
     }
     this.handleRSVPClick = this.handleRSVPClick.bind(this);
     this.onLogIn = this.onLogIn.bind(this);
@@ -87,14 +87,11 @@ class Meetup extends React.Component {
   }
 
   onLogIn() {
-    console.log(this.state.urlState);
-    this.setState({urlState:makeState()});
     var d = new Date();
     // number of days until cookie expires
     var ndays = 1;
     d.setTime(d.getTime() + (ndays*24*60*60*1000));
     var expires = "expires="+ d.toUTCString();
-    console.log(this.state.urlState);
     var newCookie = "urlStateCookie=" + this.state.urlState + ";" + expires + ";path=/";
     document.cookie = newCookie;
   }
