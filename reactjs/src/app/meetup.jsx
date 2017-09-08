@@ -77,7 +77,7 @@ class Meetup extends React.Component {
     var fragments = window.location.hash.split(/&|=/)
     var access_token = fragments[1];
     console.log(fragments[9]);
-    var cookieState = document.cookie.split(/(urlStateCookie=)|;);
+    var cookieState = document.cookie.split(/(urlStateCookie=)|;/);
     console.log(cookieState);
     if (fragments[9] == cookieState) {
       postRSVP(eventID, access_token).then((list) => {
