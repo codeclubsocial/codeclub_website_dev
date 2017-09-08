@@ -29,13 +29,11 @@ const { matchedData } = require('express-validator/filter');
 
   if(localDB == true) {
       // LOCAL
-//      MongoClient.connect("mongodb://127.0.0.1/test_db");
-      mongoose.connect("mongodb://127.0.0.1/test_db");
+      mongoose.connect("mongodb://127.0.0.1/test_db", {useMongoClient: true});
     }
   else {
       // PRODUCTION
-//      MongoClient.connect(process.env.MONGODB_URI);
-      mongoose.connect(process.env.MONGODB_URI);
+      mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});
     }
 
 //=================================================
