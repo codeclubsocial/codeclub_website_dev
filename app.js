@@ -10,6 +10,7 @@ var mongoose = require("mongoose");
 var logger = require('morgan');
 var path = require('path');
 var ejs = require("ejs");
+var MongoClient = require('mongodb').MongoClient;
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -28,10 +29,12 @@ const { matchedData } = require('express-validator/filter');
 
   if(localDB == true) {
       // LOCAL
+//      MongoClient.connect("mongodb://127.0.0.1/test_db");
       mongoose.connect("mongodb://127.0.0.1/test_db");
     }
   else {
       // PRODUCTION
+//      MongoClient.connect(process.env.MONGODB_URI);
       mongoose.connect(process.env.MONGODB_URI);
     }
 
@@ -45,7 +48,8 @@ app.use(express.static("public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}));
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false}));
+// app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
