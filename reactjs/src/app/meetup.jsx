@@ -65,6 +65,8 @@ class Meetup extends React.Component {
 
   handleRSVPClick() {
     console.log(window.location.hash);
+    var fragments = window.location.hash.split(/#=/);
+    console.log(fragments);
     postRSVP().then((list) => {
       this.setState({meetupRSVP:list});
     });
