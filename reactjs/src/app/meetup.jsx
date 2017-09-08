@@ -71,7 +71,7 @@ class Meetup extends React.Component {
       return (
         <div>
           <p>The next scheduled meetup will be at {hours}:{minutes} {amPm} on {monthList[month]} {day}{dayXX[day-1]}, {year} at {name}.</p>
-          <form action="https://secure.meetup.com/oauth2/authorize?client_id=ovcnv9ha9jar32damrf4nflcot&response_type=token&redirect_uri=http://www.codeclub.social/index">
+          <form action="https://secure.meetup.com/oauth2/authorize?client_id=kksoj0htpfk9ef9c5qcphj0glv&response_type=token&redirect_uri=http://www.codeclub.social/index">
             <input type="submit" value="Log in to Meetup" />
           </form>
           <button onClick={this.handleRSVPClick}>RSVP</button>
