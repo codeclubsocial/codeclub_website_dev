@@ -32,6 +32,16 @@ async function getMeetup() {
 //   }
 // }
 
+function makeState() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 15; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
+
 async function postRSVP(eventID, access_token) {
   try {
     let response = await fetch('https://cors-anywhere.herokuapp.com/https://api.meetup.com/codeclub/events/' + eventID + '/rsvps?key=674441542572b783949516b100104c&sign=true&response=yes&photo-host=public&access_token='+access_token, {
@@ -49,7 +59,8 @@ class Meetup extends React.Component {
     super();
     this.state = {
       meetupJson: {},
-      meetupRSVP: {}
+      meetupRSVP: {},
+      urlState: makeState()
     }
     this.handleRSVPClick = this.handleRSVPClick.bind(this);
   }
@@ -61,13 +72,15 @@ class Meetup extends React.Component {
   }
 
   handleRSVPClick() {
-    console.log(window.location.hash);
     var eventID = this.state.meetupJson["0"]["id"];
-    var access_token = window.location.hash.split(/&|=/)[1];
-    console.log(access_token);
-    postRSVP(eventID, access_token).then((list) => {
-      this.setState({meetupRSVP:list});
-    });
+    var fragments = window.location.hash.split(/&|=/)
+    var access_token = fragments[1];
+    console.log(fragments[7]);
+    if (fragments[7] == this.urlState) {
+      postRSVP(eventID, access_token, this.urlState).then((list) => {
+        this.setState({meetupRSVP:list});
+      });
+    }
   }
 
   // handleLogInClick() {
@@ -117,13 +130,14 @@ class Meetup extends React.Component {
         minutes = "0" + minutes;
       }
       var name = this.state.meetupJson["0"]["venue"]["name"];
+      var hrefAuth = "https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=kksoj0htpfk9ef9c5qcphj0glv&redirect_uri=http://austinsandbox.herokuapp.com/index&state=" + this.urlState;
       return (
         <div>
           <p>The next scheduled meetup will be at {hours}:{minutes} {amPm} on {monthList[month]} {day}{dayXX[day-1]}, {year} at {name}.</p>
           {/* <form action="https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=kksoj0htpfk9ef9c5qcphj0glv&redirect_uri=http://austinsandbox.herokuapp.com/index&state=h3kdj4">
             <input type="submit" value="Log in to Meetup-No Library" />
           </form> */}
-          <a href="https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=kksoj0htpfk9ef9c5qcphj0glv&redirect_uri=http://austinsandbox.herokuapp.com/index&state=h3kdj4" className="button">Log in to Meetup</a>
+          <a href={hrefAuth} className="button">Log in to Meetup</a>
           <button onClick={this.handleRSVPClick}>RSVP</button>
         </div>
       );
