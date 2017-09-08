@@ -93,7 +93,8 @@ class Meetup extends React.Component {
     var ndays = 1;
     d.setTime(d.getTime() + (ndays*24*60*60*1000));
     var expires = "expires="+ d.toUTCString();
-    document.cookie = "urlStateCookie=" + this.state.urlState + ";" + expires + ";path=/";
+    var newCookie = "urlStateCookie=" + this.state.urlState + ";" + expires + ";path=/";
+    document.cookie = newCookie;
   }
 
   // handleLogInClick() {
