@@ -60,7 +60,8 @@ class Meetup extends React.Component {
     this.state = {
       meetupJson: {},
       meetupRSVP: {},
-      urlState: urlStateVal
+      urlState: urlStateVal,
+      urlState1: ''
     }
     this.handleRSVPClick = this.handleRSVPClick.bind(this);
   }
@@ -77,7 +78,7 @@ class Meetup extends React.Component {
     var access_token = fragments[1];
     console.log(fragments[9]);
     console.log(this.state.urlState);
-    if (fragments[9] == this.state.urlState) {
+    if (fragments[9] == this.state.urlState1) {
       postRSVP(eventID, access_token).then((list) => {
         this.setState({meetupRSVP:list});
       });
@@ -131,6 +132,7 @@ class Meetup extends React.Component {
         minutes = "0" + minutes;
       }
       var name = this.state.meetupJson["0"]["venue"]["name"];
+      this.setState({urlState1:this.state.urlState});
       var hrefAuth = "https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=kksoj0htpfk9ef9c5qcphj0glv&redirect_uri=http://austinsandbox.herokuapp.com/index&state=" + this.state.urlState;
       return (
         <div>
