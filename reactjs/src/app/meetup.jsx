@@ -18,7 +18,7 @@ async function postRSVP(rsvpData) {
       method: "POST",
       body: JSON.stringify({
         "guests": 0,
-        "response": "no"
+        "response": "yes"
       })
     });
     let data = await response.json();
@@ -71,10 +71,11 @@ class Meetup extends React.Component {
       return (
         <div>
           <p>The next scheduled meetup will be at {hours}:{minutes} {amPm} on {monthList[month]} {day}{dayXX[day-1]}, {year} at {name}.</p>
-          <form action="https://secure.meetup.com/oauth2/access/client_id=ovcnv9ha9jar32damrf4nflcot&redirect_uri=http://localhost:3000/index">
+          <form action="https://secure.meetup.com/oauth2/authorize?client_id=ovcnv9ha9jar32damrf4nflcot&response_type=token&redirect_uri=http://www.codeclub.social/index">
             <input type="submit" value="Log in to Meetup" />
           </form>
           <button onClick={this.handleRSVPClick}>RSVP</button>
+          <p>hey</p>
         </div>
       );
     }
