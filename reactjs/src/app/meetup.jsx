@@ -56,12 +56,10 @@ async function postRSVP(eventID, access_token) {
 class Meetup extends React.Component {
   constructor() {
     super();
-    var urlStateVal = makeState();
     this.state = {
       meetupJson: {},
       meetupRSVP: {},
-      urlState: urlStateVal,
-      urlState1: ''
+      urlState: ''
     }
     this.handleRSVPClick = this.handleRSVPClick.bind(this);
   }
@@ -70,7 +68,7 @@ class Meetup extends React.Component {
     getMeetup().then((list) => {
       this.setState({meetupJson:list});
     });
-    this.setState({urlState1:this.state.urlState});
+    this.setState({urlState:makeState()});
   }
 
   handleRSVPClick() {
@@ -79,7 +77,7 @@ class Meetup extends React.Component {
     var access_token = fragments[1];
     console.log(fragments[9]);
     console.log(this.state.urlState);
-    if (fragments[9] == this.state.urlState1) {
+    if (fragments[9] == this.state.urlState) {
       postRSVP(eventID, access_token).then((list) => {
         this.setState({meetupRSVP:list});
       });
