@@ -1,8 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './meetup.css';
+
+// for master:
 var consumerKey = 'ovcnv9ha9jar32damrf4nflcot';
 var redirectURI = 'http://www.codeclub.social/index';
+
+// for dev:
+// var consumerKey = '54ruujnlagioqjb2vnnevgvja9';
+// var redirectURI = 'http://codeclubsocial.herokuapp.com/index';
+
 
 async function getRSVP(eventID) {
   try {
@@ -23,15 +30,6 @@ async function getMeetup() {
   }
 }
 
-function makeState() {
-  var text = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  for (var i = 0; i < 15; i++)
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  return text;
-}
-
 async function postRSVP(eventID, access_token) {
   try {
     let response = await fetch('https://cors-anywhere.herokuapp.com/https://api.meetup.com/codeclub/events/' + eventID + '/rsvps?key=674441542572b783949516b100104c&sign=true&response=yes&photo-host=public&access_token='+access_token, {
@@ -42,6 +40,15 @@ async function postRSVP(eventID, access_token) {
    } catch(error) {
     console.error(error);
   }
+}
+
+function makeState() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 15; i++)
+  text += possible.charAt(Math.floor(Math.random() * possible.length));
+  return text;
 }
 
 class Meetup extends React.Component {
@@ -79,9 +86,9 @@ class Meetup extends React.Component {
     getRSVP(eventID).then((list) => {
       this.setState({getMeetupRSVP:list});
     });
-
   }
 
+// Stores randomly generated state in cookie to be checked when user comes back from meetup auth site
   onLogIn() {
     var d = new Date();
     // number of days until cookie expires
@@ -128,7 +135,7 @@ class Meetup extends React.Component {
         }
       }
       return (
-        <div>{finalJSX}</div>
+        <div className="meetup-info">{finalJSX}</div>
       );
     }
     return <p></p>;
