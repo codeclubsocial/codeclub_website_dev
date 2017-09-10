@@ -122,11 +122,15 @@ class Meetup extends React.Component {
       }
       var name = this.state.meetupJson["0"]["venue"]["name"];
       var hrefAuth = "https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=" + consumerKey + "&redirect_uri=" + redirectURI + "&state=" + this.state.urlState;
+      var cardStyle = {
+        width: "20rem",
+      };
       var finalJSX = [
-        <h4 className="card-title">Next Meetup</h4>,
-        <h6 className="card-subtitle">{this.state.meetupJson["0"]["name"]}</h6>
-        <p className="card-text">{hours}:{minutes} {amPm} on {monthList[month]} {day}{dayXX[day-1]}, {year} at {name}.</p>,
-        <a href={hrefAuth} onClick={this.onLogIn} className="button">RSVP</a>
+        <div>
+          <h4 className="card-title">{this.state.meetupJson["0"]["name"]}</h4>
+          <p className="card-text">{hours}:{minutes} {amPm} on {monthList[month]} {day}{dayXX[day-1]}, {year}<span><br/></span>{name}</p>
+          <a href={hrefAuth} onClick={this.onLogIn} className="button card-link">RSVP</a>
+        </div>
       ];
       if (Object.keys(this.state.meetupRSVP).length !== 0 && Object.keys(this.state.getMeetupRSVP).length !== 0) {
         var rsvpList = [];
@@ -134,12 +138,11 @@ class Meetup extends React.Component {
           rsvpList.push(this.state.getMeetupRSVP[k]["member"]["id"]);
         }
         if (rsvpList.includes(this.state.meetupRSVP["member"]["id"])) {
-          finalJSX.push(<p className="card-text"></p>);
-          finalJSX.push(<p className="card-text">You RSVP'd!</p>);
+          finalJSX.push(<p className="card-text"><span><br/></span>You RSVP'd!</p>);
         }
       }
       return (
-        <div className="card" style="width: 20rem;">
+        <div className="card" style={cardStyle}>
           <div className="card-body">
             {finalJSX}
           </div>
