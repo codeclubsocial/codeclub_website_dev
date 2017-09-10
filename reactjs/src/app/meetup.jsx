@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './meetup.css';
-var consumerKey = '54ruujnlagioqjb2vnnevgvja9';
-var redirectURI = 'http://codeclubsocial.herokuapp.com/index';
+var consumerKey = 'ovcnv9ha9jar32damrf4nflcot';
+var redirectURI = 'http://www.codeclub.social/index';
 
 async function getRSVP(eventID) {
   try {
