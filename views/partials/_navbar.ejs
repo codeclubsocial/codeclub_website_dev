@@ -1,0 +1,60 @@
+<nav class="navbar navbar-toggleable-md navbar-light navbar-inverse bg-inverse fixed-top" id="navspace" style="margin-bottom: 5rem;">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="/" style="margin-right: 2.5em;">CodeClub <i class="fa fa-code" aria-hidden="true" style="font-size: 1.3em; font-weight: 800;"></i>
+</a>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+			<li class="nav-item">
+				<a class="nav-link" href="/index">Home<span class="sr-only">(current)</span></a>
+			</li>
+<%			if ( req.isAuthenticated() ){ %>
+				<li class="nav-item">
+					<a class="nav-link" href="/forum">Forum<span class="sr-only">(current)</span></a>
+<%			}	%>
+			</li>
+			<li class="nav-item right">
+				<a class="nav-link" href="/about">About</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/contact">Contact</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/contribute">Contribute</a>
+			</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="/links" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Links
+				</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+					<a class="dropdown-item" href="https://codeclubsocial.github.io/" target="_blank">Getting Started</a>
+					<a class="dropdown-item" href="https://www.meetup.com/codeclub/" target="_blank">Meetup page</a>
+					<a class="dropdown-item" href="https://github.com/codeclubsocial/" target="_blank">Github Repositories</a>
+				</div>
+			</li>
+<%			if ( req.isAuthenticated() ){ %>
+				<li class="nav-item" id="chatButton">
+					<a class="nav-link" href="#" onclick="toggleDisplay()">Chat</a>
+<%			}	%>
+			</li>
+
+    </ul>
+		<ul class="nav navbar-nav navbar-right">
+		<li class="nav-item">
+<%      if ( !req.isAuthenticated() ){ %>
+      <a class="nav-link" href="/signup"><i class="fa fa-user-plus" aria-hidden="true"></i> Sign Up</a>
+<%	}	%>
+    </li>
+			<li class="nav-item">
+<%      if ( req.isAuthenticated() ){ %>
+					<a class="nav-link" href="/logout"><i class="fa fa-sign-in" aria-hidden="true"></i> Logout</a>
+<%      }else{ %>
+					<a class="nav-link" href="/login"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>
+<%	}	%>
+			</li>
+		</ul>
+    <form action="#" method="POST" class="form-inline my-2 my-lg-0"></form>
+  </div>
+</nav>

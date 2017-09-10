@@ -74,7 +74,7 @@ var msgBoard = mongoose.model("msgBoard", msgSchema);
 
 //Rich Text Test page
 app.get("/rt", function(req, res){
-  res.render("rt");
+  res.render("rt", {req: req});
 });
 
 //=========== Main Routes =============
@@ -252,7 +252,7 @@ app.get("/forum", function(req, res){
 	else{
 	    res.render("errNotLoggedIn", {req: req});
 	}
-		
+
 });
 
 //New Route - Form/page where you create a new post

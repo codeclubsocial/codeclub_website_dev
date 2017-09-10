@@ -1,79 +1,13 @@
 <% include ./partials/header %>
-<!-- Include the Quill library -->
-<script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
 
-<div class="body-container" style="margin: 0 auto;">
-  <form action="/forum" method="POST">
-
-  <!-- -->
-  <div>
-      <label class="label">Title</label>
-      <input type="text" name="msg[title]" placeholder="Post Title" class="form-control">
-  </div>
-
-  <div id="toolbar-container">
-    <span class="ql-formats">
-      <select class="ql-font"></select>
-      <select class="ql-size"></select>
-    </span>
-  <span class="ql-formats">
-    <button class="ql-bold"></button>
-    <button class="ql-italic"></button>
-    <button class="ql-underline"></button>
-    <button class="ql-strike"></button>
-  </span>
-  <span class="ql-formats">
-    <select class="ql-color"></select>
-    <select class="ql-background"></select>
-  </span>
-  <span class="ql-formats">
-    <button class="ql-script" value="sub"></button>
-    <button class="ql-script" value="super"></button>
-  </span>
-  <span class="ql-formats">
-    <button class="ql-header" value="1"></button>
-    <button class="ql-header" value="2"></button>
-    <button class="ql-blockquote"></button>
-    <button class="ql-code-block"></button>
-  </span>
-  <span class="ql-formats">
-    <button class="ql-list" value="ordered"></button>
-    <button class="ql-list" value="bullet"></button>
-    <button class="ql-indent" value="-1"></button>
-    <button class="ql-indent" value="+1"></button>
-  </span>
-  <span class="ql-formats">
-    <button class="ql-direction" value="rtl"></button>
-    <select class="ql-align"></select>
-  </span>
-  <span class="ql-formats">
-    <button class="ql-link"></button>
-    <button class="ql-image"></button>
-    <button class="ql-video"></button>
-    <button class="ql-formula"></button>
-  </span>
-  <span class="ql-formats">
-    <button class="ql-clean"></button>
-  </span>
-  </div>
-  <div id="editor-container">
-  </div>
-
-  <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-</div>
-
-
-
-  <!-- Initialize Quill editor -->
-  <script>
-  var quill = new Quill('#editor-container', {
-    modules: {
-      toolbar: '#toolbar-container'
-    },
-    placeholder: '',
-    theme: 'snow'  // or 'bubble'
-  });
-</script>
+<form>
+  <input name="title" type="text" placeholder="Title?" />
+  <textarea name="content" data-provide="markdown" rows="10"></textarea>
+  <label class="checkbox">
+    <input name="publish" type="checkbox"> Publish
+  </label>
+<hr>
+  <button type="submit" class="btn">Submit</button>
+</form>
 
 <% include ./partials/footer %>

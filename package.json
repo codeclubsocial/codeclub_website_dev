@@ -18,6 +18,7 @@
     "babel-preset-react": "^6.24.1",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.17.2",
+    "bootstrap-markdown": "^2.10.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.3",
     "ejs": "^2.5.7",
@@ -35,7 +36,6 @@
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
     "path": "^0.12.7",
-    "quilljs": "^0.18.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "webpack": "^3.5.5"
