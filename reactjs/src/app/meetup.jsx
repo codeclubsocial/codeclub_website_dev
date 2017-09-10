@@ -111,7 +111,7 @@ class Meetup extends React.Component {
         minutes = "0" + minutes;
       }
       var name = this.state.meetupJson["0"]["venue"]["name"];
-      var hrefAuth = "https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=" + consumerKey + "&redirect_uri=" + redirectURIhttp + "&state=" + this.state.urlState;
+      var hrefAuth = "https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=" + consumerKey + "&redirect_uri=" + redirectURI + "&state=" + this.state.urlState;
       var finalJSX = [
         <h3>Next Meetup</h3>,
         <p>The next scheduled meetup will be at {hours}:{minutes} {amPm} on {monthList[month]} {day}{dayXX[day-1]}, {year} at {name}.</p>,
