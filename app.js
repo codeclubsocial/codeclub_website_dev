@@ -11,6 +11,7 @@ var logger = require('morgan');
 var path = require('path');
 var ejs = require("ejs");
 var MongoClient = require('mongodb').MongoClient;
+var expressValidator = require('express-validator');
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -18,9 +19,6 @@ var flash = require('connect-flash');
 
 var app = express();
 var port = process.env.PORT || 3000;
-
-const { check, validationResult } = require('express-validator/check');
-const { matchedData } = require('express-validator/filter');
 
 // Toggle Database Dev Mode
 //=================================================
@@ -46,15 +44,19 @@ app.use(express.static("public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(expressValidator);
 app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false}));
-// app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
 app.use(methodOverride("_method"));
 app.use(flash());
 
+
 require('./config/passport')(passport);
+
+const { check, validationResult } = require('express-validator/check');
+const { matchedData } = require('express-validator/filter');
 
 //Message collection schema and conversion to Model
 var Schema = mongoose.Schema
@@ -128,11 +130,49 @@ app.get("/signup", function(req, res){
 });
 
 //Post from Sign Up Page
-app.post('/signup', passport.authenticate('local-signup', {
-  successRedirect: '/index',
-  failureRedirect: '/signup',
-  failureFlash: 'User email already registered'
-}));
+app.post('/signup', [
+  check('email')
+    // Every validator method in the validator lib is available as a
+    // method in the check() APIs.
+    // You can customize per validator messages with .withMessage()
+    .isEmail().withMessage('must be an email'),
+
+    // ...or throw your own errors using validators created with .custom()
+//    .custom(value => {
+//      return findUserByEmail(value).then(user => {
+///        throw new Error('this email is already in use');
+//      })
+//    }),
+
+  // General error messages can be given as a 2nd argument in the check APIs
+  check('password', 'passwords must be at least 5 chars long and contain one number')
+    .isLength({ min: 5 })
+    .matches(/\d/),
+
+  // No special validation required? Just check if data exists:
+//  check('addresses.*.street').exists(),
+
+  // Wildcards * are accepted!
+//  check('addresses.*.postalCode').isPostalCode(),
+], (req, res, next) => {
+  // Get the validation result whenever you want; see the Validation Result API for all options!
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log( "Errors!");
+	for( error in errors ){ console.log(errors.array()); }
+//    return res.status(422).json({ errors: err.mapped() });
+  }else{ console.log("No Errors!")}
+
+  // matchedData returns only the subset of data validated by the middleware
+  const user = matchedData(req);
+//  createUser(user).then(user => res.json(user));
+});
+
+// app.post('/signup', passport.authenticate('local-signup', {
+//  successRedirect: '/index',
+//  failureRedirect: '/signup',
+//  failureFlash: 'User email already registered'
+// }));
 
 // Contact Us Page
 app.get('/contact', function(req,res) {
