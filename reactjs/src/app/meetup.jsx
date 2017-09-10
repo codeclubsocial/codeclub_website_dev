@@ -3,13 +3,16 @@ import ReactDOM from 'react-dom';
 import './meetup.css';
 
 // for master:
-var consumerKey = 'ovcnv9ha9jar32damrf4nflcot';
-var redirectURI = 'http://www.codeclub.social/index';
+// var consumerKey = 'ovcnv9ha9jar32damrf4nflcot';
+// var redirectURI = 'http://www.codeclub.social/index';
 
 // for dev:
 // var consumerKey = '54ruujnlagioqjb2vnnevgvja9';
 // var redirectURI = 'http://codeclubsocial.herokuapp.com/index';
 
+// for austin:
+var consumerKey = 'kksoj0htpfk9ef9c5qcphj0glv';
+var redirectURI = 'http://austinsandbox.herokuapp.com/index';
 
 async function getRSVP(eventID) {
   try {
@@ -120,8 +123,9 @@ class Meetup extends React.Component {
       var name = this.state.meetupJson["0"]["venue"]["name"];
       var hrefAuth = "https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=" + consumerKey + "&redirect_uri=" + redirectURI + "&state=" + this.state.urlState;
       var finalJSX = [
-        <h3>Next Meetup</h3>,
-        <p>The next scheduled meetup will be at {hours}:{minutes} {amPm} on {monthList[month]} {day}{dayXX[day-1]}, {year} at {name}.</p>,
+        <h4 className="card-title">Next Meetup</h4>,
+        <h6 className="card-subtitle">{this.state.meetupJson["0"]["name"]}</h6>
+        <p className="card-text">{hours}:{minutes} {amPm} on {monthList[month]} {day}{dayXX[day-1]}, {year} at {name}.</p>,
         <a href={hrefAuth} onClick={this.onLogIn} className="button">RSVP</a>
       ];
       if (Object.keys(this.state.meetupRSVP).length !== 0 && Object.keys(this.state.getMeetupRSVP).length !== 0) {
@@ -130,12 +134,16 @@ class Meetup extends React.Component {
           rsvpList.push(this.state.getMeetupRSVP[k]["member"]["id"]);
         }
         if (rsvpList.includes(this.state.meetupRSVP["member"]["id"])) {
-          finalJSX.push(<p></p>);
-          finalJSX.push(<p>You RSVP'd!</p>);
+          finalJSX.push(<p className="card-text"></p>);
+          finalJSX.push(<p className="card-text">You RSVP'd!</p>);
         }
       }
       return (
-        <div className="meetup-info">{finalJSX}</div>
+        <div className="card" style="width: 20rem;">
+          <div className="card-body">
+            {finalJSX}
+          </div>
+        </div>
       );
     }
     return <p></p>;
