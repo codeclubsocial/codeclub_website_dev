@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './meetup.css';
+var consumerKey = '54ruujnlagioqjb2vnnevgvja9';
+var redirectURI = 'http://codeclubsocial.herokuapp.com/index';
 
 async function getRSVP(eventID) {
   try {
@@ -109,7 +111,7 @@ class Meetup extends React.Component {
         minutes = "0" + minutes;
       }
       var name = this.state.meetupJson["0"]["venue"]["name"];
-      var hrefAuth = "https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=kksoj0htpfk9ef9c5qcphj0glv&redirect_uri=http://austinsandbox.herokuapp.com/index&state=" + this.state.urlState;
+      var hrefAuth = "https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=" + consumerKey + "&redirect_uri=" + redirectURIhttp + "&state=" + this.state.urlState;
       var finalJSX = [
         <h3>Next Meetup</h3>,
         <p>The next scheduled meetup will be at {hours}:{minutes} {amPm} on {monthList[month]} {day}{dayXX[day-1]}, {year} at {name}.</p>,
