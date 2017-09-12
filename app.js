@@ -40,6 +40,7 @@ var port = process.env.PORT || 3000;
 app.set("view engine", "ejs");
 // app.use(logger('dev'));
 app.use(express.static("public"));
+app.use('/modules', express.static('node_modules'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.urlencoded({ extended: false }));

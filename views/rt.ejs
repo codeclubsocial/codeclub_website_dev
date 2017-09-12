@@ -1,13 +1,9 @@
 <% include ./partials/header %>
 
-<form>
-  <input name="title" type="text" placeholder="Title?" />
-  <textarea name="content" data-provide="markdown" rows="10"></textarea>
-  <label class="checkbox">
-    <input name="publish" type="checkbox"> Publish
-  </label>
-<hr>
-  <button type="submit" class="btn">Submit</button>
-</form>
+<div id="trumbowyg-editor" placeholder='"The things you think about determine the quality of your mind.”
+― Marcus Aurelius, Meditations'></div>
+
+<% include ./partials/js-scripts/main %>
+<% include ./partials/js-scripts/rich-text %>
 
 <% include ./partials/footer %>
