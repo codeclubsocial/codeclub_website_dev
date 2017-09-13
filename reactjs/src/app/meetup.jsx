@@ -96,6 +96,7 @@ class Meetup extends React.Component {
 
   handleRSVPClick(eventNum) {
     if (window.location.hash.length <= 1) {
+      console.log(document.cookie);
       this.onLogIn(eventNum);
       return "https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=" + consumerKey + "&redirect_uri=" + redirectURI + "&state=" + this.state.urlState;
     }
