@@ -72,7 +72,9 @@ class Meetup extends React.Component {
       this.setState({meetupJson:list});
     });
     if (window.location.hash.length > 1) {
-      doRSVP
+      var cookieState = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
+      console.log(cookieState);
+      doRSVP();
     }
   }
 
