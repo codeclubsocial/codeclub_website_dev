@@ -64,6 +64,7 @@ class Meetup extends React.Component {
       urlState: makeState()
     }
     this.handleRSVPClick = this.handleRSVPClick.bind(this);
+    this.doRSVP = this.doRSVP.bind(this);
     this.onLogIn = this.onLogIn.bind(this);
   }
 
