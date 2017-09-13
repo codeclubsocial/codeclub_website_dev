@@ -113,6 +113,7 @@ class Meetup extends React.Component {
     var expires = "expires="+ d.toUTCString();
     var newCookie = "urlStateCookie=" + this.state.urlState + ";" + expires + ";path=/";
     document.cookie = newCookie;
+    console.log(eventNum);
     document.cookie += "eventNum=" + eventNum + ";" + expires + ";path=/"
   }
 
