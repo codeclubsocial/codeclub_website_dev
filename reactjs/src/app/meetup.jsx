@@ -74,8 +74,7 @@ class Meetup extends React.Component {
     });
     if (window.location.hash.length > 1) {
       var cookieState = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
-      console.log('cookieState =' + cookieState);
-      this.doRSVP();
+      this.doRSVP(cookieState[6]);
     }
   }
 
@@ -97,6 +96,7 @@ class Meetup extends React.Component {
   handleRSVPClick(eventNum) {
     if (window.location.hash.length <= 1) {
       console.log(document.cookie);
+      var cookieState = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
       this.onLogIn(eventNum);
       return "https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=" + consumerKey + "&redirect_uri=" + redirectURI + "&state=" + this.state.urlState;
     }
@@ -114,7 +114,6 @@ class Meetup extends React.Component {
     var expires = "expires="+ d.toUTCString();
     var newCookie = "urlStateCookie=" + this.state.urlState + ";" + expires + ";path=/";
     document.cookie = newCookie;
-    console.log(eventNum);
     document.cookie += "eventNum=" + eventNum + ";" + expires + ";path=/"
   }
 
