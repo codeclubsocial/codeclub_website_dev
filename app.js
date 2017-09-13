@@ -12,10 +12,10 @@ var path = require('path');
 var ejs = require("ejs");
 var MongoClient = require('mongodb').MongoClient;
 var expressValidator = require('express-validator');
+var flash = require('connect-flash');
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var flash = require('connect-flash');
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -44,7 +44,6 @@ app.use(express.static("public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(expressValidator);
 app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false}));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -102,7 +101,7 @@ app.get("/logout", function(req, res){
 
 //Login Page
 app.get("/login", function(req, res){
-  res.render("login", {req: req});
+  res.render("login", {req: req, message: req.flash('error')});
 });
 
 // Credentials check from login
@@ -126,35 +125,35 @@ app.get("/secret", function(req, res){
 
 //Sign Up Page
 app.get("/signup", function(req, res){
-  res.render("signup", {req: req});
+    res.render("signup", {req: req, message: req.flash('error')});
 });
 
 app.post('/signup', [
-    check('email').isEmail().withMessage('Must be an email'),
-//    check('email').isLength({ min: 1 }).withMessage('Cannot be empty'),
-    check('password', 'passwords must be at least 5 chars long and contain one number').isLength({ min: 5 }).matches(/\d/),
-], (req, res, next) => {
-  // Get the validation result whenever you want; see the Validation Result API for all options!
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    console.log(" ");
-    console.log("Errors array:");	
-    console.log(errors.array());
-    console.log( "Errors!");
-    res.redirect("/")
-  }else{ console.log("No Errors!"); passport.authenticate('local-signup', {successRedirect: '/index', failureRedirect: '/about'})(req,res);}
+    check('email').isEmail(),
+    check('password').isLength({ min: 5 }).matches(/\d/)
+    ], (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+	if (errors.array()[0].param == 'email') {
+	    req.flash('error','EMail field must contain a valid e-mail address');
+	}
+	else if (errors.array()[0].param == 'password') {
+	   req.flash('error','Passwords must be at least 5 chars long and contain one number');
+	}
+	res.render('signup', {req: req, message: req.flash('error')});    
+    }else{
+      console.log("No Errors!");
+      passport.authenticate('local-signup', {
+	successRedirect: '/index',
+	failureRedirect: '/signup',
+	failureFlash: 'That email is already taken. Please choose another'})(req,res);
+      }
 
-  // matchedData returns only the subset of data validated by the middleware
-  const user = matchedData(req);
-//  createUser(user).then(user => res.json(user));
+    // matchedData returns only the subset of data validated by the middleware
+    const user = matchedData(req);
+//    console.log("user:");	
+//    console.log(user);
 });
-/*
-app.post('/signup', passport.authenticate('local-signup', {
-  successRedirect: '/index',
-  failureRedirect: '/signup',
-  failureFlash: 'User email already registered'
-    }));
-*/    
 
 // Contact Us Page
 app.get('/contact', function(req,res) {
@@ -200,7 +199,8 @@ app.post("/contactForm", function(req, res){
 
 	let mailOptions = {
 			from: '"Contact Us Form" <mailbot@codeclub.social>', // sender address
-			to: ['brianjason@gmail.com', 'zaki.sediqyar@gmail.com'], // list of receivers
+			to: ['craig429@mac.com'], // list of receivers
+//			to: ['brianjason@gmail.com', 'zaki.sediqyar@gmail.com'], // list of receivers
 			//to: ['brianjason@gmail.com'], // list of receivers
 			subject: req.body.contactName + " has submitted an inqury", // Subject line
 			text: textMessage, // plain text body

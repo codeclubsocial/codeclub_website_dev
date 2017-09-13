@@ -16,13 +16,14 @@
     <input class="form-control" type="password" placeholder="Password">
 -->
   </div>
-
-
+<% if (message) { %>
+    <h2 style="margin: 1.5rem 0"><font color="red"><%= message %></font></h2>
+<% } %> 
 
   <div class="input-group">
     <form action="/signup" method="post">
       <div>
-        <label>Username:</label>
+        <label>EMail:</label>
         <input type="text" name="email"/>
       </div>
       <div>
