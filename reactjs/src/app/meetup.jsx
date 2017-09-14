@@ -89,8 +89,8 @@ componentDidUpdate() {
     }
     this.setState({rsvpList: rsvpList});
     console.log(this.state.rsvpList);
-    let cookie = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
-    let eventNum = cookieState[6];
+    let arrCookie = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
+    let eventNum = arrCookie[6];
     if (this.state.RSVPd.includes(eventNum)) {
       var RSVPd = this.state.RSVPd.slice();
       RSVPd.push(eventNum);
