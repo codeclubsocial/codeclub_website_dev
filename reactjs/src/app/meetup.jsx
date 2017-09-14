@@ -163,7 +163,7 @@ class Meetup extends React.Component {
           if (rsvpList.includes(this.state.meetupRSVP["member"]["id"])) {
             finalJSX.push(<p className="card-text"><span><br/></span>You RSVP'd!</p>);
           }
-          console.log(rsvpList);
+          rsvpList = [];
         }
         multiCardJSX.push(
           <div>
