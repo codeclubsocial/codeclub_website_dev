@@ -71,11 +71,11 @@ class Meetup extends React.Component {
   componentDidMount() {
     getMeetup().then((list) => {
       this.setState({meetupJson:list});
+      if (window.location.hash.length > 1) {
+        var cookieState = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
+        this.doRSVP(cookieState[6]);
+      }
     });
-    if (window.location.hash.length > 1) {
-      var cookieState = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
-      this.doRSVP(cookieState[6]);
-    }
   }
 
   doRSVP(eventNum) {
