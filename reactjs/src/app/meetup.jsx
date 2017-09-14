@@ -102,11 +102,13 @@ class Meetup extends React.Component {
   }
 
   handleLoggedInRSVPClick() {
-    if (window.location.hash.length <= 1) {
-      return true;
+    if (Object.keys(this.state.meetupJson).length !== 0) {
+      if (window.location.hash.length <= 1) {
+        return true;
+      }
+      var cookieState = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
+      this.doRSVP(cookieState[2], eventNum);
     }
-    var cookieState = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
-    this.doRSVP(cookieState[2], eventNum);
     return false;
   }
 
@@ -162,6 +164,7 @@ class Meetup extends React.Component {
           if (rsvpList.includes(this.state.meetupRSVP["member"]["id"])) {
             finalJSX.push(<p className="card-text"><span><br/></span>You RSVP'd!</p>);
           }
+          console.log(rsvpList);
         }
         multiCardJSX.push(
           <div>
