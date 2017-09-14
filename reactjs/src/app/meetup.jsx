@@ -87,6 +87,12 @@ componentDidUpdate() {
     for (var k in this.state.getMeetupRSVP) {
       rsvpList.push(this.state.getMeetupRSVP[k]["member"]["id"]);
     }
+    for (let i = 0; i < rsvpList.length; i++) {
+      if (rsvpList[i] !== this.state.rsvpList) {
+        this.setState({rsvpList: rsvpList});
+        break;
+      }
+    }
     this.setState({rsvpList: rsvpList});
     console.log("rsvpList = " + this.state.rsvpList);
     let arrCookie = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
