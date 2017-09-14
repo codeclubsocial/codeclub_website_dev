@@ -62,7 +62,8 @@ class Meetup extends React.Component {
       meetupRSVP: {},
       getMeetupRSVP: {},
       urlState: makeState(),
-      RSVPd: []
+      RSVPd: [],
+      rsvpList: []
     }
     this.handleRSVPClick = this.handleRSVPClick.bind(this);
     this.doRSVP = this.doRSVP.bind(this);
@@ -78,6 +79,20 @@ class Meetup extends React.Component {
         this.doRSVP(cookieState[3], cookieState[6]);
       }
     });
+    if (Object.keys(this.state.meetupRSVP).length !== 0 && Object.keys(this.state.getMeetupRSVP).length !== 0) {
+      for (var k in this.state.getMeetupRSVP) {
+        var rsvpList = this.state.rsvpList.slice();
+        rsvpList.push(this.state.getMeetupRSVP[k]["member"]["id"]);
+        this.setState({rsvpList: rsvpList});
+      }
+      let cookie = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
+      let eventNum = cookieState[6];
+      if (this.state.RSVPd.includes(eventNum)) {
+        var RSVPd = this.state.RSVPd.slice();
+        RSVPd.push(eventNum);
+        this.setState({RSVPd: RSVPd});
+      }
+    }
   }
 
   doRSVP(cookieState, eventNum) {
@@ -90,6 +105,7 @@ class Meetup extends React.Component {
       });
     }
     getRSVP(eventID).then((list) => {
+      this.setState({rsvpList:[]});
       this.setState({getMeetupRSVP:list});
     });
   }
@@ -162,12 +178,7 @@ class Meetup extends React.Component {
           for (var k in this.state.getMeetupRSVP) {
             rsvpList.push(this.state.getMeetupRSVP[k]["member"]["id"]);
           }
-          let cookie = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
-          let eventNum = cookieState[6];
-          if (rsvpList.includes(this.state.meetupRSVP["member"]["id"]) && (i == eventNum || this.state.RSVPd.includes(eventNum))) {
-            var RSVPd = this.state.RSVPd.slice();
-            RSVPd.push(eventNum);
-            this.setState({RSVPd: RSVPd});
+          if (rsvpList.includes(this.state.meetupRSVP["member"]["id"]) && this.state.RSVPd.includes(i)) {
             finalJSX.push(<p className="card-text"><span><br/></span>You RSVP'd!</p>);
           }
         }
