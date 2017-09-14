@@ -90,8 +90,8 @@ componentDidUpdate() {
     for (let i = 0; i < rsvpList.length; i++) {
       if (rsvpList[i] !== this.state.rsvpList[i]) {
         this.setState({rsvpList: rsvpList});
-        break;
       }
+      break;
     }
     console.log("rsvpList = " + this.state.rsvpList);
     let arrCookie = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
@@ -116,7 +116,6 @@ componentDidUpdate() {
       });
     }
     getRSVP(eventID).then((list) => {
-      this.setState({rsvpList:[]});
       this.setState({getMeetupRSVP:list});
     });
   }
