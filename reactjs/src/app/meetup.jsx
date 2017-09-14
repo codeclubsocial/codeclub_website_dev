@@ -81,7 +81,7 @@ class Meetup extends React.Component {
     });
   }
 
-componentWillUpdate() {
+componentDidUpdate() {
   if (Object.keys(this.state.meetupRSVP).length !== 0 && Object.keys(this.state.getMeetupRSVP).length !== 0) {
     for (var k in this.state.getMeetupRSVP) {
       var rsvpList = this.state.rsvpList.slice();
