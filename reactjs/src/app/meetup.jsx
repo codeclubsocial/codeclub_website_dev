@@ -155,15 +155,17 @@ class Meetup extends React.Component {
             <a href={this.handleRSVPClick(i)} onClick={() => this.handleLoggedInRSVPClick(i)} className="button card-link">RSVP</a>
           </div>
         );
+        var cookieState = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
         if (Object.keys(this.state.meetupRSVP).length !== 0 && Object.keys(this.state.getMeetupRSVP).length !== 0) {
           var rsvpList = [];
           for (var k in this.state.getMeetupRSVP) {
             rsvpList.push(this.state.getMeetupRSVP[k]["member"]["id"]);
           }
-          if (rsvpList.includes(this.state.meetupRSVP["member"]["id"])) {
+          let cookie = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
+          let eventNum = cookieState[6];
+          if (rsvpList.includes(this.state.meetupRSVP["member"]["id"]) && i == eventNum) {
             finalJSX.push(<p className="card-text"><span><br/></span>You RSVP'd!</p>);
           }
-          rsvpList = [];
         }
         multiCardJSX.push(
           <div>
