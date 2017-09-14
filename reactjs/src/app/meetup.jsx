@@ -182,9 +182,8 @@ componentDidUpdate() {
             <a href={this.handleRSVPClick(i)} onClick={() => this.handleLoggedInRSVPClick(i)} className="button card-link">RSVP</a>
           </div>
         );
-        var cookieState = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
         if (Object.keys(this.state.meetupRSVP).length !== 0 && Object.keys(this.state.getMeetupRSVP).length !== 0) {
-          if (this.state.rsvpList.includes(this.state.meetupRSVP["member"]["id"]) && this.state.RSVPd.includes(i)) {
+          if (this.state.rsvpList.includes(this.state.meetupRSVP["member"]["id"]) && this.state.RSVPd.includes(i.toString())) {
             finalJSX.push(<p className="card-text"><span><br/></span>You RSVP'd!</p>);
           }
         }
