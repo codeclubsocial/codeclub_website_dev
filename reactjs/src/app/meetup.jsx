@@ -88,7 +88,7 @@ componentDidUpdate() {
       rsvpList.push(this.state.getMeetupRSVP[k]["member"]["id"]);
     }
     for (let i = 0; i < rsvpList.length; i++) {
-      if (rsvpList[i] !== this.state.rsvpList) {
+      if (rsvpList[i] !== this.state.rsvpList[i]) {
         this.setState({rsvpList: rsvpList});
         break;
       }
