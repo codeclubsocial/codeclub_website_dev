@@ -22,7 +22,7 @@ var port = process.env.PORT || 3000;
 
 // Toggle Database Dev Mode
 //=================================================
-  var localDB = true; /* true: local, false: production */
+  var localDB = false; /* true: local, false: production */
 //=================================================
 
   if(localDB == true) {
@@ -143,7 +143,6 @@ app.post('/signup', [
 	}
 	res.render('signup', {req: req, message: req.flash('error')});    
     }else{
-      console.log("No Errors!");
       passport.authenticate('local-signup', {
 	successRedirect: '/index',
 	failureRedirect: '/signup',
