@@ -83,8 +83,9 @@ class Meetup extends React.Component {
       for (var k in this.state.getMeetupRSVP) {
         var rsvpList = this.state.rsvpList.slice();
         rsvpList.push(this.state.getMeetupRSVP[k]["member"]["id"]);
-        this.setState({rsvpList: rsvpList});
       }
+      this.setState({rsvpList: rsvpList});
+      console.log(this.state.rsvpList);
       let cookie = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
       let eventNum = cookieState[6];
       if (this.state.RSVPd.includes(eventNum)) {
@@ -92,6 +93,7 @@ class Meetup extends React.Component {
         RSVPd.push(eventNum);
         this.setState({RSVPd: RSVPd});
       }
+      console.log(this.state.RSVPd);
     }
   }
 
@@ -174,11 +176,7 @@ class Meetup extends React.Component {
         );
         var cookieState = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
         if (Object.keys(this.state.meetupRSVP).length !== 0 && Object.keys(this.state.getMeetupRSVP).length !== 0) {
-          var rsvpList = [];
-          for (var k in this.state.getMeetupRSVP) {
-            rsvpList.push(this.state.getMeetupRSVP[k]["member"]["id"]);
-          }
-          if (rsvpList.includes(this.state.meetupRSVP["member"]["id"]) && this.state.RSVPd.includes(i)) {
+          if (this.state.rsvpList.includes(this.state.meetupRSVP["member"]["id"]) && this.state.RSVPd.includes(i)) {
             finalJSX.push(<p className="card-text"><span><br/></span>You RSVP'd!</p>);
           }
         }
