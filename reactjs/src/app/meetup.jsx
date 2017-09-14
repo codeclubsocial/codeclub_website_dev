@@ -11,13 +11,12 @@ import './meetup.css';
 // var redirectURI = 'http://codeclubsocial.herokuapp.com/index';
 
 // for austin:
-var proxy = "http://127.0.0.1:1337/";
 var consumerKey = 'kksoj0htpfk9ef9c5qcphj0glv';
 var redirectURI = 'http://austinsandbox.herokuapp.com/index';
 
 async function getRSVP(eventID) {
   try {
-    let response = await fetch(proxy+'api.meetup.com/codeclub/events/' + eventID + '/rsvps?key=674441542572b783949516b100104c&sign=true&photo-host=public&page=20');
+    let response = await fetch('https://cors-anywhere.herokuapp.com/https://api.meetup.com/codeclub/events/' + eventID + '/rsvps?key=674441542572b783949516b100104c&sign=true&photo-host=public&page=20');
     let data = await response.json();
     return data;
    } catch(error) {
@@ -26,7 +25,7 @@ async function getRSVP(eventID) {
 }
 async function getMeetup() {
   try {
-    let response = await fetch(proxy + 'api.meetup.com/codeclub/events?key=674441542572b783949516b100104c&sign=true&photo-host=public&page=20');
+    let response = await fetch('https://cors-anywhere.herokuapp.com/https://api.meetup.com/codeclub/events?key=674441542572b783949516b100104c&sign=true&photo-host=public&page=20');
     let data = await response.json();
     return data;
    } catch(error) {
@@ -36,7 +35,7 @@ async function getMeetup() {
 
 async function postRSVP(eventID, access_token) {
   try {
-    let response = await fetch(proxy + 'api.meetup.com/codeclub/events/' + eventID + '/rsvps?key=674441542572b783949516b100104c&sign=true&response=yes&photo-host=public&access_token='+access_token, {
+    let response = await fetch('https://cors-anywhere.herokuapp.com/https://api.meetup.com/codeclub/events/' + eventID + '/rsvps?key=674441542572b783949516b100104c&sign=true&response=yes&photo-host=public&access_token='+access_token, {
       method: "POST"
     });
     let data = await response.json();
@@ -74,17 +73,16 @@ class Meetup extends React.Component {
       this.setState({meetupJson:list});
       if (window.location.hash.length > 1) {
         var cookieState = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
-        this.doRSVP(cookieState[6]);
+        this.doRSVP(cookieState[2], cookieState[6]);
       }
     });
   }
 
-  doRSVP(eventNum) {
+  doRSVP(cookieState, eventNum) {
     var eventID = this.state.meetupJson[eventNum]["id"];
     var fragments = window.location.hash.split(/&|=/)
     var access_token = fragments[1];
-    var cookieState = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
-    if (fragments[9] == cookieState[2]) {
+    if (fragments[9] == cookieState) {
       postRSVP(eventID, access_token).then((list) => {
         this.setState({meetupRSVP:list});
       });
@@ -95,15 +93,21 @@ class Meetup extends React.Component {
   }
 
   handleRSVPClick(eventNum) {
+    var cookieState = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
     if (window.location.hash.length <= 1) {
       console.log(document.cookie);
-      var cookieState = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
       this.onLogIn(eventNum);
       return "https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=" + consumerKey + "&redirect_uri=" + redirectURI + "&state=" + this.state.urlState;
     }
-    else {
-      this.doRSVP(eventNum);
+  }
+
+  handleLoggedInRSVPClick() {
+    if (window.location.hash.length <= 1) {
+      return true;
     }
+    var cookieState = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
+    this.doRSVP(cookieState[2], eventNum);
+    return false;
   }
 
 // Stores randomly generated state in cookie to be checked when user comes back from meetup auth site
@@ -147,7 +151,7 @@ class Meetup extends React.Component {
           <div>
             <h4 className="card-title">{this.state.meetupJson[i]["name"]}</h4>
             <p className="card-text">{hours}:{minutes} {amPm} on {monthList[month]} {day}{dayXX[day-1]}, {year}<span><br/></span>{name}</p>
-            <a href={this.handleRSVPClick(i)} className="button card-link">RSVP</a>
+            <a href={this.handleRSVPClick(i)} onClick={this.handleLoggedInRSVPClick} className="button card-link">RSVP</a>
           </div>
         );
         if (Object.keys(this.state.meetupRSVP).length !== 0 && Object.keys(this.state.getMeetupRSVP).length !== 0) {
