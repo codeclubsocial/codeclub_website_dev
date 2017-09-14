@@ -96,16 +96,14 @@ class Meetup extends React.Component {
   }
 
   handleRSVPClick(eventNum) {
-    var cookieState = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
     if (window.location.hash.length <= 1) {
-      console.log(document.cookie);
-      this.onLogIn(eventNum);
       return "https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=" + consumerKey + "&redirect_uri=" + redirectURI + "&state=" + this.state.urlState;
     }
   }
 
   handleLoggedInRSVPClick(eventNum) {
     if (Object.keys(this.state.meetupJson).length !== 0) {
+      this.onLogIn(eventNum);
       if (window.location.hash.length <= 1) {
         return true;
       }
@@ -133,7 +131,7 @@ class Meetup extends React.Component {
         width: "20rem",
       };
       var multiCardJSX = [];
-      for (var i = 0; i < 3; i++) {
+      for (let i = 0; i < 3; i++) {
         var finalJSX = [];
         var date = new Date(this.state.meetupJson[i]["time"]);
         var year = 1900 + date.getYear();
