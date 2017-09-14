@@ -1,13 +1,22 @@
 <% include ./partials/header %>
 
-<form>
-  <input name="title" type="text" placeholder="Title?" />
-  <textarea name="content" data-provide="markdown" rows="10"></textarea>
-  <label class="checkbox">
-    <input name="publish" type="checkbox"> Publish
-  </label>
-<hr>
-  <button type="submit" class="btn">Submit</button>
-</form>
+<div id="trumbowyg-editor" placeholder='"The things you think about determine the quality of your mind.”
+― Marcus Aurelius, Meditations'></div>
+
+<button id="editorBtn">Post</button>
+
+<% include ./partials/js-scripts/rich-text %>
+
+<script>
+  //var content = $('#trumbowyg-editor').html();
+  //console.log(content);
+
+  document.getElementById("editorBtn").onclick = function() {submitEditorBtn()};
+
+  function submitEditorBtn() {
+    var content = document.getElementById("#trumbowyg-editor").innerText;
+    console.log(content);
+  };
+</script>
 
 <% include ./partials/footer %>
