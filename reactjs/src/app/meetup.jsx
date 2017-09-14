@@ -67,7 +67,7 @@ class Meetup extends React.Component {
     }
     this.handleRSVPClick = this.handleRSVPClick.bind(this);
     this.doRSVP = this.doRSVP.bind(this);
-    this.onLogIn = this.onLogIn.bind(this);
+    this.updateCookie = this.updateCookie.bind(this);
     this.handleLoggedInRSVPClick = this.handleLoggedInRSVPClick.bind(this);
   }
 
@@ -128,18 +128,18 @@ componentDidUpdate() {
 
   handleLoggedInRSVPClick(eventNum) {
     if (Object.keys(this.state.meetupJson).length !== 0) {
-      this.onLogIn(eventNum);
+      this.updateCookie(eventNum);
       if (window.location.hash.length <= 1) {
         return true;
       }
-      var cookieState = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
-      this.doRSVP(cookieState[2], eventNum);
+      var arrCookie = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
+      this.doRSVP(arrCookie[2], eventNum);
     }
     return false;
   }
 
 // Stores randomly generated state in cookie to be checked when user comes back from meetup auth site
-  onLogIn(eventNum) {
+  updateCookie(eventNum) {
     var d = new Date();
     // number of days until cookie expires
     var ndays = 1;
