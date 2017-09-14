@@ -11,12 +11,13 @@ import './meetup.css';
 // var redirectURI = 'http://codeclubsocial.herokuapp.com/index';
 
 // for austin:
+var proxy = "http://127.0.0.1:1337/";
 var consumerKey = 'kksoj0htpfk9ef9c5qcphj0glv';
 var redirectURI = 'http://austinsandbox.herokuapp.com/index';
 
 async function getRSVP(eventID) {
   try {
-    let response = await fetch('https://cors-anywhere.herokuapp.com/https://api.meetup.com/codeclub/events/' + eventID + '/rsvps?key=674441542572b783949516b100104c&sign=true&photo-host=public&page=20');
+    let response = await fetch(proxy+'api.meetup.com/codeclub/events/' + eventID + '/rsvps?key=674441542572b783949516b100104c&sign=true&photo-host=public&page=20');
     let data = await response.json();
     return data;
    } catch(error) {
@@ -25,7 +26,7 @@ async function getRSVP(eventID) {
 }
 async function getMeetup() {
   try {
-    let response = await fetch('https://cors-anywhere.herokuapp.com/https://api.meetup.com/codeclub/events?key=674441542572b783949516b100104c&sign=true&photo-host=public&page=20');
+    let response = await fetch(proxy + 'api.meetup.com/codeclub/events?key=674441542572b783949516b100104c&sign=true&photo-host=public&page=20');
     let data = await response.json();
     return data;
    } catch(error) {
@@ -35,7 +36,7 @@ async function getMeetup() {
 
 async function postRSVP(eventID, access_token) {
   try {
-    let response = await fetch('https://cors-anywhere.herokuapp.com/https://api.meetup.com/codeclub/events/' + eventID + '/rsvps?key=674441542572b783949516b100104c&sign=true&response=yes&photo-host=public&access_token='+access_token, {
+    let response = await fetch(proxy + 'api.meetup.com/codeclub/events/' + eventID + '/rsvps?key=674441542572b783949516b100104c&sign=true&response=yes&photo-host=public&access_token='+access_token, {
       method: "POST"
     });
     let data = await response.json();
