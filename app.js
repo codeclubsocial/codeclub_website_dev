@@ -45,7 +45,8 @@ app.use('/modules', express.static('node_modules'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false}));
+// Set session cookie age to 86400 seconds=1 day
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 86400000 }, resave: false, saveUninitialized: false}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
