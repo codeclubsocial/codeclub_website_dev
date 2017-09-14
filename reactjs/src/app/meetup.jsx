@@ -74,9 +74,9 @@ class Meetup extends React.Component {
       this.setState({meetupJson:list});
       if (window.location.hash.length > 1) {
         var cookieState = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
-        console.log(cookieState[2]);
+        console.log(cookieState[3]);
         console.log(cookieState[6]);
-        this.doRSVP(cookieState[2], cookieState[6]);
+        this.doRSVP(cookieState[3], cookieState[6]);
       }
     });
   }
@@ -111,8 +111,8 @@ class Meetup extends React.Component {
       }
       var cookieState = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
       this.doRSVP(cookieState[2], eventNum);
-      return false;
     }
+    return false;
   }
 
 // Stores randomly generated state in cookie to be checked when user comes back from meetup auth site
