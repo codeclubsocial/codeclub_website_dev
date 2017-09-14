@@ -79,23 +79,26 @@ class Meetup extends React.Component {
         this.doRSVP(cookieState[3], cookieState[6]);
       }
     });
-    if (Object.keys(this.state.meetupRSVP).length !== 0 && Object.keys(this.state.getMeetupRSVP).length !== 0) {
-      for (var k in this.state.getMeetupRSVP) {
-        var rsvpList = this.state.rsvpList.slice();
-        rsvpList.push(this.state.getMeetupRSVP[k]["member"]["id"]);
-      }
-      this.setState({rsvpList: rsvpList});
-      console.log(this.state.rsvpList);
-      let cookie = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
-      let eventNum = cookieState[6];
-      if (this.state.RSVPd.includes(eventNum)) {
-        var RSVPd = this.state.RSVPd.slice();
-        RSVPd.push(eventNum);
-        this.setState({RSVPd: RSVPd});
-      }
-      console.log(this.state.RSVPd);
-    }
   }
+
+componentWillUpdate() {
+  if (Object.keys(this.state.meetupRSVP).length !== 0 && Object.keys(this.state.getMeetupRSVP).length !== 0) {
+    for (var k in this.state.getMeetupRSVP) {
+      var rsvpList = this.state.rsvpList.slice();
+      rsvpList.push(this.state.getMeetupRSVP[k]["member"]["id"]);
+    }
+    this.setState({rsvpList: rsvpList});
+    console.log(this.state.rsvpList);
+    let cookie = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
+    let eventNum = cookieState[6];
+    if (this.state.RSVPd.includes(eventNum)) {
+      var RSVPd = this.state.RSVPd.slice();
+      RSVPd.push(eventNum);
+      this.setState({RSVPd: RSVPd});
+    }
+    console.log(this.state.RSVPd);
+  }
+}
 
   doRSVP(cookieState, eventNum) {
     var eventID = this.state.meetupJson[eventNum]["id"];
