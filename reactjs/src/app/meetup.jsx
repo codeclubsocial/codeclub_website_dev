@@ -154,7 +154,7 @@ class Meetup extends React.Component {
           <div>
             <h4 className="card-title">{this.state.meetupJson[i]["name"]}</h4>
             <p className="card-text">{hours}:{minutes} {amPm} on {monthList[month]} {day}{dayXX[day-1]}, {year}<span><br/></span>{name}</p>
-            <a href={this.handleRSVPClick(i)} onClick={() => this.handleLoggedInRSVPClick(i)} className="button card-link">RSVP</a>
+            <a href={this.handleRSVPClick(i)} onClick={(i) => this.handleLoggedInRSVPClick(i)} className="button card-link">RSVP</a>
           </div>
         );
         if (Object.keys(this.state.meetupRSVP).length !== 0 && Object.keys(this.state.getMeetupRSVP).length !== 0) {
