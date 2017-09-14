@@ -61,7 +61,8 @@ class Meetup extends React.Component {
       meetupJson: {},
       meetupRSVP: {},
       getMeetupRSVP: {},
-      urlState: makeState()
+      urlState: makeState(),
+      RSVPd: []
     }
     this.handleRSVPClick = this.handleRSVPClick.bind(this);
     this.doRSVP = this.doRSVP.bind(this);
@@ -163,7 +164,10 @@ class Meetup extends React.Component {
           }
           let cookie = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
           let eventNum = cookieState[6];
-          if (rsvpList.includes(this.state.meetupRSVP["member"]["id"]) && i == eventNum) {
+          if (rsvpList.includes(this.state.meetupRSVP["member"]["id"]) && (i == eventNum || this.state.RSVPd.includes(eventNum))) {
+            var RSVPd = this.state.RSVPd.slice();
+            RSVPd.push(eventNum);
+            this.setState({RSVPd: RSVPd});
             finalJSX.push(<p className="card-text"><span><br/></span>You RSVP'd!</p>);
           }
         }
