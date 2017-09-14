@@ -93,7 +93,6 @@ componentDidUpdate() {
         break;
       }
     }
-    this.setState({rsvpList: rsvpList});
     console.log("rsvpList = " + this.state.rsvpList);
     let arrCookie = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
     let eventNum = arrCookie[6];
