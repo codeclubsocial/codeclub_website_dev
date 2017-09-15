@@ -46,7 +46,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.urlencoded({ extended: false }));
 // Set session cookie age to 86400 seconds=1 day
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 86400000 }, resave: false, saveUninitialized: false}));
+app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
