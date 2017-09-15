@@ -177,9 +177,9 @@ app.get('/contact/alert/:alert', function(req,res) {
   console.log(req.params.alert);
 
   if(req.params.alert == 'true') {
-    res.render('contact', {alertDisplay: 'block'});
+    res.render('contact', {alertDisplay: 'block', req: req});
   } else {
-    res.render('contact', {alertDisplay: 'none'});
+    res.render('contact', {alertDisplay: 'none', req: req});
   }
 });
 
@@ -196,6 +196,10 @@ app.post("/contactForm", function(req, res){
 	    }
 		});
 
+	rand=Math.floor((Math.random() * 100) + 54);
+	host=req.get('host');
+	link="http://"+req.get('host')+"/verify?id="+rand;
+    
 	var textMessage = "------ Submitted from www.codeclub.social/contact ------ \nFrom: " + req.body.contactName + "\nEmail: " + req.body.contactEmailAddress +
 			"\nMessage: " + req.body.contactInquiry + "\n-------------------------------------------------------";
 
