@@ -43,8 +43,8 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use('/modules', express.static('node_modules'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.urlencoded({ extended: false }));
+//app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: false }));
 // Set session cookie age to 86400 seconds=1 day
 app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 86400000 }, resave: false, saveUninitialized: false}));
 app.use(passport.initialize());
@@ -65,6 +65,7 @@ var Schema = mongoose.Schema
 var msgSchema = new Schema ({
 	title: String,
 	body: String,
+  text: String,
 	author: String, //should be fetched from user info after Authentication (Passport.js)
 	date: {type: Date, default: Date.now}
 });
@@ -142,7 +143,7 @@ app.post('/signup', [
 	else if (errors.array()[0].param == 'password') {
 	   req.flash('error','Passwords must be at least 5 chars long and contain one number');
 	}
-	res.render('signup', {req: req, message: req.flash('error')});    
+	res.render('signup', {req: req, message: req.flash('error')});
     }else{
       passport.authenticate('local-signup', {
 	successRedirect: '/index',
@@ -152,7 +153,7 @@ app.post('/signup', [
 
     // matchedData returns only the subset of data validated by the middleware
     const user = matchedData(req);
-//    console.log("user:");	
+//    console.log("user:");
 //    console.log(user);
 });
 
@@ -250,6 +251,9 @@ app.get("/forum/new", function(req, res){
 
 //Create(ing/ed) Route - The page the post has been created
 app.post("/forum", function(req, res){
+  var obj = req.body.msg;
+  console.log(obj['body']['text']);
+
 //mongodb commands, reading the parsing data, redirecting to Message Board page
 	msgBoard.create(req.body.msg, function(err, msg){
 		if(err){
