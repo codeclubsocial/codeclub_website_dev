@@ -3,16 +3,16 @@ import ReactDOM from 'react-dom';
 import './meetup.css';
 
 // for master:
-// var consumerKey = 'ovcnv9ha9jar32damrf4nflcot';
-// var redirectURI = 'http://www.codeclub.social/index';
+var consumerKey = 'ovcnv9ha9jar32damrf4nflcot';
+var redirectURI = 'http://www.codeclub.social/index';
 
 // for dev:
 // var consumerKey = '54ruujnlagioqjb2vnnevgvja9';
 // var redirectURI = 'http://codeclubsocial.herokuapp.com/index';
 
 // for austin:
-var consumerKey = 'kksoj0htpfk9ef9c5qcphj0glv';
-var redirectURI = 'http://austinsandbox.herokuapp.com/index';
+// var consumerKey = 'kksoj0htpfk9ef9c5qcphj0glv';
+// var redirectURI = 'http://austinsandbox.herokuapp.com/index';
 
 async function getRSVP(eventID) {
   try {
@@ -48,7 +48,6 @@ async function postRSVP(eventID, access_token) {
 function makeState() {
   var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
   for (var i = 0; i < 15; i++)
   text += possible.charAt(Math.floor(Math.random() * possible.length));
   return text;
@@ -93,16 +92,13 @@ componentDidUpdate() {
       }
       break;
     }
-    console.log("rsvpList = " + this.state.rsvpList);
     let arrCookie = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
     let eventNum = arrCookie[6];
-    console.log("eventNum =" + eventNum);
     if (!this.state.RSVPd.includes(eventNum)) {
       var RSVPd = this.state.RSVPd.slice();
       RSVPd.push(eventNum);
       this.setState({RSVPd: RSVPd});
     }
-    console.log("RSVPd = " + this.state.RSVPd);
   }
 }
 
@@ -198,7 +194,6 @@ componentDidUpdate() {
           </div>
         );
       }
-
 
       return (
         <div>
