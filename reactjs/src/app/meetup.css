@@ -7,4 +7,9 @@ a.button {
     color: initial;
     padding: 1px 6px 1px 6px;
     border: rgb(221, 221, 221) outset 2px;
+    cursor: pointer;
+}
+
+.card-body {
+  padding: 15px;
 }
