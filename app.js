@@ -10,14 +10,15 @@ var mongoose = require("mongoose");
 var logger = require('morgan');
 var path = require('path');
 var ejs = require("ejs");
+var MongoClient = require('mongodb').MongoClient;
+var expressValidator = require('express-validator');
+var flash = require('connect-flash');
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var flash = require('connect-flash');
 
 var app = express();
 var port = process.env.PORT || 3000;
-
 
 // Toggle Database Dev Mode
 //=================================================
@@ -26,11 +27,11 @@ var port = process.env.PORT || 3000;
 
   if(localDB == true) {
       // LOCAL
-      mongoose.connect("mongodb://127.0.0.1/test_db");
+      mongoose.connect("mongodb://127.0.0.1/test_db", {useMongoClient: true});
     }
   else {
       // PRODUCTION
-      mongoose.connect(process.env.MONGODB_URI);
+      mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});
     }
 
 //=================================================
@@ -40,17 +41,23 @@ var port = process.env.PORT || 3000;
 app.set("view engine", "ejs");
 // app.use(logger('dev'));
 app.use(express.static("public"));
+app.use('/modules', express.static('node_modules'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}));
+// Set session cookie age to 86400 seconds=1 day
+app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
 app.use(methodOverride("_method"));
 app.use(flash());
 
+
 require('./config/passport')(passport);
+
+const { check, validationResult } = require('express-validator/check');
+const { matchedData } = require('express-validator/filter');
 
 //Message collection schema and conversion to Model
 var Schema = mongoose.Schema
@@ -68,7 +75,7 @@ var msgBoard = mongoose.model("msgBoard", msgSchema);
 
 //Rich Text Test page
 app.get("/rt", function(req, res){
-  res.render("rt");
+  res.render("rt", {req: req});
 });
 
 //=========== Main Routes =============
@@ -96,7 +103,7 @@ app.get("/logout", function(req, res){
 
 //Login Page
 app.get("/login", function(req, res){
-  res.render("login", {req: req});
+  res.render("login", {req: req, message: req.flash('error')});
 });
 
 // Credentials check from login
@@ -120,15 +127,34 @@ app.get("/secret", function(req, res){
 
 //Sign Up Page
 app.get("/signup", function(req, res){
-  res.render("signup", {req: req});
+    res.render("signup", {req: req, message: req.flash('error')});
 });
 
-//Post from Sign Up Page
-app.post('/signup', passport.authenticate('local-signup', {
-  successRedirect: '/index',
-  failureRedirect: '/signup',
-  failureFlash: 'User email already registered'
-}));
+app.post('/signup', [
+    check('email').isEmail(),
+    check('password').isLength({ min: 5 }).matches(/\d/)
+    ], (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+	if (errors.array()[0].param == 'email') {
+	    req.flash('error','EMail field must contain a valid e-mail address');
+	}
+	else if (errors.array()[0].param == 'password') {
+	   req.flash('error','Passwords must be at least 5 chars long and contain one number');
+	}
+	res.render('signup', {req: req, message: req.flash('error')});    
+    }else{
+      passport.authenticate('local-signup', {
+	successRedirect: '/index',
+	failureRedirect: '/signup',
+	failureFlash: 'That email is already taken. Please choose another'})(req,res);
+      }
+
+    // matchedData returns only the subset of data validated by the middleware
+    const user = matchedData(req);
+//    console.log("user:");	
+//    console.log(user);
+});
 
 // Contact Us Page
 app.get('/contact', function(req,res) {
@@ -174,7 +200,8 @@ app.post("/contactForm", function(req, res){
 
 	let mailOptions = {
 			from: '"Contact Us Form" <mailbot@codeclub.social>', // sender address
-			to: ['brianjason@gmail.com', 'zaki.sediqyar@gmail.com'], // list of receivers
+			to: ['craig429@mac.com'], // list of receivers
+//			to: ['brianjason@gmail.com', 'zaki.sediqyar@gmail.com'], // list of receivers
 			//to: ['brianjason@gmail.com'], // list of receivers
 			subject: req.body.contactName + " has submitted an inqury", // Subject line
 			text: textMessage, // plain text body
@@ -208,7 +235,7 @@ app.get("/forum", function(req, res){
 	else{
 	    res.render("errNotLoggedIn", {req: req});
 	}
-		
+
 });
 
 //New Route - Form/page where you create a new post

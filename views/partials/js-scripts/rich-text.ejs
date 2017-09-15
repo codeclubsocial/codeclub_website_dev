@@ -1,0 +1,25 @@
+<script src="modules/trumbowyg/dist/trumbowyg.min.js"></script>
+<script src="modules/trumbowyg/dist/plugins/preformatted/trumbowyg.preformatted.js"></script>
+<script src="modules/trumbowyg/dist/plugins/colors/trumbowyg.colors.js"></script>
+<!--script src="modules/trumbowyg/dist/plugins/pasteimage/trumbowyg.pasteimage.js"></script-->
+
+<script>
+  $('#trumbowyg-editor').trumbowyg({
+    removeformatPasted: true,
+    btns: [
+        ['bold', 'italic', 'underline'],
+        //['preformatted'],
+        ['formatting'],
+        ['justifyLeft', 'justifyCenter', 'justifyRight'],
+        ['foreColor', 'backColor'],
+        ['link'],
+        'btnGrp-lists',
+        ['insertImage'],
+        ['horizontalRule'],
+        ['viewHTML'],
+        ['removeformat'],
+        ['fullscreen']
+    ]
+  });
+  // trying to add plugin 'preformatted'
+</script>
