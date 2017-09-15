@@ -45,7 +45,7 @@ app.use('/modules', express.static('node_modules'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.urlencoded({ extended: false }));
-// Set session cookie age to 86400 seconds=1 day
+// No timeout on session key, so effectively infinite
 app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false}));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -82,7 +82,14 @@ app.get("/rt", function(req, res){
 
 //Landing page - First page
 app.get("/", function(req, res){
-  res.render("landing", {req: req});
+  if ( req.isAuthenticated() ){
+    // If session cookie active (previous visitor) direct to index
+    res.render("index", {req: req});
+  }
+  else{
+    // If no session cookie active (new/unregistered visitor) direct to landing page
+    res.render("landing", {req: req});
+  }    
 });
 
 //Index page - Second page
