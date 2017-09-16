@@ -251,7 +251,7 @@ app.post("/contactForm", function(req, res){
 
 //Message Board Page - Showing all the posts
 app.get("/forum", function(req, res){
-	if ( req.isAuthenticated() == false ){
+	if ( req.isAuthenticated()){
 		msgBoard.find({}, function(err, msg){
 			if(err){
 				console.log(err)
@@ -276,7 +276,7 @@ app.get("/forum", function(req, res){
 //New Route - Form/page where you create a new post
 app.get("/forum/new", function(req, res){
 	if ( req.isAuthenticated() ){
-		res.render("new", {req: req})
+		res.render("editor", {msg: "FROM NODE", req: req})
 	}
 	else{
 	    res.render("errNotLoggedIn", {req: req});
@@ -318,14 +318,16 @@ app.get("/forum/:id/edit", function(req, res){
 				console.log(err);
 				res.redirect("/forum");
 			} else {
-				res.render("edit", {msg: msg, req: req});
+				res.render("editor", {msg: msg, req: req});
 			}
 		});
 });
 
 //Update Route - Updating the post
 app.put("/forum/:id", function(req, res){
-	msgBoard.findByIdAndUpdate(req.params.id, req.body.msg, function(err, msg){
+  req.body.dateModified = {type: Date, default: Date.now};
+
+	msgBoard.findByIdAndUpdate(req.params.id, req.body, function(err, msg){
 		if(err){
 			console.log(err);
 			res.redirect("/forum");

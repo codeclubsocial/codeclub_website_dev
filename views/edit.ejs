@@ -1,24 +1,3 @@
 <% include ./partials/header %>
-
-<section class="section1">
-  <div class="container">
-    <div class=""><h1>Edit Post</h1></div>
-    <form action="/forum/<%= msg._id %>?_method=PUT" method="POST">
-          <div class="form-group">
-              <label class="label">Title</label>
-              <input type="text" name="msg.title" placeholder="Message Title" class="form-control" value="<%= msg.title %>">
-          </div>
-            <div class="form-group">
-              <label for="exampleTextarea" class="label">Content</label>
-              <textarea class="form-control" name="msg.body" rows="5" placeholder="Write your message here..." data-autoresize rows="2"><%- msg.body %></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Edit</button>
-      </form>
-  </div>
-</section>
-
-<script type="text/javascript" src="/jquery/textarea.js"></script>
-
-
-
+<% include ./partials/js-scripts/rich-text %>
 <% include ./partials/footer %>
