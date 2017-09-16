@@ -18,8 +18,10 @@ module.exports = function(passport) {
   });
 
   passport.use('local-signup', new LocalStrategy({
-    usernameField: 'email',
+//    nameField: 'username',
+//    usernameField: 'email',
     passwordField: 'password',
+    verifiedField: 'verified',
     passReqToCallback: true,
   },
   function(req, email, password, done) {
@@ -31,11 +33,15 @@ module.exports = function(passport) {
           return done(null, false, {message: 'That email is already taken.'});
         } else {
           var newUser = new User();
+          newUser.local.username = req.body.username;
+          console.log( "Username: %s", newUser.local.username);
           newUser.local.email = email;
           newUser.local.password = newUser.generateHash(password);
+          newUser.local.verified = false;          
           newUser.save(function(err) {
-            if (err)
+            if (err){
               throw err;
+            }
             return done(null, newUser);
           });
         }

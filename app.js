@@ -22,7 +22,7 @@ var port = process.env.PORT || 3000;
 
 // Toggle Database Dev Mode
 //=================================================
-  var localDB = false; /* true: local, false: production */
+  var localDB = true; /* true: local, false: production */
 //=================================================
 
   if(localDB == true) {
@@ -136,6 +136,11 @@ app.get("/signup", function(req, res){
     res.render("signup", {req: req, message: req.flash('error')});
 });
 
+//EMail verification after sign up
+app.get("/verify", function(req, res){
+    res.render("verify", {req: req, message: req.flash('info')});
+});
+
 app.post('/signup', [
     check('email').isEmail(),
     check('password').isLength({ min: 5 }).matches(/\d/)
@@ -150,8 +155,9 @@ app.post('/signup', [
 	}
 	res.render('signup', {req: req, message: req.flash('error')});    
     }else{
-      passport.authenticate('local-signup', {
-	successRedirect: '/index',
+	passport.authenticate('local-signup', {
+//	emailField: 'email',
+	successRedirect: '/verify',
 	failureRedirect: '/signup',
 	failureFlash: 'That email is already taken. Please choose another'})(req,res);
       }
