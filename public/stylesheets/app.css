@@ -200,3 +200,12 @@ footer p{
 footer p a{
 	color: #fff;
 }
+
+
+@media (max-width: 700px){
+
+	footer{
+		padding: 80px 15px;
+	}
+
+}
