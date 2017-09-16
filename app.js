@@ -13,6 +13,8 @@ var ejs = require("ejs");
 var MongoClient = require('mongodb').MongoClient;
 var expressValidator = require('express-validator');
 var flash = require('connect-flash');
+var htmlToText = require('html-to-text');
+
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -67,7 +69,8 @@ var msgSchema = new Schema ({
 	body: String,
   text: String,
 	author: String, //should be fetched from user info after Authentication (Passport.js)
-	date: {type: Date, default: Date.now}
+	dateCreated: {type: Date, default: Date.now},
+  dateModified: Array
 });
 
 var msgBoard = mongoose.model("msgBoard", msgSchema);
@@ -77,6 +80,21 @@ var msgBoard = mongoose.model("msgBoard", msgSchema);
 //Rich Text Test page
 app.get("/rt", function(req, res){
   res.render("rt", {req: req});
+});
+
+app.post("/rt/", function(req, res){
+  req.body['body'] = req.body['trumbowyg-editor'];
+  req.body['text'] = htmlToText.fromString(req.body['trumbowyg-editor']);
+  req.body['author'] = "admin"
+  delete req.body['trumbowyg-editor']
+  console.log(req.body);
+
+  msgBoard.create(req.body, function(err, msg){
+    if(err){
+      console.log(err);
+    }
+    res.redirect("/forum");
+  });
 });
 
 //=========== Main Routes =============
@@ -224,12 +242,19 @@ app.post("/contactForm", function(req, res){
 
 //Message Board Page - Showing all the posts
 app.get("/forum", function(req, res){
-	if ( req.isAuthenticated() ){
+	if ( req.isAuthenticated() == false ){
 		msgBoard.find({}, function(err, msg){
 			if(err){
 				console.log(err)
 			} else {
-				res.render("forum", {msg: msg, req: req});
+				res.render("forum", {
+          msg: msg,
+          //msgText: htmlToText.fromString(msg.body, {wordwrap: 120}),
+          req: req
+        });
+        //console.log('htmltotext');
+        //console.log(msg[msg.length-1].body);
+        //console.log(htmlToText.fromString(JSON.stringify(msg[msg.length-1].body), {wordwrap: 120}));
 			}
 		});
 	}
@@ -251,8 +276,8 @@ app.get("/forum/new", function(req, res){
 
 //Create(ing/ed) Route - The page the post has been created
 app.post("/forum", function(req, res){
-  var obj = req.body.msg;
-  console.log(obj['body']['text']);
+  //var obj = req.body.msg;
+  //console.log(obj['body']['text']);
 
 //mongodb commands, reading the parsing data, redirecting to Message Board page
 	msgBoard.create(req.body.msg, function(err, msg){

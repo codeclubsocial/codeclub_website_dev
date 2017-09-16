@@ -7,14 +7,14 @@
         <h3><%= msg.title %> </h3>
       </div>
       <div class="card-block">
-        <span class="badge badge-pill badge-primary" style="float: right;"><%= msg.date.toDateString() %></span>
-        <p class="card-text" style="margin: 2em auto; text-align: justify;"><%= msg.body %></p>
+        <span class="badge badge-pill badge-primary" style="float: right;"><%= msg.dateCreated.toDateString() %></span>
+        <div class="card-text" style="margin: 2em auto; text-align: justify;"><%- msg.body %></div>
         <a href="/forum/<%= msg._id %>/edit" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
         <form class="" action="/forum/<%= msg._id %>?_method=DELETE" method="POST" style="display: inline;">
             <button role="submit button" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
         </form>
         <p style="float: right; color: grey; font-size: 15px;">
-          <em style="margin-right: 2rem;">By: Author </em>
+          <em style="margin-right: 2rem;">By: <%= msg.author %> </em>
           <span style="margin-right: 0.5rem;" id="likeText"><i class="fa fa-thumbs-up" aria-hidden="true" id="like" style="font-size: 1.3rem;"></i> 0</span>
           <span><i class="fa fa-thumbs-down" aria-hidden="true" style="font-size: 1.3rem;"id="dislike"></i> 0</span>
         </p>

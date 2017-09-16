@@ -1,13 +1,13 @@
 <% include ./partials/header %>
 <div class="container" style="padding-bottom: 5em; padding-top: 2em;">
-  <form action="/forum" method="POST">
+  <form action="/rt" method="POST">
   <div style="padding-bottom: 1.2em;">
-    <input id="postTitle" name="msg[title]" type="text" style="width: 100%; line-height: 2.5em; padding-left: 1.2em;" placeholder=" Title">
+    <input id="postTitle" name="title" type="text" style="width: 100%; line-height: 2.5em; padding-left: 1.2em;" placeholder=" Title">
   </div>
 <div id="trumbowyg-editor" placeholder='"The things you think about determine the quality of your mind.”
 ― Marcus Aurelius'></div>
 
-<input type="hidden" id="postEditor" name="msg[body]" value='' />
+<!--input type="hidden" id="postEditor" name="msg[body]" value='' /-->
 
 <button id="editorBtn">Post</button>
 </form>
@@ -17,16 +17,13 @@
 <script>
   // NOTE: This appears to be a possible solution for posting:
   //       https://stackoverflow.com/questions/4855430/how-can-i-send-a-variable-to-a-form-using-this-javascript-function
-
   $('#editorBtn').click(function(){
-    //var titleContent = $('#postTitle').val();
-    var editorContent = $('#trumbowyg-editor').trumbowyg('html');
+    var titleContent = $('#postTitle').val();
+    //var editorContent =
+    $('#trumbowyg-editor').trumbowyg('html');
     //var editorTextContent = $('#trumbowyg-editor').trumbowyg('text');
-    //var editorContent = {html: editorHtmlContent, text: editorTextContent};
-    //alert(editorContent.text + " / " editorContent.html);
-    $('#postEditor').val(editorContent);
-    //console.log(titleContent);
-    //console.log(editorContent);
+    //var editorContent = {html: editorHtmlContent text: editorTextContent};
+    //$('#postEditor').val(editorContent);
   });
 /*
   document.getElementById("editorBtn").onclick = function() {submitEditorBtn()};
