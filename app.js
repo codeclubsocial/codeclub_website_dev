@@ -51,9 +51,12 @@ app.use(passport.session());
 app.use(cookieParser());
 app.use(methodOverride("_method"));
 app.use(flash());
+var verEmail =  ' ';
+var rand = 0;
 
 
 require('./config/passport')(passport);
+var User = require('./models/user');
 
 const { check, validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
@@ -86,9 +89,9 @@ app.get("/", function(req, res){
     res.render("index", {req: req});
   }
   else{
-    // If no session cookie active (new/unregistered visitor) direct to landing page
+    // If session cookie active (not registered or verified) direct to landing
     res.render("landing", {req: req});
-  }    
+  }
 });
 
 //Index page - Second page
@@ -116,7 +119,7 @@ app.get("/login", function(req, res){
 app.post('/login', passport.authenticate('local-login', {
   successRedirect: '/secret',
   failureRedirect: '/login',
-  failureFlash: 'Bad login'
+  failureFlash: true
 }));
 
 //Secret page - For testing passport sessions
@@ -138,7 +141,55 @@ app.get("/signup", function(req, res){
 
 //EMail verification after sign up
 app.get("/verify", function(req, res){
+    // If it is a query it's a validation email response
+    if (req.query.id) {
+	if ( rand == req.query.id) {
+	    User.findOneAndUpdate( {'local.email':verEmail}, {'$set':{'local.verified': true}}, function(err, doc){
+		if (err) return handleError(err);
+//		console.log('Verifying email: %s', doc.local.email);
+	    });
+	    res.render("secret", {req: req, message: req.flash('info')});	    
+	}
+	else{
+	    console.log("Request is from unknown source");
+	}
+    }
+    // Else we fire off a validation email
+    else{
+        let transporter = nodemailer.createTransport({
+	    host: 'gator4210.hostgator.com',
+	    port: 465,
+	    secure: true,
+	    auth: {
+		user: 'mailbot@codeclub.social',
+		pass: 'aD9edxHQPFzE9MxcZk' // need to save as env
+	    }
+	});
+
+	rand=Math.floor((Math.random() * 100) + 54);
+	host=req.get('host');
+	link="http://"+req.get('host')+"/verify?id="+rand;
+
+	var htmlMessage = "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>";	    
+	var textMessage = "------ Verification Email ------ \nFrom: CodeClub Admin" + "\nEmail: mailbot@codeclub.social" +
+	    "\nMessage: " + req.body.contactInquiry + "\n-------------------------------------------------------";
+
+	let mailOptions = {
+	    from: '"Verification Email" <mailbot@codeclub.social>', // sender address
+	    to: verEmail,						// verification address
+	    subject: "Codeclub Verification EMail ", 		// Subject line
+	    text: textMessage, 					// plain text body
+	    html: htmlMessage 					// html body
+	};
+
+	transporter.sendMail(mailOptions, (error, info) => {
+	    if (error) {
+	    return console.log(error);
+	    }
+	    console.log('Message %s sent: %s', info.messageId, info.response);
+	});
     res.render("verify", {req: req, message: req.flash('info')});
+    }
 });
 
 app.post('/signup', [
@@ -155,6 +206,9 @@ app.post('/signup', [
 	}
 	res.render('signup', {req: req, message: req.flash('error')});    
     }else{
+	console.log( "req.body.username: %s", req.body.username);
+	verEmail = req.body.email;
+	console.log( "req.body.email: %s", req.body.email);	
 	passport.authenticate('local-signup', {
 //	emailField: 'email',
 	successRedirect: '/verify',
