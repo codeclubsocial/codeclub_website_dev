@@ -23,8 +23,8 @@
 					<% altListGroupItem += 1; %>
 
   <li class="list-group-item justify-content-between <%= listGroupItem %>" id="forumPost-<%= altListGroupItem %>" onmouseover="makeActive(this)" onmouseout="makeInactive(this)" onclick="location.href='/forum/<%= msg._id %>';" style="cursor: pointer;">
-      <div class="d-inline lead" style="float: left; width: 90%;"><strong><%= msg.title %></strong></div>
-			<div class="d-inline badge badge-default" style="float:right; width: 10%"><%= msg.dateCreated.toDateString() %></div>
+      <div class="d-inline lead" style="float: left; width: 80%;"><strong><%= msg.title %></strong></div>
+			<div class="d-inline badge badge-default" style="float:right; width: 115px;"><%= msg.dateCreated.toDateString() %></div>
 			<div class="d-block panel-body text-truncate" style="clear: left; width: 100%;">
 						<% if(typeof msg.body != 'undefined') { %>
 							<%= msg.text.substring(0,120) %>...
@@ -47,16 +47,18 @@
 </div>
 &nbsp;
 <script type="text/javascript">
+	sessionStorage.referringPage = 'forum';
 
 	function makeActive(listId) {
-		console.log(listId.id + " = active")
+		//console.log(listId.id + " = active")
 		document.getElementById(listId.id).classList.add('active');
 	}
 
 	function makeInactive(listId) {
-		console.log(listId.id + " = inactive")
+		//console.log(listId.id + " = inactive")
 		document.getElementById(listId.id).classList.remove('active');
 	}
+
 
 </script>
 <% include ./partials/footer %>

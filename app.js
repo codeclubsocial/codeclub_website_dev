@@ -256,15 +256,9 @@ app.get("/forum", function(req, res){
 			if(err){
 				console.log(err)
 			} else {
-				res.render("forum", {
-          msg: msg,
-          //msgText: htmlToText.fromString(msg.body, {wordwrap: 120}),
-          req: req
-        });
-        //console.log('htmltotext');
-        //console.log(msg[msg.length-1].body);
-        //console.log(htmlToText.fromString(JSON.stringify(msg[msg.length-1].body), {wordwrap: 120}));
-			}
+        msg.text = htmlToText.fromString(msg.body);
+				res.render("forum", { msg: msg, req: req });
+      }
 		});
 	}
 	else{
@@ -276,7 +270,7 @@ app.get("/forum", function(req, res){
 //New Route - Form/page where you create a new post
 app.get("/forum/new", function(req, res){
 	if ( req.isAuthenticated() ){
-		res.render("editor", {msg: "FROM NODE", req: req})
+		res.render("editor", {msg: "", req: req})
 	}
 	else{
 	    res.render("errNotLoggedIn", {req: req});
@@ -285,16 +279,18 @@ app.get("/forum/new", function(req, res){
 
 //Create(ing/ed) Route - The page the post has been created
 app.post("/forum", function(req, res){
-  //var obj = req.body.msg;
-  //console.log(obj['body']['text']);
+  req.body['body'] = req.body['trumbowyg-editor'];
+  req.body['text'] = htmlToText.fromString(req.body['trumbowyg-editor']);
+  req.body['author'] = "admin"
+  delete req.body['trumbowyg-editor']
+  console.log(req.body);
 
-//mongodb commands, reading the parsing data, redirecting to Message Board page
-	msgBoard.create(req.body.msg, function(err, msg){
-		if(err){
-			console.log(err);
-		}
-		res.redirect("/forum");
-	});
+  msgBoard.create(req.body, function(err, msg){
+    if(err){
+      console.log(err);
+    }
+    res.redirect("/forum");
+  });
 });
 
 //Show Route - Viewing the full message/page of the created post
@@ -325,9 +321,17 @@ app.get("/forum/:id/edit", function(req, res){
 
 //Update Route - Updating the post
 app.put("/forum/:id", function(req, res){
-  req.body.dateModified = {type: Date, default: Date.now};
 
+  req.body.dateModified = {type: Date, default: Date.now};
+  req.body.body = req.body['trumbowyg-editor'];
+  req.body.text = htmlToText.fromString(req.body['trumbowyg-editor']);
+  req.body.author = "admin"
+  delete req.body['trumbowyg-editor']
+
+  console.log(req.body);
+  
 	msgBoard.findByIdAndUpdate(req.params.id, req.body, function(err, msg){
+
 		if(err){
 			console.log(err);
 			res.redirect("/forum");

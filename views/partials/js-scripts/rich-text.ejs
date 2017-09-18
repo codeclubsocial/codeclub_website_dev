@@ -1,5 +1,5 @@
 <div class="container" style="padding-bottom: 5em; padding-top: 2em;">
-  <form action="/rt" method="POST">
+  <form id="editorForm" method="POST">
     <div style="padding-bottom: 1.2em;">
       <input id="postTitle" name="title" type="text" style="width: 100%; line-height: 2.5em; padding-left: 1.2em;" placeholder=" Title">
     </div>
@@ -39,33 +39,24 @@
 </script>
 
 <script>
-      /*
-      <% if (msg != undefined) {%>
-        <%- "console.log('" + msg.body + "');"%>
-      <% } %>
-      */
-    if (typeof msg !== 'undefined') {
-      var msg = "<%= msg %>";
-      console.log('Defining msg');
+    console.log(sessionStorage.referringPage);
+
+    if (sessionStorage.referringPage == 'show') {
+      console.log("show = true");
+      document.getElementById("editorForm").action = "/forum/<%= msg._id %>?_method=PUT";
     } else {
-      console.log('msg NOT undefined');
-      console.log(msg);
+      console.log("show = false");
+      document.getElementById("editorForm").action = "/forum";
     }
 
-    if (typeof msg === 'undefined') {
-      console.log('msg is undefined')
-    } else {
-      console.log(msg);
-    }
 
-    if(typeof msg.body != undefined) {
-      console.log(msg.body);
-      $('#postTitle').val(msg.title);
-      $('#trumbowyg-editor').trumbowyg('html', msg.body);
-    }
+  if ( '<%- typeof msg.body %>' == 'string' ) {
+    $('#postTitle:text').val("<%= msg.title %>".replace(/&#34;/g, "\"").replace(/&#39;/g, "\'"));
+    $('#trumbowyg-editor').trumbowyg('html', '<%- msg.body %>');
+  }
 
-    $('#editorBtn').click(function(){
-      var titleContent = $('#postTitle').val();
-      $('#trumbowyg-editor').trumbowyg('html');
+  $('#editorBtn').click(function(){
+    var titleContent = $('#postTitle').val();
+    $('#trumbowyg-editor').trumbowyg('html');
   });
 </script>
