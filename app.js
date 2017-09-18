@@ -77,28 +77,6 @@ var msgSchema = new Schema ({
 
 var msgBoard = mongoose.model("msgBoard", msgSchema);
 
-//=========== Test Routes =============
-
-//Rich Text Test page
-app.get("/rt", function(req, res){
-  res.render("rt", {req: req});
-});
-
-app.post("/rt/", function(req, res){
-  req.body['body'] = req.body['trumbowyg-editor'];
-  req.body['text'] = htmlToText.fromString(req.body['trumbowyg-editor']);
-  req.body['author'] = "admin"
-  delete req.body['trumbowyg-editor']
-  console.log(req.body);
-
-  msgBoard.create(req.body, function(err, msg){
-    if(err){
-      console.log(err);
-    }
-    res.redirect("/forum");
-  });
-});
-
 //=========== Main Routes =============
 
 //Landing page - First page
@@ -283,7 +261,7 @@ app.post("/forum", function(req, res){
   req.body['text'] = htmlToText.fromString(req.body['trumbowyg-editor']);
   req.body['author'] = "admin"
   delete req.body['trumbowyg-editor']
-  console.log(req.body);
+  //console.log(req.body);
 
   msgBoard.create(req.body, function(err, msg){
     if(err){
@@ -322,14 +300,14 @@ app.get("/forum/:id/edit", function(req, res){
 //Update Route - Updating the post
 app.put("/forum/:id", function(req, res){
 
-  req.body.dateModified = {type: Date, default: Date.now};
+  //req.body.dateModified = {type: Date, default: Date.now};
   req.body.body = req.body['trumbowyg-editor'];
   req.body.text = htmlToText.fromString(req.body['trumbowyg-editor']);
   req.body.author = "admin"
   delete req.body['trumbowyg-editor']
 
-  console.log(req.body);
-  
+  //console.log(req.body);
+
 	msgBoard.findByIdAndUpdate(req.params.id, req.body, function(err, msg){
 
 		if(err){
