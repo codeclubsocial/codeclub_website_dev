@@ -24,7 +24,7 @@ var port = process.env.PORT || 3000;
 
 // Toggle Database Dev Mode
 //=================================================
-  var localDB = true; /* true: local, false: production */
+  var localDB = false; /* true: local, false: production */
 //=================================================
 
   if(localDB == true) {
@@ -141,13 +141,17 @@ app.get("/signup", function(req, res){
 
 //EMail verification after sign up
 app.get("/verify", function(req, res){
+    // Passport signup logs the user in on success.
+    // Turn that off until the verify is complete.
+    req.logout();
+    
     // If it is a query it's a validation email response
     if (req.query.id) {
 	if ( rand == req.query.id) {
 	    User.findOneAndUpdate( {'local.email':verifyEmail}, {'$set':{'local.verified': true}}, function(err, doc){
 		if (err) return handleError(err);
 	    });
-	    res.render("secret", {req: req, message: req.flash('info')});	    
+	    res.render("login", {req: req, message: 'You are verified. You may now log in.'});	    
 	}
 	else{
 	    console.log("Request is from unknown source");
@@ -185,7 +189,6 @@ app.get("/verify", function(req, res){
 	    if (error) {
 	    return console.log(error);
 	    }
-//	    console.log('Message %s sent: %s', info.messageId, info.response);
 	});
     res.render("verify", {req: req, message: req.flash('info')});
     }
