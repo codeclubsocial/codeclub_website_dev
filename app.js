@@ -13,6 +13,8 @@ var ejs = require("ejs");
 var MongoClient = require('mongodb').MongoClient;
 var expressValidator = require('express-validator');
 var flash = require('connect-flash');
+var htmlToText = require('html-to-text');
+
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -43,7 +45,10 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use('/modules', express.static('node_modules'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+//app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: false }));
+// Set session cookie age to 86400 seconds=1 day
+//app.use(bodyParser.urlencoded({extended: true}));
 // No timeout on session key, so effectively infinite
 app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false}));
 app.use(passport.initialize());
@@ -67,18 +72,13 @@ var Schema = mongoose.Schema
 var msgSchema = new Schema ({
 	title: String,
 	body: String,
+  text: String,
 	author: String, //should be fetched from user info after Authentication (Passport.js)
-	date: {type: Date, default: Date.now}
+	dateCreated: {type: Date, default: Date.now},
+  dateModified: Array
 });
 
 var msgBoard = mongoose.model("msgBoard", msgSchema);
-
-//=========== Test Routes =============
-
-//Rich Text Test page
-app.get("/rt", function(req, res){
-  res.render("rt", {req: req});
-});
 
 //=========== Main Routes =============
 
@@ -203,7 +203,7 @@ app.post('/signup', [
 	else if (errors.array()[0].param == 'password') {
 	   req.flash('error','Passwords must be at least 5 chars long and contain one number');
 	}
-	res.render('signup', {req: req, message: req.flash('error')});    
+	res.render('signup', {req: req, message: req.flash('error')});
     }else{
 	verifyEmail = req.body.email;
 	passport.authenticate('local-signup', {
@@ -287,13 +287,14 @@ app.post("/contactForm", function(req, res){
 
 //Message Board Page - Showing all the posts
 app.get("/forum", function(req, res){
-	if ( req.isAuthenticated() ){
+	if ( req.isAuthenticated()){
 		msgBoard.find({}, function(err, msg){
 			if(err){
 				console.log(err)
 			} else {
-				res.render("forum", {msg: msg, req: req});
-			}
+        msg.text = htmlToText.fromString(msg.body);
+				res.render("forum", { msg: msg, req: req });
+      }
 		});
 	}
 	else{
@@ -305,7 +306,7 @@ app.get("/forum", function(req, res){
 //New Route - Form/page where you create a new post
 app.get("/forum/new", function(req, res){
 	if ( req.isAuthenticated() ){
-		res.render("new", {req: req})
+		res.render("editor", {msg: "", req: req})
 	}
 	else{
 	    res.render("errNotLoggedIn", {req: req});
@@ -314,13 +315,18 @@ app.get("/forum/new", function(req, res){
 
 //Create(ing/ed) Route - The page the post has been created
 app.post("/forum", function(req, res){
-//mongodb commands, reading the parsing data, redirecting to Message Board page
-	msgBoard.create(req.body.msg, function(err, msg){
-		if(err){
-			console.log(err);
-		}
-		res.redirect("/forum");
-	});
+  req.body['body'] = req.body['trumbowyg-editor'];
+  req.body['text'] = htmlToText.fromString(req.body['trumbowyg-editor']);
+  req.body['author'] = "admin"
+  delete req.body['trumbowyg-editor']
+  //console.log(req.body);
+
+  msgBoard.create(req.body, function(err, msg){
+    if(err){
+      console.log(err);
+    }
+    res.redirect("/forum");
+  });
 });
 
 //Show Route - Viewing the full message/page of the created post
@@ -344,14 +350,24 @@ app.get("/forum/:id/edit", function(req, res){
 				console.log(err);
 				res.redirect("/forum");
 			} else {
-				res.render("edit", {msg: msg, req: req});
+				res.render("editor", {msg: msg, req: req});
 			}
 		});
 });
 
 //Update Route - Updating the post
 app.put("/forum/:id", function(req, res){
-	msgBoard.findByIdAndUpdate(req.params.id, req.body.msg, function(err, msg){
+
+  //req.body.dateModified = {type: Date, default: Date.now};
+  req.body.body = req.body['trumbowyg-editor'];
+  req.body.text = htmlToText.fromString(req.body['trumbowyg-editor']);
+  req.body.author = "admin"
+  delete req.body['trumbowyg-editor']
+
+  //console.log(req.body);
+
+	msgBoard.findByIdAndUpdate(req.params.id, req.body, function(err, msg){
+
 		if(err){
 			console.log(err);
 			res.redirect("/forum");

@@ -10,29 +10,32 @@
 
 				<% var altListGroupItem = 0; %>
 				<% var listGroupItem; %>
-				<% msg.forEach(function(msg){ %> <!-- Start of content loop -->
+
+				<!-- Start of content loop -->
+				<% msg.forEach(function(msg){ %>
+
+					<!-- Alternate BS class per line -->
 					<% if((altListGroupItem % 2) == 0) { %>
 						<% listGroupItem = 'list-group-item-info'; %>
 					<% } else { %>
 						<% listGroupItem = 'list-group-item-default'; %>
 					<% }; %>
-
 					<% altListGroupItem += 1; %>
 
   <li class="list-group-item justify-content-between <%= listGroupItem %>" id="forumPost-<%= altListGroupItem %>" onmouseover="makeActive(this)" onmouseout="makeInactive(this)" onclick="location.href='/forum/<%= msg._id %>';" style="cursor: pointer;">
-      <div class="d-inline lead" style="float: left; width: 90%;"><strong><%= msg.title %></strong></div>
-			<div class="d-inline badge badge-default" style="float:right; width: 10%"><%= msg.date.toDateString() %></div>
+      <div class="d-inline lead" style="float: left; width: 80%;"><strong><%= msg.title %></strong></div>
+			<div class="d-inline badge badge-default" style="float:right; width: 115px;"><%= msg.dateCreated.toDateString() %></div>
 			<div class="d-block panel-body text-truncate" style="clear: left; width: 100%;">
 						<% if(typeof msg.body != 'undefined') { %>
-							<%= msg.body.substring(0,120) %>...
+							<%= msg.text.substring(0,120) %>...
 						<% } else { %>
 							<%= "..." %>
 						<% } %>
 			</div>
 			<div class="d-block" style="width: 100%; text-align: center;">
-			<!--div class="badge badge-default" style="float:left;"><%= msg.date.toDateString() %></div-->
+			<!--div class="badge badge-default" style="float:left;"><%= msg.dateCreated.toDateString() %></div-->
 			<div style="float: right; color: grey; font-size: 15px;">
-				<em>By: Author </em>
+				<em>By: <%= msg.author %> </em>
 				<span>| likes</span>
 				<span>| Dislikes</span>
 			</div>
@@ -44,16 +47,18 @@
 </div>
 &nbsp;
 <script type="text/javascript">
+	sessionStorage.referringPage = 'forum';
 
 	function makeActive(listId) {
-		console.log(listId.id + " = active")
+		//console.log(listId.id + " = active")
 		document.getElementById(listId.id).classList.add('active');
 	}
 
 	function makeInactive(listId) {
-		console.log(listId.id + " = inactive")
+		//console.log(listId.id + " = inactive")
 		document.getElementById(listId.id).classList.remove('active');
 	}
+
 
 </script>
 <% include ./partials/footer %>
