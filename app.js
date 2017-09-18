@@ -51,7 +51,7 @@ app.use(passport.session());
 app.use(cookieParser());
 app.use(methodOverride("_method"));
 app.use(flash());
-var verEmail =  ' ';
+var verifyEmail =  ' ';
 var rand = 0;
 
 
@@ -144,9 +144,8 @@ app.get("/verify", function(req, res){
     // If it is a query it's a validation email response
     if (req.query.id) {
 	if ( rand == req.query.id) {
-	    User.findOneAndUpdate( {'local.email':verEmail}, {'$set':{'local.verified': true}}, function(err, doc){
+	    User.findOneAndUpdate( {'local.email':verifyEmail}, {'$set':{'local.verified': true}}, function(err, doc){
 		if (err) return handleError(err);
-//		console.log('Verifying email: %s', doc.local.email);
 	    });
 	    res.render("secret", {req: req, message: req.flash('info')});	    
 	}
@@ -176,7 +175,7 @@ app.get("/verify", function(req, res){
 
 	let mailOptions = {
 	    from: '"Verification Email" <mailbot@codeclub.social>', // sender address
-	    to: verEmail,						// verification address
+	    to: verifyEmail,						// verification address
 	    subject: "Codeclub Verification EMail ", 		// Subject line
 	    text: textMessage, 					// plain text body
 	    html: htmlMessage 					// html body
@@ -186,7 +185,7 @@ app.get("/verify", function(req, res){
 	    if (error) {
 	    return console.log(error);
 	    }
-	    console.log('Message %s sent: %s', info.messageId, info.response);
+//	    console.log('Message %s sent: %s', info.messageId, info.response);
 	});
     res.render("verify", {req: req, message: req.flash('info')});
     }
@@ -206,20 +205,15 @@ app.post('/signup', [
 	}
 	res.render('signup', {req: req, message: req.flash('error')});    
     }else{
-	console.log( "req.body.username: %s", req.body.username);
-	verEmail = req.body.email;
-	console.log( "req.body.email: %s", req.body.email);	
+	verifyEmail = req.body.email;
 	passport.authenticate('local-signup', {
-//	emailField: 'email',
-	successRedirect: '/verify',
-	failureRedirect: '/signup',
-	failureFlash: 'That email is already taken. Please choose another'})(req,res);
-      }
-
+	    successRedirect: '/verify',
+	    failureRedirect: '/signup',
+	    failureFlash: 'That email is already taken. Please choose another'})(req,res);
+	}
     // matchedData returns only the subset of data validated by the middleware
     const user = matchedData(req);
-//    console.log("user:");	
-//    console.log(user);
+//    console.log("user: " + user);	
 });
 
 // Contact Us Page

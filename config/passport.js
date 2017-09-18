@@ -18,10 +18,6 @@ module.exports = function(passport) {
   });
 
   passport.use('local-signup', new LocalStrategy({
-//    nameField: 'username',
-//    usernameField: 'email',
-    passwordField: 'password',
-    verifiedField: 'verified',
     passReqToCallback: true,
   },
   function(req, email, password, done) {
@@ -36,9 +32,8 @@ module.exports = function(passport) {
         } else {
           var newUser = new User();
           newUser.local.username = req.body.username;
-          console.log( "Username: %s", newUser.local.username);
-          newUser.local.email = email;
-          newUser.local.password = newUser.generateHash(password);
+          newUser.local.email = req.body.email;
+          newUser.local.password = newUser.generateHash(req.body.password);
           newUser.local.verified = false;          
           newUser.save(function(err) {
             if (err){
@@ -52,9 +47,6 @@ module.exports = function(passport) {
   }));
 
   passport.use('local-login', new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password',
-    verifiedField: 'verified',
     passReqToCallback: true,
   },
   function(req, email, password, done) {
@@ -62,13 +54,9 @@ module.exports = function(passport) {
       if (err)
         {console.log( "Passport login error!"); return done(err);}
       if (!user)
-        return done(null, false, req.flash('loginMessage', 'No user found.'));
-      console.log( "User: "+ user);
-      console.log( "Login password: "+ password);
-      console.log( "Login email: "+ email);
-      console.log( "Login verify: "+ user.local.verified);
+        return done(null, false, req.flash('error', 'EMail not found.'));
       if (!user.validPassword(password))
-        return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
+        return done(null, false, req.flash('error', 'Wrong password.'));
       if (!user.local.verified)
         return done(null, false, req.flash('error', 'User not verified'));
       return done(null, user);
