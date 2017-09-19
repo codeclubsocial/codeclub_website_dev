@@ -4,6 +4,7 @@ var express = require("express");
 var session = require("express-session");
 var cookieParser = require('cookie-parser');
 var methodOverride = require("method-override");
+var compression = require('compression');
 var bodyParser = require("body-parser");
 var nodemailer = require('nodemailer');
 var mongoose = require("mongoose");
@@ -14,7 +15,6 @@ var MongoClient = require('mongodb').MongoClient;
 var expressValidator = require('express-validator');
 var flash = require('connect-flash');
 var htmlToText = require('html-to-text');
-
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -41,11 +41,10 @@ var port = process.env.PORT || 3000;
 
 //Setup
 app.set("view engine", "ejs");
-// app.use(logger('dev'));
+app.use(compression());
 app.use(express.static("public"));
 app.use('/modules', express.static('node_modules'));
 app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.urlencoded({extended: false }));
 // Set session cookie age to 86400 seconds=1 day
 //app.use(bodyParser.urlencoded({extended: true}));
@@ -55,10 +54,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
 app.use(methodOverride("_method"));
+// app.use(logger('dev'));
 app.use(flash());
+
+var verifyEmail =  ' ';
+var rand = 0;
 
 
 require('./config/passport')(passport);
+var User = require('./models/user');
 
 const { check, validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
@@ -86,7 +90,7 @@ app.get("/", function(req, res){
     res.render("index", {req: req});
   }
   else{
-    // If no session cookie active (new/unregistered visitor) direct to landing page
+    // If session cookie active (not registered or verified) direct to landing
     res.render("landing", {req: req});
   }
 });
@@ -116,7 +120,7 @@ app.get("/login", function(req, res){
 app.post('/login', passport.authenticate('local-login', {
   successRedirect: '/secret',
   failureRedirect: '/login',
-  failureFlash: 'Bad login'
+  failureFlash: true
 }));
 
 //Secret page - For testing passport sessions
@@ -136,6 +140,61 @@ app.get("/signup", function(req, res){
     res.render("signup", {req: req, message: req.flash('error')});
 });
 
+//EMail verification after sign up
+app.get("/verify", function(req, res){
+    // Passport signup logs the user in on success.
+    // Turn that off until the verify is complete.
+    req.logout();
+
+    // If it is a query it's a validation email response
+    if (req.query.id) {
+	if ( rand == req.query.id) {
+	    User.findOneAndUpdate( {'local.email':verifyEmail}, {'$set':{'local.verified': true}}, function(err, doc){
+		if (err) return handleError(err);
+	    });
+	    res.render("login", {req: req, message: 'You are verified. You may now log in.'});
+	}
+	else{
+	    console.log("Request is from unknown source");
+	}
+    }
+    // Else we fire off a validation email
+    else{
+        let transporter = nodemailer.createTransport({
+	    host: 'gator4210.hostgator.com',
+	    port: 465,
+	    secure: true,
+	    auth: {
+		user: 'mailbot@codeclub.social',
+		pass: 'aD9edxHQPFzE9MxcZk' // need to save as env
+	    }
+	});
+
+	rand=Math.floor((Math.random() * 100) + 54);
+	host=req.get('host');
+	link="http://"+req.get('host')+"/verify?id="+rand;
+
+	var htmlMessage = "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>";
+	var textMessage = "------ Verification Email ------ \nFrom: CodeClub Admin" + "\nEmail: mailbot@codeclub.social" +
+	    "\nMessage: " + req.body.contactInquiry + "\n-------------------------------------------------------";
+
+	let mailOptions = {
+	    from: '"Verification Email" <mailbot@codeclub.social>', // sender address
+	    to: verifyEmail,						// verification address
+	    subject: "Codeclub Verification EMail ", 		// Subject line
+	    text: textMessage, 					// plain text body
+	    html: htmlMessage 					// html body
+	};
+
+	transporter.sendMail(mailOptions, (error, info) => {
+	    if (error) {
+	    return console.log(error);
+	    }
+	});
+    res.render("verify", {req: req, message: req.flash('info')});
+    }
+});
+
 app.post('/signup', [
     check('email').isEmail(),
     check('password').isLength({ min: 5 }).matches(/\d/)
@@ -150,16 +209,15 @@ app.post('/signup', [
 	}
 	res.render('signup', {req: req, message: req.flash('error')});
     }else{
-      passport.authenticate('local-signup', {
-	successRedirect: '/index',
-	failureRedirect: '/signup',
-	failureFlash: 'That email is already taken. Please choose another'})(req,res);
-      }
-
+	verifyEmail = req.body.email;
+	passport.authenticate('local-signup', {
+	    successRedirect: '/verify',
+	    failureRedirect: '/signup',
+	    failureFlash: 'That email is already taken. Please choose another'})(req,res);
+	}
     // matchedData returns only the subset of data validated by the middleware
     const user = matchedData(req);
-//    console.log("user:");
-//    console.log(user);
+//    console.log("user: " + user);
 });
 
 // Contact Us Page
@@ -177,9 +235,9 @@ app.get('/contact/alert/:alert', function(req,res) {
   console.log(req.params.alert);
 
   if(req.params.alert == 'true') {
-    res.render('contact', {alertDisplay: 'block'});
+    res.render('contact', {alertDisplay: 'block', req: req});
   } else {
-    res.render('contact', {alertDisplay: 'none'});
+    res.render('contact', {alertDisplay: 'none', req: req});
   }
 });
 
@@ -195,6 +253,10 @@ app.post("/contactForm", function(req, res){
 	        pass: 'aD9edxHQPFzE9MxcZk' // need to save as env
 	    }
 		});
+
+	rand=Math.floor((Math.random() * 100) + 54);
+	host=req.get('host');
+	link="http://"+req.get('host')+"/verify?id="+rand;
 
 	var textMessage = "------ Submitted from www.codeclub.social/contact ------ \nFrom: " + req.body.contactName + "\nEmail: " + req.body.contactEmailAddress +
 			"\nMessage: " + req.body.contactInquiry + "\n-------------------------------------------------------";
