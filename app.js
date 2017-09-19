@@ -4,6 +4,7 @@ var express = require("express");
 var session = require("express-session");
 var cookieParser = require('cookie-parser');
 var methodOverride = require("method-override");
+var compression = require('compression');
 var bodyParser = require("body-parser");
 var nodemailer = require('nodemailer');
 var mongoose = require("mongoose");
@@ -14,7 +15,6 @@ var MongoClient = require('mongodb').MongoClient;
 var expressValidator = require('express-validator');
 var flash = require('connect-flash');
 var htmlToText = require('html-to-text');
-
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -41,11 +41,10 @@ var port = process.env.PORT || 3000;
 
 //Setup
 app.set("view engine", "ejs");
-// app.use(logger('dev'));
+app.use(compression());
 app.use(express.static("public"));
 app.use('/modules', express.static('node_modules'));
 app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.urlencoded({extended: false }));
 // Set session cookie age to 86400 seconds=1 day
 //app.use(bodyParser.urlencoded({extended: true}));
@@ -55,7 +54,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
 app.use(methodOverride("_method"));
+// app.use(logger('dev'));
 app.use(flash());
+var verifyEmail =  ' ';
+var rand = 0;
+
 var verifyEmail =  ' ';
 var rand = 0;
 
@@ -144,7 +147,7 @@ app.get("/verify", function(req, res){
     // Passport signup logs the user in on success.
     // Turn that off until the verify is complete.
     req.logout();
-    
+
     // If it is a query it's a validation email response
     if (req.query.id) {
 	if ( rand == req.query.id) {
@@ -256,7 +259,7 @@ app.post("/contactForm", function(req, res){
 	rand=Math.floor((Math.random() * 100) + 54);
 	host=req.get('host');
 	link="http://"+req.get('host')+"/verify?id="+rand;
-    
+
 	var textMessage = "------ Submitted from www.codeclub.social/contact ------ \nFrom: " + req.body.contactName + "\nEmail: " + req.body.contactEmailAddress +
 			"\nMessage: " + req.body.contactInquiry + "\n-------------------------------------------------------";
 
@@ -267,8 +270,7 @@ app.post("/contactForm", function(req, res){
 
 	let mailOptions = {
 			from: '"Contact Us Form" <mailbot@codeclub.social>', // sender address
-			to: ['craig429@mac.com'], // list of receivers
-//			to: ['brianjason@gmail.com', 'zaki.sediqyar@gmail.com'], // list of receivers
+			to: ['brianjason@gmail.com', 'zaki.sediqyar@gmail.com', 'craig429@mac.com'], // list of receivers
 			//to: ['brianjason@gmail.com'], // list of receivers
 			subject: req.body.contactName + " has submitted an inqury", // Subject line
 			text: textMessage, // plain text body
