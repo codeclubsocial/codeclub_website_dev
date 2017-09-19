@@ -210,16 +210,19 @@ app.post('/signup', [
 	   req.flash('error','Passwords must be at least 5 chars long and contain one number');
 	}
 	res.render('signup', {req: req, message: req.flash('error')});
+    }else if (req.body.username.length < 1) {
+	req.flash('error','Username cannot be empty');
+	res.render('signup', {req: req, message: req.flash('error')});
+    }else if (req.body.username.match(/ /g)) {
+	req.flash('error','Username cannot contain space(s)');
+	res.render('signup', {req: req, message: req.flash('error')});	
     }else{
 	verifyEmail = req.body.email;
 	passport.authenticate('local-signup', {
 	    successRedirect: '/verify',
 	    failureRedirect: '/signup',
-	    failureFlash: 'That email is already taken. Please choose another'})(req,res);
-	}
-    // matchedData returns only the subset of data validated by the middleware
-    const user = matchedData(req);
-//    console.log("user: " + user);	
+	    failureFlash: req.flash('error')})(req,res);
+    }
 });
 
 // Contact Us Page
@@ -271,7 +274,6 @@ app.post("/contactForm", function(req, res){
 	let mailOptions = {
 			from: '"Contact Us Form" <mailbot@codeclub.social>', // sender address
 			to: ['brianjason@gmail.com', 'zaki.sediqyar@gmail.com', 'craig429@mac.com'], // list of receivers
-			//to: ['brianjason@gmail.com'], // list of receivers
 			subject: req.body.contactName + " has submitted an inqury", // Subject line
 			text: textMessage, // plain text body
 			html: htmlMessage // html body
