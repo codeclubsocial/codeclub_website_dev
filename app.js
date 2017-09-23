@@ -68,6 +68,7 @@ var User = require('./models/user');
 
 const { check, validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
+const assert = require('assert');
 
 //Message collection schema and conversion to Model
 var Schema = mongoose.Schema
