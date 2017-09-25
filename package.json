@@ -24,6 +24,7 @@
     "cookie-parser": "^1.4.3",
     "ejs": "^2.5.7",
     "express": "^4.15.4",
+    "express-init": "^1.1.0",
     "express-session": "^1.15.5",
     "express-validator": "^4.1.1",
     "html-to-text": "^3.3.0",

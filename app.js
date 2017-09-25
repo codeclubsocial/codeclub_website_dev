@@ -15,16 +15,23 @@ var MongoClient = require('mongodb').MongoClient;
 var expressValidator = require('express-validator');
 var flash = require('connect-flash');
 var htmlToText = require('html-to-text');
-
+var http = require('http');
+var https = require('https');
+var fs = require('fs');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-
 var app = express();
+var initialize = require('express-init');
 var port = process.env.PORT || 3000;
+var httpsOptions = {
+    key: fs.readFileSync('./key.pem'),
+    cert: fs.readFileSync('./cert.pem')
+};
+
 
 // Toggle Database Dev Mode
 //=================================================
-  var localDB = false; /* true: local, false: production */
+  var localDB = true; /* true: local, false: production */
 //=================================================
 
   if(localDB == true) {
@@ -396,15 +403,36 @@ app.delete("/forum/:id", function(req, res){
 	});
 });
 
-
-
 // ---------------------------------------------------------------
-
-app.listen(port, function(){
-	console.log("\n" + "=".repeat(40));
-	console.log("*** INITIALIZATION ***");
-	console.log("-".repeat(40));
-  console.log("Starting Server on http://localhost:3000");
-	console.log("Successfully connected to the Database");
-	console.log("=".repeat(40) + "\n");
+initialize(app, function(err) {
+    if (err)
+        throw new Error(err);
+    
+    // Redirect from insecure to secure server
+    http.createServer(function (req, res) {
+        res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+        res.end();
+    }).listen(80);
+    
+    // Instantiate secure server
+    https.createServer(httpsOptions, app).listen(443);
+    
+    // Back door HTTP for development. Turn off in production.
+    http.createServer(app).listen(port);
+    
+    // Say hello to the folks
+    console.log("\n" + "=".repeat(40));
+    console.log("*** INITIALIZATION ***");
+    console.log("-".repeat(40));
+    
+    // Flag local development DB
+    if (localDB == true) { console.log("Using Mongoose DB Server on localhost"); }
+    // Or official CodeClub DB
+    else{console.log("Using CodeClub production DB");}
+    
+    console.log("Successfully connected to the Database");
+    console.log("=".repeat(40) + "\n");    
 });
+
+
+
