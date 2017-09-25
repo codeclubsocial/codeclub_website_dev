@@ -31,7 +31,7 @@ var httpsOptions = {
 
 // Toggle Database Dev Mode
 //=================================================
-  var localDB = true; /* true: local, false: production */
+  var localDB = false; /* true: local, false: production */
 //=================================================
 
   if(localDB == true) {

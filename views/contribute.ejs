@@ -22,7 +22,8 @@
         <p>Type <code>git merge dev</code> to merge the updated local dev repository into your branch</p>
         <p>Resolve any conflicts and make sure that everything is running as expected</p>
         <li>Merge your branch into the dev repository</li>
-        <p>Type <code>git checkout dev</code> and then <code>git merge [your-name]-[your-improvement]</code> to merge your branch to the dev repository</p>
+        <p>Type <code>git checkout dev</code> and then <code>git merge --no-ff [your-name]-[your-improvement]</code> to merge your branch to the dev repository.</p>
+        <p>The <code>--no-ff</code> option in Git preserves the branch topology, so your branch remains distinct instead of combining it with dev. The dev branch will incorporate all of the changes on your branch but your branch will remain distinct in the Git network graph.</p>
         <p>Finally, type <code>git push origin dev</code> to push your edits to the dev branch</p>
       </ol>
     </div>
