@@ -1,9 +1,16 @@
+var mongoose = require("mongoose");
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var User = require('../models/user');
 var configAuth = require('./auth');
+
+mongoose.Promise = global.Promise;
+mongoose.Promise = require('bluebird');
+mongoose.Promise = require('q').Promise;
+
+const assert = require('assert');
 
 module.exports = function(passport) {
 
@@ -22,13 +29,15 @@ module.exports = function(passport) {
   },
   function(req, password, email, done) {
     process.nextTick(function() {
+      var query1 = User.findOne({ 'local.email': req.body.email });
+      var query2 = User.findOne({ 'local.username': req.body.username });
       
       // Make sure both email and username are unique in the database
-      User.findOne({ 'local.email': req.body.email }, function(err, user) {
+      query1.then(function(err, user) {
         if (err){return done(err);}
         if (user) {return done(null, false, {message: 'That email is already taken.'})}
         else{
-          User.findOne({ 'local.username': req.body.username }, function(err, user) {
+          query2.then(function(err, user) {
           if (err){return done(err);}
           if (user) {return done(null, false, {message: 'That username is already taken.'})}
           else{
