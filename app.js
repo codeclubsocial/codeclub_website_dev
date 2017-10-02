@@ -409,13 +409,13 @@ initialize(app, function(err) {
         throw new Error(err);
     
     // Redirect from insecure to secure server
-    http.createServer(function (req, res) {
-        res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
-        res.end();
-    }).listen(80);
+//    http.createServer(function (req, res) {
+//        res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+//        res.end();
+//    }).listen(80);
     
     // Instantiate secure server
-    https.createServer(httpsOptions, app).listen(443);
+//    https.createServer(httpsOptions, app).listen(443);
     
     // Back door HTTP for development. Turn off in production.
     http.createServer(app).listen(port);
