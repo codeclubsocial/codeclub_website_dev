@@ -160,7 +160,10 @@ textarea {
   color: red;
 }
 
-
+#signup-input {
+  margin: 20px;
+  background-color: black;
+}
 
 /*-------------
  	Footer

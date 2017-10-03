@@ -1,54 +1,76 @@
 <% include ./partials/header %>
 	<div class="body-container">
-		<h1>Sign Up</h1>
-		<p>&nbsp;</p>
-		<div style="width: 25em;">
-	  	<div class="input-group margin-bottom-sm">
-	  </div>
 
-	  <div class="input-group">
-	  </div>
 	<% if (message) { %>
 	    <h2 style="margin: 1.5rem 0"><font color="red"><%= message %></font></h2>
 	<% } %>
 
-	  <div class="input-group">
-	    <form action="/signup" method="post">
-	      <div>
-	        <input type="text" name="username" placeholder="Username"/>
-	      </div>
-				<div>
-					<input type="text" name="first_name" placeholder="First Name"/>
+		<div class="card card-outline-primary mb-3 text-center" style="width: 20rem; margin: 0 auto;">
+			<div class="card-block">
+				<h4 class="card-title">Sign Up</h4>
+
+				<div class="input-group">
+					<form action="/signup" method="post">
+						<div class="form-group row">
+							<div class="col-10">
+								<input type="text" name="username" placeholder="Username"/>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-10">
+								<input type="text" name="first_name" placeholder="First Name"/>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-10">
+								<input type="text" name="last_name" placeholder="Last Name"/>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-10">
+								<input type="email" name="email" placeholder="Email"/>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-10">
+								<input id="password"type="password" name="password" onkeyup="validateSignupPassword(event)" placeholder="Password"/>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-10">
+								<input id="confirmPassword" type="password" onkeyup="validateSignupPassword(event)" placeholder="Confirm Password"/>
+							</div>
+						</div>
+
+						<!-- Password Validation Messages -->
+						<div>
+							<div id="passwordNoticeMatch" class="password-hide">
+								<small>Passwords do not Match</small>
+							</div>
+							<div id="passwordNoticeLength" class="password-hide">
+								<small>Password must be 5 at least characters long.</small>
+							</div>
+							<div id="passwordNoticeReqChar" class="password-hide">
+								<small>Password must contain a letter and a number.</small>
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<div class="col-10">
+								<button id="submitButton" type="submit" name="button" class="btn btn-primary" disabled>Submit</button>
+							</div>
+						</div>
+					</form>
 				</div>
-				<div>
-					<input type="text" name="last_name" placeholder="Last Name"/>
-				</div>
-	      <div>
-	        <input type="text" name="email" placeholder="Email"/>
-	      </div>
-	      <div>
-	        <input id="password"type="password" name="password" onkeyup="validateSignupPassword(event)" placeholder="Password"/>
-	      </div>
-				<div>
-					<div id="passwordNoticeMatch" class="password-hide">
-						<small>Passwords do not Match</small>
-					</div>
-					<div id="passwordNoticeLength" class="password-hide">
-						<small>Password must be 5 at least characters long.</small>
-					</div>
-					<div id="passwordNoticeReqChar" class="password-hide">
-						<small>Password must contain a letter and a number.</small>
-					</div>
-					<input id="confirmPassword" type="password"  onkeyup="validateSignupPassword(event)" placeholder="Confirm Password"/>
-				</div>
-	        <div class="form-group">
-	          <button id="submitButton" type="submit" name="button" class="btn btn-primary" disabled>Submit</button>
-	      </div>
-	    </form>
-	  </div>
+			</div>
+		</div>
 	</div>
 </div>
 <p>&nbsp;</p>
 </div>
+
+<script>
+	console.log("signup.ejs");
+</script>
 
 <% include ./partials/footer %>

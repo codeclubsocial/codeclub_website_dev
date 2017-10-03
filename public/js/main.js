@@ -1,7 +1,8 @@
+console.log("main.js");
 /**************************
         chat toggle
 **************************/
-function toggleDisplay(){
+var toggleDisplay = function(){
   var chatDiv = document.getElementById('chatApp');
   var bodyDiv = document.getElementById('bodyContents');
   var chatLink = document.getElementById('chatButton');
@@ -25,6 +26,7 @@ function toggleDisplay(){
 /**************************
        like buttons
 **************************/
+/*
 var like = document.querySelector("#like");
 var likeText = document.getElementById("likeText");
 var likeCount = 0;
@@ -65,7 +67,7 @@ dislike.addEventListener("mouseover", function(){
 dislike.addEventListener("mouseout", function(){
   this.style.color = "";
 });
-
+*/
 /**************************
   signup field validation
 **************************/
@@ -143,6 +145,8 @@ var outcome = {
 };
 
 function validateSignupPassword(e) {
+  console.log("validateSignupPassword");
+
   var target = e.srcElement || e.target;
   //console.log('keypress: ' + target.id);
 
@@ -158,12 +162,12 @@ function validateSignupPassword(e) {
 /**************************
  Forum make active on mouseover
 **************************/
-function makeActive(listId) {
+var makeActive = function(listId) {
   //console.log(listId.id + " = active")
   document.getElementById(listId.id).classList.add('active');
-}
+};
 
-function makeInactive(listId) {
+var makeInactive = function(listId) {
   //console.log(listId.id + " = inactive")
   document.getElementById(listId.id).classList.remove('active');
-}
+};
