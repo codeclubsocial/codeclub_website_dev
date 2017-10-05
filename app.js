@@ -108,11 +108,9 @@ var msgBoard = mongoose.model("msgBoard", msgSchema);
 
 //Landing page - First page
 app.get("/", function(req, res){
-  console.log('root: ' + req.originalUrl);
-  console.log('root: ' + req.baseUrl);
-  console.log('root: ' + req.path);
-
-  if ( req.isAuthenticated() ){
+  if(req.originalURL == '/dev/') {
+    res.redirect('/');
+  } else if ( req.isAuthenticated() ){
     // If session cookie active (previous visitor) direct to index
     res.render("index", {req: req});
   }
@@ -122,24 +120,7 @@ app.get("/", function(req, res){
   }
 });
 
-/*
-//dev page - Second page
-app.get("/dev", function(req, res, next){
-  res.redirect("http://codeclubsocial.herokuapp.com");
-});
-
-app.get('/dev', function(req,res) {
-
-//modify the url in any way you want
-//var newurl = 'http://codeclubsocial.herokuapp.com';
-//request(newurl).pipe(res);
-});
-*/
 app.get("/dev", function(req, res){
-    console.log('dev: ' + req.originalUrl);
-    console.log('dev: ' + req.baseUrl);
-    console.log('dev: ' + req.path);
-
     req.url = "http://codeclubsocial.herokuapp.com/";
     app.handle(req, res);
   }
