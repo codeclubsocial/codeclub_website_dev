@@ -1,9 +1,16 @@
+var mongoose = require("mongoose");
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var User = require('../models/user');
 var configAuth = require('./auth');
+
+mongoose.Promise = global.Promise;
+mongoose.Promise = require('bluebird');
+mongoose.Promise = require('q').Promise;
+
+const assert = require('assert');
 
 module.exports = function(passport) {
 
@@ -18,45 +25,59 @@ module.exports = function(passport) {
   });
 
   passport.use('local-signup', new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password',
     passReqToCallback: true,
   },
-  function(req, email, password, done) {
+  function(req, password, email, done) {
     process.nextTick(function() {
-      User.findOne({ 'local.email':  email }, function(err, user) {
-        if (err)
-            return done(err);
-        if (user) {
-          return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
-        } else {
-          var newUser = new User();
-          newUser.local.email = email;
-          newUser.local.password = newUser.generateHash(password);
-          newUser.save(function(err) {
-            if (err)
-              throw err;
-            return done(null, newUser,req.flash('Blah', 'Blah.'));
-//            return done(null, newUser);
+      var query1 = User.findOne({ 'local.email': req.body.email });
+      var query2 = User.findOne({ 'local.username': req.body.username });
+      
+      // Make sure both email and username are unique in the database
+      query1.then(function(err, user) {
+        if (err){return done(err);}
+        if (user) {return done(null, false, {message: 'That email is already taken.'})}
+        else{
+          query2.then(function(err, user) {
+          if (err){return done(err);}
+          if (user) {return done(null, false, {message: 'That username is already taken.'})}
+          else{
+            
+            // If we get here we can create the database document
+            var newUser = new User();
+            newUser.local.username = req.body.username;
+            newUser.local.first_name = req.body.first_name;
+            newUser.local.last_name = req.body.last_name;
+            newUser.local.email = req.body.email;
+            newUser.local.password = newUser.generateHash(req.body.password);
+
+            // This flag gets set to true after verification link is received
+            newUser.local.verified = false;
+          
+            newUser.save(function(err) {
+            if (err){throw err;}
+              return done(null, newUser);
+              });
+            };
           });
-        }
+        };
       });
     });
   }));
 
   passport.use('local-login', new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password',
+    usernameField: 'username',
     passReqToCallback: true,
   },
-  function(req, email, password, done) {
-    User.findOne({ 'local.email':  email }, function(err, user) {
+  function(req, username, password, done) {
+    User.findOne({ 'local.username':  username }, function(err, user) {
       if (err)
-          return done(err);
+        {console.log("Passport login error!"); return done(err);}
       if (!user)
-          return done(null, false, req.flash('loginMessage', 'No user found.'));
+        return done(null, false, req.flash('error', 'User name not found.'));
       if (!user.validPassword(password))
-          return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
+        return done(null, false, req.flash('error', 'Wrong password.'));
+      if (!user.local.verified)
+        return done(null, false, req.flash('error', 'User not verified'));
       return done(null, user);
     });
   }));

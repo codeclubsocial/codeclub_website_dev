@@ -1,31 +1,52 @@
 <% include ./partials/header %>
 
-
 	<div class="container" style="margin-top: 2rem;">
 		<h1 style="display: inline;">Forum</h1>
 			<a href="/forum/new" class="btn btn-primary" style="float: right; text-transform: capitalize; text-decoration: none;">New Post</a>
 	</div>
+	&nbsp;
+	<div class="container">
+		<ul id="forumPostsList" class="list-group">
 
-<% msg.forEach(function(msg){ %> <!-- Start of content loop -->
-<div class="container">
-		<div class="forumPost" style="margin: 2rem 0;" id="cardblock">
-			<div class="card" style="border-top-right-radius: 3rem; border-bottom-left-radius: 2rem;">
-				<div class="card-block" style="background-color: rgba(0, 0, 0, 0.1); border-top-right-radius: 3rem; border-bottom-left-radius: 2rem;">
-					<h4 class="card-title"><%= msg.title %></h4>
-					<h6 class="badge badge-default"><%= msg.date.toDateString() %></h6>
-					<p class="card-text"><%= msg.body %>... <a href="/forum/<%=msg._id%>" class="card-link" style="color: #2196F3;">Read More</a></p>
-					<p style="float: right; color: grey; font-size: 15px;">
-						<em>By: Author </em>
-						<span>| likes</span>
-						<span>| Dislikes</span>
-					</p>
-					<br>
-				</div>
+				<% var altListGroupItem = 0; %>
+				<% var listGroupItem; %>
+
+				<!-- Start of content loop -->
+				<% msg.forEach(function(msg){ %>
+
+					<!-- Alternate BS class per line -->
+					<% if((altListGroupItem % 2) == 0) { %>
+						<% listGroupItem = 'list-group-item-info'; %>
+					<% } else { %>
+						<% listGroupItem = 'list-group-item-default'; %>
+					<% }; %>
+					<% altListGroupItem += 1; %>
+
+  <li class="list-group-item justify-content-between <%= listGroupItem %>" id="forumPost-<%= altListGroupItem %>" onmouseover="makeActive(this)" onmouseout="makeInactive(this)" onclick="location.href='/forum/<%= msg._id %>';" style="cursor: pointer;">
+      <div class="d-inline lead" style="float: left; width: 80%;"><strong><%= msg.title %></strong></div>
+			<div class="d-inline badge badge-default" style="float:right; width: 115px;"><%= msg.dateCreated.toDateString() %></div>
+			<div class="d-block panel-body text-truncate" style="clear: left; width: 100%;">
+						<% if(typeof msg.body != 'undefined') { %>
+							<%= msg.text.substring(0,120) %>...
+						<% } else { %>
+							<%= "..." %>
+						<% } %>
 			</div>
+			<div class="d-block" style="width: 100%; text-align: center;">
+			<!--div class="badge badge-default" style="float:left;"><%= msg.dateCreated.toDateString() %></div-->
+			<div style="float: right; color: grey; font-size: 15px;">
+				<em>By: <%= msg.author %> </em>
+				<span>| likes</span>
+				<span>| Dislikes</span>
+			</div>
+		</li>
+
+		<% }); %> <!-- End of content loop -->
 	</div>
+</ul>
 </div>
-
-<% }); %> <!-- End of content loop -->
-
-
+&nbsp;
+<script type="text/javascript">
+	sessionStorage.referringPage = 'forum';
+</script>
 <% include ./partials/footer %>

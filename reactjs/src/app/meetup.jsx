@@ -1,8 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './meetup.css';
+
+// for master:
 var consumerKey = 'ovcnv9ha9jar32damrf4nflcot';
 var redirectURI = 'http://www.codeclub.social/index';
+
+// for dev:
+// var consumerKey = '54ruujnlagioqjb2vnnevgvja9';
+// var redirectURI = 'http://codeclubsocial.herokuapp.com/index';
+
+// for austin:
+// var consumerKey = 'kksoj0htpfk9ef9c5qcphj0glv';
+// var redirectURI = 'http://austinsandbox.herokuapp.com/index';
 
 async function getRSVP(eventID) {
   try {
@@ -23,15 +33,6 @@ async function getMeetup() {
   }
 }
 
-function makeState() {
-  var text = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  for (var i = 0; i < 15; i++)
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  return text;
-}
-
 async function postRSVP(eventID, access_token) {
   try {
     let response = await fetch('https://cors-anywhere.herokuapp.com/https://api.meetup.com/codeclub/events/' + eventID + '/rsvps?key=674441542572b783949516b100104c&sign=true&response=yes&photo-host=public&access_token='+access_token, {
@@ -44,6 +45,14 @@ async function postRSVP(eventID, access_token) {
   }
 }
 
+function makeState() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for (var i = 0; i < 15; i++)
+  text += possible.charAt(Math.floor(Math.random() * possible.length));
+  return text;
+}
+
 class Meetup extends React.Component {
   constructor() {
     super();
@@ -51,27 +60,53 @@ class Meetup extends React.Component {
       meetupJson: {},
       meetupRSVP: {},
       getMeetupRSVP: {},
-      urlState: makeState()
+      urlState: makeState(),
+      RSVPd: [],
+      rsvpList: []
     }
     this.handleRSVPClick = this.handleRSVPClick.bind(this);
-    this.onLogIn = this.onLogIn.bind(this);
+    this.doRSVP = this.doRSVP.bind(this);
+    this.updateCookie = this.updateCookie.bind(this);
+    this.handleLoggedInRSVPClick = this.handleLoggedInRSVPClick.bind(this);
   }
 
   componentDidMount() {
     getMeetup().then((list) => {
       this.setState({meetupJson:list});
       if (window.location.hash.length > 1) {
-        this.handleRSVPClick();
+        var cookieState = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
+        this.doRSVP(cookieState[3], cookieState[6]);
       }
     });
   }
 
-  handleRSVPClick() {
-    var eventID = this.state.meetupJson["0"]["id"];
+componentDidUpdate() {
+  if (Object.keys(this.state.meetupRSVP).length !== 0 && Object.keys(this.state.getMeetupRSVP).length !== 0) {
+    var rsvpList = [];
+    for (var k in this.state.getMeetupRSVP) {
+      rsvpList.push(this.state.getMeetupRSVP[k]["member"]["id"]);
+    }
+    for (let i = 0; i < rsvpList.length; i++) {
+      if (rsvpList[i] !== this.state.rsvpList[i]) {
+        this.setState({rsvpList: rsvpList});
+      }
+      break;
+    }
+    let arrCookie = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
+    let eventNum = arrCookie[6];
+    if (!this.state.RSVPd.includes(eventNum)) {
+      var RSVPd = this.state.RSVPd.slice();
+      RSVPd.push(eventNum);
+      this.setState({RSVPd: RSVPd});
+    }
+  }
+}
+
+  doRSVP(cookieState, eventNum) {
+    var eventID = this.state.meetupJson[eventNum]["id"];
     var fragments = window.location.hash.split(/&|=/)
     var access_token = fragments[1];
-    var cookieState = document.cookie.split(/(urlStateCookie=)|;/);
-    if (fragments[9] == cookieState[2]) {
+    if (fragments[9] == cookieState) {
       postRSVP(eventID, access_token).then((list) => {
         this.setState({meetupRSVP:list});
       });
@@ -79,10 +114,28 @@ class Meetup extends React.Component {
     getRSVP(eventID).then((list) => {
       this.setState({getMeetupRSVP:list});
     });
-
   }
 
-  onLogIn() {
+  handleRSVPClick(eventNum) {
+    if (window.location.hash.length <= 1) {
+      return "https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=" + consumerKey + "&redirect_uri=" + redirectURI + "&state=" + this.state.urlState;
+    }
+  }
+
+  handleLoggedInRSVPClick(eventNum) {
+    if (Object.keys(this.state.meetupJson).length !== 0) {
+      this.updateCookie(eventNum);
+      if (window.location.hash.length <= 1) {
+        return true;
+      }
+      var arrCookie = document.cookie.split(/(urlStateCookie=)|;|(eventNum=)/);
+      this.doRSVP(arrCookie[2], eventNum);
+    }
+    return false;
+  }
+
+// Stores randomly generated state in cookie to be checked when user comes back from meetup auth site
+  updateCookie(eventNum) {
     var d = new Date();
     // number of days until cookie expires
     var ndays = 1;
@@ -90,45 +143,62 @@ class Meetup extends React.Component {
     var expires = "expires="+ d.toUTCString();
     var newCookie = "urlStateCookie=" + this.state.urlState + ";" + expires + ";path=/";
     document.cookie = newCookie;
+    document.cookie += "eventNum=" + eventNum + ";" + expires + ";path=/"
   }
 
   render() {
     if (Object.keys(this.state.meetupJson).length !== 0) {
-      var date = new Date(this.state.meetupJson["0"]["time"]);
-      var year = 1900 + date.getYear();
-      var month = date.getMonth();
-      var monthList = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-      var day = date.getDate();
-      var dayXX = ["st", "nd", "rd", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th", "th", "st"];
-      var hours = date.getHours();
-      var amPm = "AM";
-      if (hours > 12) {
-        hours = hours - 12;
-        amPm = "PM";
-      }
-      var minutes = date.getMinutes();
-      if (minutes < 10) {
-        minutes = "0" + minutes;
-      }
-      var name = this.state.meetupJson["0"]["venue"]["name"];
-      var hrefAuth = "https://secure.meetup.com/oauth2/authorize?response_type=token&scope=rsvp&client_id=" + consumerKey + "&redirect_uri=" + redirectURI + "&state=" + this.state.urlState;
-      var finalJSX = [
-        <h3>Next Meetup</h3>,
-        <p>The next scheduled meetup will be at {hours}:{minutes} {amPm} on {monthList[month]} {day}{dayXX[day-1]}, {year} at {name}.</p>,
-        <a href={hrefAuth} onClick={this.onLogIn} className="button">RSVP</a>
-      ];
-      if (Object.keys(this.state.meetupRSVP).length !== 0 && Object.keys(this.state.getMeetupRSVP).length !== 0) {
-        var rsvpList = [];
-        for (var k in this.state.getMeetupRSVP) {
-          rsvpList.push(this.state.getMeetupRSVP[k]["member"]["id"]);
+      var cardStyle = {
+        width: "20rem",
+      };
+      var multiCardJSX = [];
+      for (let i = 0; i < 3; i++) {
+        var finalJSX = [];
+        var date = new Date(this.state.meetupJson[i]["time"]);
+        var year = 1900 + date.getYear();
+        var month = date.getMonth();
+        var monthList = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var day = date.getDate();
+        var dayXX = ["st", "nd", "rd", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th", "th", "st"];
+        var hours = date.getHours();
+        var amPm = "AM";
+        if (hours > 12) {
+          hours = hours - 12;
+          amPm = "PM";
         }
-        if (rsvpList.includes(this.state.meetupRSVP["member"]["id"])) {
-          finalJSX.push(<p></p>);
-          finalJSX.push(<p>You RSVP'd!</p>);
+        var minutes = date.getMinutes();
+        if (minutes < 10) {
+          minutes = "0" + minutes;
         }
+        var name = this.state.meetupJson[i]["venue"]["name"];
+        finalJSX.push(
+          <div>
+            <h4 className="card-title">{this.state.meetupJson[i]["name"]}</h4>
+            <p className="card-text">{hours}:{minutes} {amPm} on {monthList[month]} {day}{dayXX[day-1]}, {year}<span><br/></span>{name}</p>
+            <a href={this.handleRSVPClick(i)} onClick={() => this.handleLoggedInRSVPClick(i)} className="button card-link">RSVP</a>
+          </div>
+        );
+        if (Object.keys(this.state.meetupRSVP).length !== 0 && Object.keys(this.state.getMeetupRSVP).length !== 0) {
+          if (this.state.rsvpList.includes(this.state.meetupRSVP["member"]["id"]) && this.state.RSVPd.includes(i.toString())) {
+            finalJSX.push(<p className="card-text"><span><br/></span>You RSVP'd!</p>);
+          }
+        }
+        multiCardJSX.push(
+          <div>
+            <div className="card" style={cardStyle}>
+              <div className="card-body">
+                {finalJSX}
+              </div>
+            </div>
+            <span><br/></span>
+          </div>
+        );
       }
+
       return (
-        <div>{finalJSX}</div>
+        <div>
+          {multiCardJSX}
+        </div>
       );
     }
     return <p></p>;

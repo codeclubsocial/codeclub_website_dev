@@ -14,7 +14,6 @@ textarea {
    cursor: pointer;
 }
 
-
 .jumbotron{
    background-color: white;
  }
@@ -28,7 +27,6 @@ textarea {
  	width: 100%;
  	overflow: hidden;
  }
-
 
  #forum-index-body {
    padding: 5px;
@@ -146,6 +144,25 @@ textarea {
 
 .dislike {
   color: #d9534f;
+}
+
+/*-------------
+ 	Sign Up
+-------------*/
+
+
+.password-hide {
+  display: none;
+}
+
+.password-warning {
+  display: block;
+  color: red;
+}
+
+#signup-input {
+  margin: 20px;
+  background-color: black;
 }
 
 /*-------------
