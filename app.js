@@ -2,39 +2,46 @@
 
 var express = require("express");
 var session = require("express-session");
+var initialize = require('express-init');
+
+var bodyParser = require("body-parser");
+var compression = require('compression');
 var cookieParser = require('cookie-parser');
 var methodOverride = require("method-override");
-var compression = require('compression');
-var bodyParser = require("body-parser");
-var nodemailer = require('nodemailer');
-var mongoose = require("mongoose");
+
 var logger = require('morgan');
-var path = require('path');
+var passport = require('passport');
+
+var fs = require('fs');
 var ejs = require("ejs");
-var MongoClient = require('mongodb').MongoClient;
-var expressValidator = require('express-validator');
+
 var flash = require('connect-flash');
+var nodemailer = require('nodemailer');
 var htmlToText = require('html-to-text');
+
+var path = require('path');
 var http = require('http');
 var https = require('https');
-var fs = require('fs');
-var passport = require('passport');
+
+var mongoose = require("mongoose");
+var MongoClient = require('mongodb').MongoClient;
+var expressValidator = require('express-validator');
 var LocalStrategy = require('passport-local').Strategy;
-var app = express();
-var initialize = require('express-init');
-var port = process.env.PORT || 3000;
+
 var httpsOptions = {
-    key: fs.readFileSync('./key.pem'),
-    cert: fs.readFileSync('./cert.pem')
+  key: fs.readFileSync('./key.pem'),
+  cert: fs.readFileSync('./cert.pem')
 };
 
+var app = express();
+var port = process.env.PORT || 3000;
 
 // Toggle Database Dev Mode
 //=================================================
   var localDB = false; /* true: local, false: production */
 //=================================================
 
-  if(localDB == true) {
+  if(localDB) {
       // LOCAL
       mongoose.connect("mongodb://127.0.0.1/test_db", {useMongoClient: true});
     }
@@ -49,20 +56,26 @@ var httpsOptions = {
 //Setup
 app.set("view engine", "ejs");
 app.use(compression());
+
 app.use(express.static("public"));
 app.use('/modules', express.static('node_modules'));
+
+//app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false }));
-// Set session cookie age to 86400 seconds=1 day
-//app.use(bodyParser.urlencoded({extended: true}));
+
 // No timeout on session key, so effectively infinite
+// Set session cookie age to 86400 seconds=1 day
 app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
+
 app.use(methodOverride("_method"));
-// app.use(logger('dev'));
 app.use(flash());
+
+// app.use(logger('dev'));
+
 var verifyEmail =  ' ';
 var rand = 0;
 
@@ -95,6 +108,10 @@ var msgBoard = mongoose.model("msgBoard", msgSchema);
 
 //Landing page - First page
 app.get("/", function(req, res){
+  console.log('root: ' + req.originalUrl);
+  console.log('root: ' + req.baseUrl);
+  console.log('root: ' + req.path);
+
   if ( req.isAuthenticated() ){
     // If session cookie active (previous visitor) direct to index
     res.render("index", {req: req});
@@ -104,6 +121,36 @@ app.get("/", function(req, res){
     res.render("landing", {req: req});
   }
 });
+
+/*
+//dev page - Second page
+app.get("/dev", function(req, res, next){
+  res.redirect("http://codeclubsocial.herokuapp.com");
+});
+
+app.get('/dev', function(req,res) {
+
+//modify the url in any way you want
+//var newurl = 'http://codeclubsocial.herokuapp.com';
+//request(newurl).pipe(res);
+});
+*/
+app.get("/dev", function(req, res){
+    console.log('dev: ' + req.originalUrl);
+    console.log('dev: ' + req.baseUrl);
+    console.log('dev: ' + req.path);
+
+    req.url = "http://codeclubsocial.herokuapp.com/";
+    app.handle(req, res);
+  }
+);
+
+/*
+app.get('/*', function(req, res, next) {
+    if (req.headers.host.match(/^www/) !== null ) res.redirect('http://' + req.headers.host.replace(/^www\./, '') + req.url, 301);
+    else next();
+});
+*/
 
 //Index page - Second page
 app.get("/index", function(req, res){
@@ -162,7 +209,7 @@ app.get("/verify", function(req, res){
 	    User.findOneAndUpdate( {'local.email':verifyEmail}, {'$set':{'local.verified': true}}, function(err, doc){
 		if (err) return handleError(err);
 	    });
-	    res.render("login", {req: req, message: 'You are verified. You may now log in.'});	    
+	    res.render("login", {req: req, message: 'You are verified. You may now log in.'});
 	}
 	else{
 	    console.log("Request is from unknown source");
@@ -184,7 +231,7 @@ app.get("/verify", function(req, res){
 	host=req.get('host');
 	link="http://"+req.get('host')+"/verify?id="+rand;
 
-	var htmlMessage = "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>";	    
+	var htmlMessage = "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>";
 	var textMessage = "------ Verification Email ------ \nFrom: CodeClub Admin" + "\nEmail: mailbot@codeclub.social" +
 	    "\nMessage: " + req.body.contactInquiry + "\n-------------------------------------------------------";
 
@@ -223,7 +270,7 @@ app.post('/signup', [
 	res.render('signup', {req: req, message: req.flash('error')});
     }else if (req.body.username.match(/ /g)) {
 	req.flash('error','Username cannot contain space(s)');
-	res.render('signup', {req: req, message: req.flash('error')});	
+	res.render('signup', {req: req, message: req.flash('error')});
     }else{
 	verifyEmail = req.body.email;
 	passport.authenticate('local-signup', {
@@ -407,32 +454,29 @@ app.delete("/forum/:id", function(req, res){
 initialize(app, function(err) {
     if (err)
         throw new Error(err);
-    
+
     // Redirect from insecure to secure server
 //    http.createServer(function (req, res) {
 //        res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
 //        res.end();
 //    }).listen(80);
-    
+
     // Instantiate secure server
 //    https.createServer(httpsOptions, app).listen(443);
-    
+
     // Back door HTTP for development. Turn off in production.
     http.createServer(app).listen(port);
-    
+
     // Say hello to the folks
     console.log("\n" + "=".repeat(40));
     console.log("*** INITIALIZATION ***");
     console.log("-".repeat(40));
-    
+
     // Flag local development DB
     if (localDB == true) { console.log("Using Mongoose DB Server on localhost"); }
     // Or official CodeClub DB
     else{console.log("Using CodeClub production DB");}
-    
+
     console.log("Successfully connected to the Database");
-    console.log("=".repeat(40) + "\n");    
+    console.log("=".repeat(40) + "\n");
 });
-
-
-
