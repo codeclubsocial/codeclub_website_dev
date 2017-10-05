@@ -128,7 +128,7 @@ app.get("/dev", function(req, res){
 );
 */
 app.get("/dev", function(req, res){
-    res.redirect("http://codeclubsocial.herokuapp.com/");
+    res.redirect("https://codeclubsocial.herokuapp.com/");
   }
 );
 
