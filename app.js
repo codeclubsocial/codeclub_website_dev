@@ -120,9 +120,15 @@ app.get("/", function(req, res){
   }
 });
 
+/*
 app.get("/dev", function(req, res){
     req.url = "http://codeclubsocial.herokuapp.com/";
     app.handle(req, res);
+  }
+);
+*/
+app.get("/dev", function(req, res){
+    res.redirect("https://codeclubsocial.herokuapp.com/");
   }
 );
 
