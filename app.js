@@ -36,6 +36,11 @@ var httpsOptions = {
 var app = express();
 var port = process.env.PORT || 3000;
 
+// Disable log-in check for development
+//=================================================
+  var enableAuth = true; /* true: normal behavior, false:don't check logged in status */
+//=================================================
+
 // Toggle Database Dev Mode
 //=================================================
   var localDB = false; /* true: local, false: production */
@@ -52,6 +57,15 @@ var port = process.env.PORT || 3000;
 
 //=================================================
 
+// A wrapper function for the passport authentication.
+// enableAuth=false bypasses login check to prevent developers from having
+// to re-login every time they restart the server. FOR DEVELOPMENT ONLY!
+app.locals.authenticate=(
+		function(req)
+		{
+				if (enableAuth == true){ return(req.isAuthenticated()) }
+				else{ return true }
+		});
 
 //Setup
 app.set("view engine", "ejs");
@@ -110,12 +124,12 @@ var msgBoard = mongoose.model("msgBoard", msgSchema);
 app.get("/", function(req, res){
   if(req.originalURL == '/dev/') {
     res.redirect('/');
-  } else if ( req.isAuthenticated() ){
+  } else if ( app.locals.authenticate(req) ){
     // If session cookie active (previous visitor) direct to index
     res.render("index", {req: req});
   }
   else{
-    // If session cookie active (not registered or verified) direct to landing
+    // If session cookie not active (not registered or verified) direct to landing
     res.render("index", {req: req});
   }
 });
@@ -169,7 +183,7 @@ app.post('/login', passport.authenticate('local-login', {
 
 //Secret page - For testing passport sessions
 app.get("/secret", function(req, res){
-  if ( req.isAuthenticated() ){
+  if ( app.locals.authenticate(req) ){
     // Only authenticated users can reach the Secret page
     res.render("secret", {req: req});
   }
@@ -336,7 +350,7 @@ app.post("/contactForm", function(req, res){
 
 //Message Board Page - Showing all the posts
 app.get("/forum", function(req, res){
-	if ( req.isAuthenticated()){
+	if ( app.locals.authenticate(req)){
 		msgBoard.find({}, function(err, msg){
 			if(err){
 				console.log(err)
@@ -354,7 +368,7 @@ app.get("/forum", function(req, res){
 
 //New Route - Form/page where you create a new post
 app.get("/forum/new", function(req, res){
-	if ( req.isAuthenticated() ){
+	if ( app.locals.authenticate(req) ){
 		res.render("editor", {msg: "", req: req})
 	}
 	else{

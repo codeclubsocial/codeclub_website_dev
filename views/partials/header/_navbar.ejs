@@ -10,7 +10,7 @@
 			<li class="nav-item">
 				<a class="nav-link" href="/index">Home<span class="sr-only">(current)</span></a>
 			</li>
-<%			if ( req.isAuthenticated() ){ %>
+<%			if ( req.app.locals.authenticate(req) ){ %>
 				<li class="nav-item">
 					<a class="nav-link" href="/forum">Forum<span class="sr-only">(current)</span></a>
 <%			}	%>
@@ -34,7 +34,7 @@
 					<a class="dropdown-item" href="https://github.com/codeclubsocial/" target="_blank">Github Repositories</a>
 				</div>
 			</li>
-<%			if ( req.isAuthenticated() ){ %>
+<%			if ( req.app.locals.authenticate(req) ){ %>
 				<li class="nav-item" id="chatButton">
 					<a class="nav-link" href="#" onclick="toggleDisplay()">Chat</a>
 <%			}	%>
@@ -43,14 +43,14 @@
     </ul>
 		<ul class="nav navbar-nav navbar-right">
 		<li class="nav-item">
-<%      if ( !req.isAuthenticated() ){ %>
-      <a class="nav-link" href="/signup"><i class="fa fa-user-plus" aria-hidden="true"></i> Sign Up</a>
+<%			if ( !req.app.locals.authenticate(req) ){ %>
 <%	}	%>
-    </li>
 			<li class="nav-item">
-<%      if ( req.isAuthenticated() ){ %>
+<%			if ( req.app.locals.authenticate(req) ){ %>
 					<a class="nav-link" href="/logout"><i class="fa fa-sign-in" aria-hidden="true"></i> Logout</a>
 <%      }else{ %>
+		      <a class="nav-link" href="/signup"><i class="fa fa-user-plus" aria-hidden="true"></i> Sign Up</a>
+    </li>
 					<a class="nav-link" href="/login"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>
 <%	}	%>
 			</li>
