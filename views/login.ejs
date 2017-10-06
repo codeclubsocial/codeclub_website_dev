@@ -4,33 +4,16 @@
 <div class="row">
 	<div class="col-sm-6">
 		<h1 style="margin: 1.5rem 0">Login</h1>
-<!--
-		<form style="">
-		  <div class="form-group">
-		    <label for="exampleInputEmail1">Email</label>
-		    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-		    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-		  </div>
-		  <div class="form-group">
-		    <label for="exampleInputPassword1">Password</label>
-		    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-		  </div>
-			<div class="form-group">
-				<button type="submit" name="button" class="btn btn-primary">Login</button>
-			</div>
-		</form>
--->
+
 <% if (message) { %>
     <h2 style="margin: 1.5rem 0"><font color="red"><%= message %></font></h2>
 <% } %>
     <form action="/login" method="post">
-      <div>
-        <label>Username:</label>
-        <input type="text" name="username"/>
+      <div class="form-group">
+        <input type="text" name="username" class="form-control" placeholder="Username">
       </div>
-      <div>
-        <label>Password:</label>
-        <input type="password" name="password"/>
+      <div class="form-group">
+        <input type="password" name="password" class="form-control" placeholder="Password">
       </div>
       <div class="form-group">
         <button type="submit" name="button" class="btn btn-primary">Login</button>
