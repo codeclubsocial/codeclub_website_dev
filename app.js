@@ -116,7 +116,7 @@ app.get("/", function(req, res){
   }
   else{
     // If session cookie active (not registered or verified) direct to landing
-    res.render("landing", {req: req});
+    res.render("index", {req: req});
   }
 });
 
