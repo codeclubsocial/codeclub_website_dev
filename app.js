@@ -232,14 +232,14 @@ app.get("/verify", function(req, res){
 	host=req.get('host');
 	link="http://"+req.get('host')+"/verify?id="+rand;
 
-	var htmlMessage = "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>";
+	var htmlMessage = "Hello,<br> Please click on the link to verify your email.<br><a href="+link+">Click here to verify</a>";
 	var textMessage = "------ Verification Email ------ \nFrom: CodeClub Admin" + "\nEmail: mailbot@codeclub.social" +
 	    "\nMessage: " + req.body.contactInquiry + "\n-------------------------------------------------------";
 
 	let mailOptions = {
 	    from: '"Verification Email" <mailbot@codeclub.social>', // sender address
 	    to: verifyEmail,						// verification address
-	    subject: "Codeclub Verification EMail ", 		// Subject line
+	    subject: "Codeclub Verification Email ", 		// Subject line
 	    text: textMessage, 					// plain text body
 	    html: htmlMessage 					// html body
 	};
@@ -260,10 +260,10 @@ app.post('/signup', [
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
 	if (errors.array()[0].param == 'email') {
-	    req.flash('error','EMail field must contain a valid e-mail address');
+	    req.flash('error','Email field must contain a valid e-mail address');
 	}
 	else if (errors.array()[0].param == 'password') {
-	   req.flash('error','Passwords must be at least 5 chars long and contain one number');
+	   req.flash('error','Passwords must be at least 5 characters long and contain one number');
 	}
 	res.render('signup', {req: req, message: req.flash('error')});
     }else if (req.body.username.length < 1) {
