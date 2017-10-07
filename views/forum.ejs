@@ -10,6 +10,13 @@
 
 				<% var altListGroupItem = 0; %>
 				<% var listGroupItem; %>
+        <% msg = msg.sort(function(a, b){
+    			var keyA = a.dateCreated.getTime();
+        	var keyB = b.dateCreated.getTime();
+    			if(keyA > keyB) return -1;
+    			if(keyA < keyB) return 1;
+    			return 0;
+				}); %>
 
 				<!-- Start of content loop -->
 				<% msg.forEach(function(msg){ %>

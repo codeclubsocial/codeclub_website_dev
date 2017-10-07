@@ -1,10 +1,11 @@
-<div class="container" style="padding-bottom: 5em; padding-top: 2em;">
+<div id="post-reply-editor" class="container" style="padding-bottom: 5em; padding-top: 2em; display: none;">
   <form id="editorFormComment" method="POST">
-    <div id="trumbowyg-comment-editor" placeholder='Hello, I am a rich text editor that allows you to comment on the post above me. Please be gentle.'></div>
+    <div id="trumbowyg-comment-editor" placeholder='Hello, I am a rich text editor that allows you to reply to the post above me. Please be gentle.'></div>
 
     <!--input type="hidden" id="postEditor" name="msg[body]" value='' /-->
 
     <button id="comment-editor-btn" class="btn btn-primary">Save</button>
+    <button id="post-reply-hide" type="button" class="btn">Hide</button>
   </form>
 </div>
 
@@ -32,6 +33,16 @@
         ['fullscreen']
     ]
   });
+  $('#post-reply').click(function() {
+    $('#post-reply-editor').css('display','unset');
+    $('#post-reply').css('display','none');
+  });
+
+  $('#post-reply-hide').click(function() {
+    $('#post-reply-editor').css('display','none');
+    $('#post-reply').css('display','unset');
+  });
+
 
   $('#comment-editor-btn').click(function(){
     var titleContent = $('#postTitle').val();
