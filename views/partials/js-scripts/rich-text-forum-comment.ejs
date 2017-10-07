@@ -1,0 +1,51 @@
+<div id="post-reply-editor" class="container" style="padding-bottom: 5em; padding-top: 2em; display: none;">
+  <form id="editorFormComment" method="POST">
+    <div id="trumbowyg-comment-editor" placeholder='Hello, I am a rich text editor that allows you to reply to the post above me. Please be gentle.'></div>
+
+    <!--input type="hidden" id="postEditor" name="msg[body]" value='' /-->
+
+    <button id="comment-editor-btn" class="btn btn-primary">Save</button>
+    <button id="post-reply-hide" type="button" class="btn">Hide</button>
+  </form>
+</div>
+
+<script src="/modules/trumbowyg/dist/trumbowyg.min.js"></script>
+<script src="/modules/trumbowyg/dist/plugins/preformatted/trumbowyg.preformatted.js"></script>
+<script src="/modules/trumbowyg/dist/plugins/colors/trumbowyg.colors.js"></script>
+
+<script>
+  $('.trumbowyg-box').css('min-height','100px');
+  $('#trumbowyg-comment-editor').css('min-height','100px');
+  $('#trumbowyg-comment-editor').css('height','100px');
+  $('#trumbowyg-comment-editor').trumbowyg({
+    removeformatPasted: true,
+    btns: [
+        ['bold', 'italic', 'underline'],
+        ['formatting'],
+        ['justifyLeft', 'justifyCenter', 'justifyRight'],
+        ['foreColor', 'backColor'],
+        ['link'],
+        'btnGrp-lists',
+        ['insertImage'],
+        ['horizontalRule'],
+        ['viewHTML'],
+        ['removeformat'],
+        ['fullscreen']
+    ]
+  });
+  $('#post-reply').click(function() {
+    $('#post-reply-editor').css('display','unset');
+    $('#post-reply').css('display','none');
+  });
+
+  $('#post-reply-hide').click(function() {
+    $('#post-reply-editor').css('display','none');
+    $('#post-reply').css('display','unset');
+  });
+
+
+  $('#comment-editor-btn').click(function(){
+    var titleContent = $('#postTitle').val();
+    $('#trumbowyg-comment-editor').trumbowyg('html');
+  });
+</script>

@@ -35,6 +35,7 @@ var httpsOptions = {
 
 var app = express();
 var port = process.env.PORT || 3000;
+var currUsername = null;
 
 // Disable log-in check for development
 //=================================================
@@ -113,7 +114,8 @@ var msgSchema = new Schema ({
   text: String,
 	author: String, //should be fetched from user info after Authentication (Passport.js)
 	dateCreated: {type: Date, default: Date.now},
-  dateModified: Array
+  dateModified: Array,
+  comments: Array
 });
 
 var msgBoard = mongoose.model("msgBoard", msgSchema);
@@ -175,11 +177,23 @@ app.get("/login", function(req, res){
 });
 
 // Credentials check from login
-app.post('/login', passport.authenticate('local-login', {
-  successRedirect: '/secret',
-  failureRedirect: '/login',
-  failureFlash: true
-}));
+// app.post('/login', passport.authenticate('local-login', {
+//   successRedirect: '/secret',
+//   failureRedirect: '/login',
+//   failureFlash: true
+// }));
+
+app.post('/login', function(req, res, next) {
+  passport.authenticate('local-login', function(err, user, info) {
+    if (err) { return next(err); }
+    if (!user) { return res.redirect('/login'); }
+    req.logIn(user, function(err) {
+      if (err) { return next(err); }
+      currUsername = user.local.username;
+      return res.redirect('/secret');
+    });
+  })(req, res, next);
+});
 
 //Secret page - For testing passport sessions
 app.get("/secret", function(req, res){
@@ -380,7 +394,8 @@ app.get("/forum/new", function(req, res){
 app.post("/forum", function(req, res){
   req.body['body'] = req.body['trumbowyg-editor'];
   req.body['text'] = htmlToText.fromString(req.body['trumbowyg-editor']);
-  req.body['author'] = "admin"
+  req.body['author'] = currUsername;
+  req.body['comments'] = [];
   delete req.body['trumbowyg-editor']
   //console.log(req.body);
 
@@ -420,11 +435,11 @@ app.get("/forum/:id/edit", function(req, res){
 
 //Update Route - Updating the post
 app.put("/forum/:id", function(req, res){
-
+  console.log(req.body);
   //req.body.dateModified = {type: Date, default: Date.now};
   req.body.body = req.body['trumbowyg-editor'];
   req.body.text = htmlToText.fromString(req.body['trumbowyg-editor']);
-  req.body.author = "admin"
+  req.body.author = currUsername;
   delete req.body['trumbowyg-editor']
 
   //console.log(req.body);
@@ -438,6 +453,34 @@ app.put("/forum/:id", function(req, res){
 			res.redirect("/forum");
 		}
 	});
+});
+
+//Update Route - Updating the post
+app.post("/forum/:id", function(req, res){
+  //req.body.dateModified = {type: Date, default: Date.now};
+  var newComment = {}
+  newComment.body = req.body['trumbowyg-comment-editor'];
+  newComment.text = htmlToText.fromString(req.body['trumbowyg-comment-editor']);
+  newComment.author = currUsername;
+  newComment.dateCreated = new Date(Date.now());
+  var commentsArr;
+	msgBoard.find({"_id":req.params.id}, function(err, msg) {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      msg[0].comments.push(newComment);
+      msgBoard.findByIdAndUpdate(req.params.id, msg[0], function(err, msg){
+    		if(err) {
+    			console.log(err);
+    			res.redirect("/forum/"+req.params.id);
+    		}
+        else {
+          res.redirect("/forum/"+req.params.id);
+    		}
+    	});
+    }
+  });
 });
 
 //Delete Route - Deleting the post
