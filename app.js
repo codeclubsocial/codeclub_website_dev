@@ -438,7 +438,7 @@ msgBoard.findById(req.params.id, function(err, msg){
 			console.log(err);
 			res.redirect("/forum");
 		} else {
-			res.render("show", {msg: msg, req: req});
+			res.render("show", {msg: msg, req: req, currUsername: currUsername});
 		}
 	});
 });
@@ -450,7 +450,11 @@ app.get("/forum/:id/edit", function(req, res){
 			if(err){
 				console.log(err);
 				res.redirect("/forum");
-			} else {
+			}
+      else if (msg.author !== currUsername) {
+        res.redirect("/forum/" + req.params.id);
+      }
+      else {
 				res.render("editor", {msg: msg, req: req});
 			}
 		});

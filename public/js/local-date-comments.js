@@ -6,7 +6,6 @@ var msg;
 fetch('/getdate/'+ currentID)
   .then(res => res.json())
   .then(function(msg) {
-    console.log(msg);
     var commentsArr = msg[0].comments;
     var postDateCreated = new Date(msg[0].dateCreated);
     $('#post-date-created').html(postDateCreated.toDateString());
@@ -34,7 +33,6 @@ fetch('/getdate/'+ currentID)
       }
       var dateStr = month + '/' + date + '/' + year + ' ' + hours + ':' + minutes + ':' + seconds + ' ' + amPM;
       var commentID = "msgcomments" + i;
-      console.log(commentID);
       $('#' + commentID).html(dateStr);
     }
   });
