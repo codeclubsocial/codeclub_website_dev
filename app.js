@@ -407,6 +407,17 @@ app.post("/forum", function(req, res){
   });
 });
 
+app.get('/getdate/:id', function(req, res) {
+  msgBoard.find({"_id":req.params.id}, function(err, msg) {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      res.send(msg);
+    }
+  });
+});
+
 //Show Route - Viewing the full message/page of the created post
 app.get("/forum/:id", function(req, res){
 //mongodb commands, showing/finding msgs in detail (full)

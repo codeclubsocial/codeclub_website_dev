@@ -32,28 +32,7 @@
           <div style="padding: 5px">
             <div style="font-size: 0.85em;">
               <span style="color: rgb(36, 105, 92);"><%- msg.comments[i].author %></span>
-              <%
-                var fullDate = msg.comments[i].dateCreated;
-                var month = fullDate.getMonth() + 1;
-                var date = fullDate.getDate();
-                var year = fullDate.getYear() + 1900;
-                var amPM = "AM";
-                var hours = fullDate.getHours();
-                if (hours > 12) {
-                  amPM = "PM";
-                  hours -= 12;
-                }
-                var minutes = fullDate.getMinutes();
-                if (minutes < 10) {
-                  minutes = "0" + minutes;
-                }
-                var seconds = fullDate.getSeconds();
-                if (seconds < 10) {
-                  seconds = "0" + seconds;
-                }
-                var dateStr = month + '/' + date + '/' + year + ' ' + hours + ':' + minutes + ':' + seconds + ' ' + amPM;
-              %>
-              <span><%- dateStr %></span>
+              <span id="msgcomments<%= i %>"></span>
             </div>
             <p style="padding-top: 5px"> <%- msg.comments[i].body %></p>
           </div>
@@ -71,6 +50,7 @@
 
 
 <script type="text/javascript" src="/js/like.js"></script>
+<script src="/js/local-date.js"></script>
 <script type="text/javascript">
   sessionStorage.referringPage = 'show';
 </script>
