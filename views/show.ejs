@@ -7,7 +7,7 @@
         <h3><%= msg.title %> </h3>
       </div>
       <div class="card-block">
-        <span class="badge badge-pill badge-primary" style="float: right;"><%= msg.dateCreated.toDateString() %></span>
+        <span id="post-date-created" class="badge badge-pill badge-primary" style="float: right;"><%= msg.dateCreated.toDateString() %></span>
         <div class="card-text" style="margin: 2em auto; text-align: justify;"><%- msg.body %></div>
         <a href="/forum/<%= msg._id %>/edit" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
         <form class="" action="/forum/<%= msg._id %>?_method=DELETE" method="POST" style="display: inline;">
@@ -50,7 +50,7 @@
 
 
 <script type="text/javascript" src="/js/like.js"></script>
-<script src="/js/local-date.js"></script>
+<script src="/js/local-date-comments.js"></script>
 <script type="text/javascript">
   sessionStorage.referringPage = 'show';
 </script>

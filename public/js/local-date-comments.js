@@ -8,6 +8,8 @@ fetch('/getdate/'+ currentID)
   .then(function(msg) {
     console.log(msg);
     var commentsArr = msg[0].comments;
+    var postDateCreated = new Date(msg[0].dateCreated);
+    $('#post-date-created').html(postDateCreated.toDateString());
     for (var i = 0; i < commentsArr.length; i++) {
       var fullDate = new Date(commentsArr[i].dateCreated);
       var month = fullDate.getMonth() + 1;
@@ -15,9 +17,12 @@ fetch('/getdate/'+ currentID)
       var year = fullDate.getYear() + 1900;
       var amPM = "AM";
       var hours = fullDate.getHours();
-      if (hours > 12) {
+      if (hours > 11) {
         amPM = "PM";
         hours -= 12;
+      }
+      else if (hours === 0) {
+        hours = 12;
       }
       var minutes = fullDate.getMinutes();
       if (minutes < 10) {

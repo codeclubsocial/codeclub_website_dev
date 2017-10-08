@@ -408,14 +408,26 @@ app.post("/forum", function(req, res){
 });
 
 app.get('/getdate/:id', function(req, res) {
-  msgBoard.find({"_id":req.params.id}, function(err, msg) {
-    if (err) {
-      console.log(err);
-    }
-    else {
-      res.send(msg);
-    }
-  });
+  if (req.params.id == "forum") {
+    msgBoard.find({}, function(err, msg) {
+      if (err) {
+        console.log(err);
+      }
+      else {
+        res.send(msg);
+      }
+    });
+  }
+  else {
+    msgBoard.find({"_id":req.params.id}, function(err, msg) {
+      if (err) {
+        console.log(err);
+      }
+      else {
+        res.send(msg);
+      }
+    });
+  }
 });
 
 //Show Route - Viewing the full message/page of the created post
