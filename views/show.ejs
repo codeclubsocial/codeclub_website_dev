@@ -44,6 +44,9 @@
                   hours -= 12;
                 }
                 var minutes = fullDate.getMinutes();
+                if (minutes < 10) {
+                  minutes = "0" + minutes;
+                }
                 var seconds = fullDate.getSeconds();
                 if (seconds < 10) {
                   seconds = "0" + seconds;
@@ -52,7 +55,7 @@
               %>
               <span><%- dateStr %></span>
             </div>
-            <p><%- msg.comments[i].body %></p>
+            <p style="padding-top: 5px"> <%- msg.comments[i].body %></p>
           </div>
         </body>
       </div>
