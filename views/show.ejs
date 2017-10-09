@@ -17,8 +17,8 @@
         <% } %>
         <p style="float: right; color: grey; font-size: 15px;">
           <em style="margin-right: 2rem;">By: <%= msg.author %> </em>
-          <span style="margin-right: 0.5rem;" id="likeText"><i class="fa fa-thumbs-up" aria-hidden="true" id="like" style="font-size: 1.3rem;"></i> 0</span>
-          <span><i class="fa fa-thumbs-down" aria-hidden="true" style="font-size: 1.3rem;"id="dislike"></i> 0</span>
+          <span style="margin-right: 0.5rem;" id="likeText"><i class="fa fa-thumbs-up" aria-hidden="true" id="like" style="font-size: 1.3rem;"></i> <span id="like-num"> <%= msg.vote.likes %> </span> </span>
+          <span><i class="fa fa-thumbs-down" aria-hidden="true" style="font-size: 1.3rem;"id="dislike"></i> <span id="dislike-num" ><%= msg.vote.dislikes %></span> </span>
         </p>
       </div>
     </div>
