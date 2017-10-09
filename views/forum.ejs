@@ -45,8 +45,18 @@
 			<!--div class="badge badge-default" style="float:left;"><%= msg.dateCreated.toDateString() %></div-->
 			<div style="float: right; color: grey; font-size: 15px;">
 				<em>By: <%= msg.author %> </em>
-				<span>| likes</span>
-				<span>| dislikes</span>
+				<% if (msg.vote.likes == 1) { %>
+					<span>| <%= msg.vote.likes %> like</span>
+				<% }
+				else { %>
+					<span>| <%= msg.vote.likes %> likes</span>
+				<% } %>
+				<% if (msg.vote.dislikes == 1) { %>
+					<span>| <%= msg.vote.dislikes %> dislike</span>
+				<% }
+				else { %>
+					<span>| <%= msg.vote.dislikes %> dislikes</span>
+				<% } %>
 			</div>
 		</li>
 
