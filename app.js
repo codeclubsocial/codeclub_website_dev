@@ -270,30 +270,33 @@ app.get("/verify", function(req, res){
 });
 
 app.post('/signup', [
-    check('email').isEmail(),
-    check('password').isLength({ min: 5 }).matches(/\d/)
-    ], (req, res, next) => {
+  check('email').isEmail(),
+  check('password').isLength({ min: 5 }).matches(/\d/)
+  ], (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-	if (errors.array()[0].param == 'email') {
-	    req.flash('error','Email field must contain a valid e-mail address');
-	}
-	else if (errors.array()[0].param == 'password') {
-	   req.flash('error','Passwords must be at least 5 characters long and contain one number');
-	}
-	res.render('signup', {req: req, message: req.flash('error')});
-    }else if (req.body.username.length < 1) {
-	req.flash('error','Username cannot be empty');
-	res.render('signup', {req: req, message: req.flash('error')});
-    }else if (req.body.username.match(/ /g)) {
-	req.flash('error','Username cannot contain space(s)');
-	res.render('signup', {req: req, message: req.flash('error')});
-    }else{
-	verifyEmail = req.body.email;
-	passport.authenticate('local-signup', {
-	    successRedirect: '/verify',
-	    failureRedirect: '/signup',
-	    failureFlash: req.flash('error')})(req,res);
+	   if (errors.array()[0].param == 'email') {
+	      req.flash('error','Email field must contain a valid e-mail address');
+	   }
+	   else if (errors.array()[0].param == 'password') {
+	      req.flash('error','Passwords must be at least 5 characters long and contain one number');
+	   }
+	   res.render('signup', {req: req, message: req.flash('error')});
+  }
+  else if (req.body.username.length < 1) {
+	   req.flash('error','Username cannot be empty');
+     res.render('signup', {req: req, message: req.flash('error')});
+  }
+  else if (req.body.username.match(/ /g)) {
+	   req.flash('error','Username cannot contain space(s)');
+	    res.render('signup', {req: req, message: req.flash('error')});
+  }
+  else{
+    verifyEmail = req.body.email;
+    passport.authenticate('local-signup', {
+	  successRedirect: '/verify',
+	  failureRedirect: '/signup',
+	  failureFlash: req.flash('error')})(req,res);
     }
 });
 

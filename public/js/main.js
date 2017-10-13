@@ -106,8 +106,10 @@ var passwords = {
 var enableSubmitButton = function(outcome){
   if(outcome.matching && outcome.fiveLong && outcome.alphanumeric){
     document.getElementById("submitButton").disabled = false;
+    console.log("enabled")
   } else {
     document.getElementById("submitButton").disabled = true;
+    console.log("disabled")
   }
 };
 
