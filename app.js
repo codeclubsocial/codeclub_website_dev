@@ -273,32 +273,63 @@ app.post('/signup', [
   check('email').isEmail(),
   check('password').isLength({ min: 5 }).matches(/\d/)
   ], (req, res, next) => {
+    console.log("POST /signup")
+    var queryUsername = User.findOne({"local.username":req.body.username})
+    var queryEmail = User.findOne({"local.email":req.body.email})
+    queryUsername.select('local.username');
+    queryEmail.select('local.email');
+    var userBool = false;
+    var emailBool = false;
+    queryUsername.exec(function(err, user) {
+      if (err) {
+        console.log(err);
+      }
+      else if (user !== null) {
+        req.flash('error','Username already taken');
+        userBool = true;
+      }
+    });
+    queryEmail.exec(function(err, email) {
+      if (err) {
+        console.log(err);
+      }
+      else if (email !== null) {
+        req.flash('error','Email already taken');
+        emailBool = true;
+      }
+      if (userBool || emailBool) {
+        res.render('signup', {req: req, message: req.flash('error')});
+      }
+    });
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-	   if (errors.array()[0].param == 'email') {
-	      req.flash('error','Email field must contain a valid e-mail address');
-	   }
-	   else if (errors.array()[0].param == 'password') {
-	      req.flash('error','Passwords must be at least 5 characters long and contain one number');
-	   }
-	   res.render('signup', {req: req, message: req.flash('error')});
-  }
-  else if (req.body.username.length < 1) {
-	   req.flash('error','Username cannot be empty');
-     res.render('signup', {req: req, message: req.flash('error')});
-  }
-  else if (req.body.username.match(/ /g)) {
-	   req.flash('error','Username cannot contain space(s)');
-	    res.render('signup', {req: req, message: req.flash('error')});
-  }
-  else{
-    verifyEmail = req.body.email;
-    passport.authenticate('local-signup', {
-	  successRedirect: '/verify',
-	  failureRedirect: '/signup',
-	  failureFlash: req.flash('error')})(req,res);
+      if (errors.array()[0].param == 'email') {
+        req.flash('error','Email field must contain a valid e-mail address');
+      }
+      else if (errors.array()[0].param == 'password') {
+        req.flash('error','Passwords must be at least 5 characters long and contain one number');
+      }
+      res.render('signup', {req: req, message: req.flash('error')});
     }
-});
+    else if (req.body.username.length < 1) {
+      req.flash('error','Username cannot be empty');
+      res.render('signup', {req: req, message: req.flash('error')});
+    }
+    else if (req.body.username.match(/ /g)) {
+      req.flash('error','Username cannot contain space(s)');
+      res.render('signup', {req: req, message: req.flash('error')});
+    }
+    else {
+      console.log("passed checks")
+      verifyEmail = req.body.email;
+      passport.authenticate('local-signup', {
+        successRedirect: '/verify',
+        failureRedirect: '/signup',
+        failureFlash: req.flash('error')
+      })(req,res);
+    }
+  }
+);
 
 // Contact Us Page
 app.get('/contact', function(req,res) {

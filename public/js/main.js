@@ -89,7 +89,6 @@ var passwords = {
     return (elem.pass.value.length >= 5);
   },
   isBlank: function(){
-    //console.log(!elem.pass.value + ":" + !elem.confPass.value);
     return (!elem.pass.value && !elem.confPass.value);
   },
   isAlphaNumeric: function(){
@@ -106,10 +105,8 @@ var passwords = {
 var enableSubmitButton = function(outcome){
   if(outcome.matching && outcome.fiveLong && outcome.alphanumeric){
     document.getElementById("submitButton").disabled = false;
-    console.log("enabled")
   } else {
     document.getElementById("submitButton").disabled = true;
-    console.log("disabled")
   }
 };
 
@@ -150,7 +147,6 @@ function validateSignupPassword(e) {
   console.log("validateSignupPassword");
 
   var target = e.srcElement || e.target;
-  //console.log('keypress: ' + target.id);
 
   outcome.matching = passwords.isMatching();
   outcome.fiveLong = passwords.isFiveCharsLong();
@@ -165,11 +161,9 @@ function validateSignupPassword(e) {
  Forum make active on mouseover
 **************************/
 var makeActive = function(listId) {
-  //console.log(listId.id + " = active")
   document.getElementById(listId.id).classList.add('active');
 };
 
 var makeInactive = function(listId) {
-  //console.log(listId.id + " = inactive")
   document.getElementById(listId.id).classList.remove('active');
 };
