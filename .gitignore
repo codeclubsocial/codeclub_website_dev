@@ -4,3 +4,5 @@ npm-debug.log
 .DS_Store
 /*.env
 package-lock.json
+
+/reactjs/node_modules
