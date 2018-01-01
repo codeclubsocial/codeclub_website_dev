@@ -8,7 +8,6 @@
 	<div class="container">
 		<ul id="forumPostsList" class="list-group">
 
-				<% var altListGroupItem = 0; %>
 				<% var listGroupItem; %>
         <% msg = msg.sort(function(a, b){
     			var keyA = a.dateCreated.getTime();
@@ -23,20 +22,19 @@
 				<% msg.forEach(function(msg){ %>
 
 					<!-- Alternate BS class per line -->
-					<% if((altListGroupItem % 2) == 0) { %>
-						<% listGroupItem = 'list-group-item-info'; %>
-					<% } else { %>
-						<% listGroupItem = 'list-group-item-default'; %>
-					<% }; %>
-					<% altListGroupItem += 1; %>
+					<% listGroupItem = 'list-group-item-default'; %>
 
-  <li class="list-group-item justify-content-between <%= listGroupItem %>" id="forumPost-<%= altListGroupItem %>" onmouseover="makeActive(this)" onmouseout="makeInactive(this)" onclick="location.href='/forum/<%= msg._id %>';" style="cursor: pointer;">
+  <li class="list-group-item justify-content-between <%= listGroupItem %>" onmouseover="makeActive(this)" onmouseout="makeInactive(this)" onclick="location.href='/forum/<%= msg._id %>';" style="cursor: pointer;">
       <div class="d-inline lead" style="float: left; width: 80%;"><strong><%= msg.title %></strong></div>
 			<div id="msg<%= i %>" class="d-inline badge badge-default" style="float:right; width: 125px;"><%= msg.dateCreated.toDateString() %></div>
 			<div class="d-block panel-body text-truncate" style="clear: left; width: 100%;">
 				  <% i++; %>
-						<% if(typeof msg.body != 'undefined') { %>
-							<%= msg.text.substring(0,120) %>...
+						<% if (typeof msg.body != 'undefined') { %>
+						   <% if (msg.text.length < 120) { %>
+							    <%= msg.text %>
+							 <% } else { %>
+								 <%= msg.text.substring(0,120).trim() %>...
+							 <% } %>
 						<% } else { %>
 							<%= "..." %>
 						<% } %>
@@ -44,17 +42,15 @@
 			<div class="d-block" style="width: 100%; text-align: center;">
 			<!--div class="badge badge-default" style="float:left;"><%= msg.dateCreated.toDateString() %></div-->
 			<div style="float: right; color: grey; font-size: 15px;">
-				<em>By: <%= msg.author %> </em>
+				<em><%= msg.author %> </em>
 				<% if (msg.vote.likes == 1) { %>
 					<span>| <%= msg.vote.likes %> like</span>
-				<% }
-				else { %>
+				<% } else { %>
 					<span>| <%= msg.vote.likes %> likes</span>
 				<% } %>
 				<% if (msg.vote.dislikes == 1) { %>
 					<span>| <%= msg.vote.dislikes %> dislike</span>
-				<% }
-				else { %>
+				<% } else { %>
 					<span>| <%= msg.vote.dislikes %> dislikes</span>
 				<% } %>
 			</div>

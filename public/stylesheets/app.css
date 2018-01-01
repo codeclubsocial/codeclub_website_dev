@@ -28,6 +28,13 @@ textarea {
  	overflow: hidden;
  }
 
+ .list-group-item-default {
+   border-color: #414a4f;
+ }
+ .lead {
+   font-weight: bold;
+ }
+
  #forum-index-body {
    padding: 5px;
    border-color: skyblue;
