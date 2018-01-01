@@ -18,17 +18,15 @@
 				}); %>
 
 				<!-- Start of content loop -->
-				<% var i = 0; %>
-				<% msg.forEach(function(msg){ %>
+				<% msg.forEach(function(msg, i){ %>
 
 					<!-- Alternate BS class per line -->
 					<% listGroupItem = 'list-group-item-default'; %>
 
-  <li class="list-group-item justify-content-between <%= listGroupItem %>" onmouseover="makeActive(this)" onmouseout="makeInactive(this)" onclick="location.href='/forum/<%= msg._id %>';" style="cursor: pointer;">
+  <li class="list-group-item justify-content-between <%= listGroupItem %>" id="forum-post<%= i %>" onmouseover="makeActive(this)" onmouseout="makeInactive(this)" onclick="location.href='/forum/<%= msg._id %>';" style="cursor: pointer;">
       <div class="d-inline lead" style="float: left; width: 80%;"><strong><%= msg.title %></strong></div>
 			<div id="msg<%= i %>" class="d-inline badge badge-default" style="float:right; width: 125px;"><%= msg.dateCreated.toDateString() %></div>
 			<div class="d-block panel-body text-truncate" style="clear: left; width: 100%;">
-				  <% i++; %>
 						<% if (typeof msg.body != 'undefined') { %>
 						   <% if (msg.text.length < 120) { %>
 							    <%= msg.text %>
