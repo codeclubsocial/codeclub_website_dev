@@ -7,7 +7,7 @@
         <h3><%= msg.title %> </h3>
       </div>
       <div class="card-block">
-        <span id="post-date-created" class="badge badge-pill badge-primary" style="float: right;"><%= msg.dateCreated.toDateString() %></span>
+        <span id="post-date-created" class="badge badge-default" style="float: right;"><%= msg.dateCreated.toDateString() %></span>
         <div class="card-text" style="margin: 2em auto; text-align: justify;"><%- msg.body %></div>
         <% if (currUsername === msg.author) { %>
           <a href="/forum/<%= msg._id %>/edit" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
@@ -15,7 +15,7 @@
             <button role="submit button" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
           </form>
         <% } %>
-        <p style="float: right; color: grey; font-size: 15px;">
+        <p style="float: right; color: grey; font-size: 15px; margin-bottom: 0px;">
           <em style="margin-right: 2rem;">By: <%= msg.author %> </em>
           <% if (msg.voters[currUsername]) { %>
              <% if (msg.voters[currUsername] == 1) { %>
