@@ -178,13 +178,6 @@ app.get("/login", function(req, res){
   res.render("login", {req: req, message: req.flash('error')});
 });
 
-// Credentials check from login
-// app.post('/login', passport.authenticate('local-login', {
-//   successRedirect: '/secret',
-//   failureRedirect: '/login',
-//   failureFlash: true
-// }));
-
 app.post('/login', function(req, res, next) {
   passport.authenticate('local-login', function(err, user, info) {
     if (err) { return next(err); }
@@ -192,7 +185,7 @@ app.post('/login', function(req, res, next) {
     req.logIn(user, function(err) {
       if (err) { return next(err); }
       currUsername = user.local.username;
-      return res.redirect('/secret');
+      return res.redirect('/forum');
     });
   })(req, res, next);
 });
