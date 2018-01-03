@@ -1,6 +1,28 @@
-body {
-  margin-top: 5rem;
+* {
+  margin: 0;
+  padding: 0;
 }
+
+html, body {
+   margin:0;
+   padding:0;
+   height:100%;
+}
+
+body {
+  padding-top: 65px;
+}
+
+#bodyContents {
+   min-height:100%;
+   position:relative;
+}
+
+.container {
+  padding:10px;
+  padding-bottom:177px;   /* Height of the footer */
+}
+
 .label{
   font-weight: 600;
 }
@@ -174,6 +196,11 @@ textarea {
   background-color: black;
 }
 
+.spacer {
+  margin: 0;
+  padding: 0;
+}
+
 /*-------------
  	Footer
 -------------*/
@@ -185,7 +212,10 @@ footer{
 	text-align: center;
 	color: #fff;
 	background-color: #414a4f;
-	padding: 60px 0;
+	padding: 26px 0;
+  position:absolute;
+  bottom:0;
+  width: 100%;
 }
 
 footer a {
@@ -198,10 +228,10 @@ footer a {
 
 footer ul{
 	display: flex;
+  margin: 0 auto;
 	margin-bottom: 25px;
 	font-size: 32px;
   list-style: none;
-
 }
 
 footer ul li{

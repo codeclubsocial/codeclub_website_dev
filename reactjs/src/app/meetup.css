@@ -6,10 +6,15 @@ a.button {
     text-decoration: none;
     color: initial;
     padding: 1px 6px 1px 6px;
-    border: rgb(221, 221, 221) outset 2px;
     cursor: pointer;
+    background-color: #414a4f;
+    color: white;
 }
 
 .card-body {
   padding: 15px;
+}
+
+.card {
+  border: solid 1px #414a4f;
 }
