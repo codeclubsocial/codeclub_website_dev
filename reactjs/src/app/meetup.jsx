@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import './meetup.css';
 
 // for master:
-var consumerKey = 'ovcnv9ha9jar32damrf4nflcot';
-var redirectURI = 'http://www.codeclub.social/index';
+// var consumerKey = 'ovcnv9ha9jar32damrf4nflcot';
+// var redirectURI = 'http://www.codeclub.social/index';
 
 // for dev:
-// var consumerKey = '54ruujnlagioqjb2vnnevgvja9';
-// var redirectURI = 'http://codeclubsocial.herokuapp.com/index';
+var consumerKey = '54ruujnlagioqjb2vnnevgvja9';
+var redirectURI = 'http://codeclubsocial.herokuapp.com/index';
 
 // for austin:
 // var consumerKey = 'kksoj0htpfk9ef9c5qcphj0glv';
