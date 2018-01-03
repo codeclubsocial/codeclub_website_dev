@@ -7,7 +7,7 @@ a.button {
     cursor: pointer;
 }
 
-a:hover, a:visited, a:link, a:focus, a:active {
+#rsvp-button:hover, #rsvp-button:visited, #rsvp-button:link, #rsvp-button:focus, #rsvp-button:active {
   color: white;
   text-decoration: none;
 }
