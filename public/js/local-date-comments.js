@@ -6,9 +6,34 @@ var msg;
 fetch('/getdate/'+ currentID)
   .then(res => res.json())
   .then(function(msg) {
-    var commentsArr = msg[0].comments;
+
+    //Format post date
     var postDateCreated = new Date(msg[0].dateCreated);
-    $('#post-date-created').html(postDateCreated.toDateString());
+    var month = postDateCreated.getMonth() + 1;
+    var date = postDateCreated.getDate();
+    var year = postDateCreated.getYear() + 1900;
+    var amPM = "AM";
+    var hours = postDateCreated.getHours();
+    if (hours > 12) {
+      amPM = "PM";
+      hours -= 12;
+    }
+    else if (hours === 12) {
+      amPM = "PM";
+    }
+    else if (hours === 0) {
+      hours = 12;
+    }
+    var minutes = postDateCreated.getMinutes();
+    if (minutes < 10) {
+      minutes = "0" + minutes;
+    }
+    var dateStr = month + '/' + date + '/' + year + ' ' + hours + ':' + minutes + ' ' + amPM;
+    var postID = "msg" + i;
+    $('#post-date-created').html(dateStr);
+
+    // Format comment dates
+    var commentsArr = msg[0].comments;
     for (var i = 0; i < commentsArr.length; i++) {
       var fullDate = new Date(commentsArr[i].dateCreated);
       var month = fullDate.getMonth() + 1;

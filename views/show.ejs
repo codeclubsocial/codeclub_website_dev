@@ -2,12 +2,12 @@
 
 <section class="section1" style="margin-top: 5rem;">
   <div class="container">
-    <div class="card">
-      <div class="card-header">
+    <div class="card custom-card-outline">
+      <div class="card-header custom-card-outline">
         <h3><%= msg.title %> </h3>
       </div>
       <div class="card-block">
-        <span id="post-date-created" class="badge badge-pill badge-primary" style="float: right;"><%= msg.dateCreated.toDateString() %></span>
+        <span id="post-date-created" class="badge badge-default" style="float: right;"><%= msg.dateCreated.toDateString() %></span>
         <div class="card-text" style="margin: 2em auto; text-align: justify;"><%- msg.body %></div>
         <% if (currUsername === msg.author) { %>
           <a href="/forum/<%= msg._id %>/edit" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
@@ -15,17 +15,27 @@
             <button role="submit button" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
           </form>
         <% } %>
-        <p style="float: right; color: grey; font-size: 15px;">
+        <p style="float: right; color: grey; font-size: 15px; margin-bottom: 0px;">
           <em style="margin-right: 2rem;">By: <%= msg.author %> </em>
-          <span style="margin-right: 0.5rem;" id="likeText"><i class="fa fa-thumbs-up" aria-hidden="true" id="like" style="font-size: 1.3rem;"></i> <span id="like-num"> <%= msg.vote.likes %> </span> </span>
-          <span><i class="fa fa-thumbs-down" aria-hidden="true" style="font-size: 1.3rem;"id="dislike"></i> <span id="dislike-num" ><%= msg.vote.dislikes %></span> </span>
+          <% if (msg.voters[currUsername]) { %>
+             <% if (msg.voters[currUsername] == 1) { %>
+              <span style="margin-right: 0.5rem;" id="likeText"><i class="fa fa-thumbs-up like" aria-hidden="true" id="like" style="font-size: 1.3rem;"></i> <span id="like-num"> <%= msg.vote.likes %> </span> </span>
+              <span><i class="fa fa-thumbs-down" aria-hidden="true" style="font-size: 1.3rem;"id="dislike"></i> <span id="dislike-num" ><%= msg.vote.dislikes %></span> </span>
+             <% } else if (msg.voters[currUsername] == -1) { %>
+              <span style="margin-right: 0.5rem;" id="likeText"><i class="fa fa-thumbs-up" aria-hidden="true" id="like" style="font-size: 1.3rem;"></i> <span id="like-num"> <%= msg.vote.likes %> </span> </span>
+              <span><i class="fa fa-thumbs-down dislike" aria-hidden="true" style="font-size: 1.3rem;"id="dislike"></i> <span id="dislike-num" ><%= msg.vote.dislikes %></span> </span>
+             <% } %>
+          <% } else { %>
+            <span style="margin-right: 0.5rem;" id="likeText"><i class="fa fa-thumbs-up" aria-hidden="true" id="like" style="font-size: 1.3rem;"></i> <span id="like-num"> <%= msg.vote.likes %> </span> </span>
+            <span><i class="fa fa-thumbs-down" aria-hidden="true" style="font-size: 1.3rem;"id="dislike"></i> <span id="dislike-num" ><%= msg.vote.dislikes %></span> </span>
+          <% } %>
         </p>
       </div>
     </div>
   </div>
   <div class="container" style="padding-top: 20px">
-    <div class="card">
-      <div class="card-header">
+    <div class="card custom-card-outline">
+      <div class="card-header custom-card-outline">
         <h4>Replies</h4>
       </div>
     <% for (var i = 0; i < msg.comments.length; i++) { %>

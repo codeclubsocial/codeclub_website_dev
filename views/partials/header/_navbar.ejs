@@ -11,7 +11,7 @@
 				<a class="nav-link" href="/index">Home<span class="sr-only">(current)</span></a>
 			</li>
 <%			if ( req.app.locals.authenticate(req) ){ %>
-				<li class="nav-item">
+			<li class="nav-item">
 					<a class="nav-link" href="/forum">Forum<span class="sr-only">(current)</span></a>
 <%			}	%>
 			</li>
@@ -34,12 +34,6 @@
 					<a class="dropdown-item" href="https://github.com/codeclubsocial/" target="_blank">Github Repositories</a>
 				</div>
 			</li>
-<%			if ( req.app.locals.authenticate(req) ){ %>
-				<li class="nav-item" id="chatButton">
-					<a class="nav-link" href="#" onclick="toggleDisplay()">Chat</a>
-<%			}	%>
-			</li>
-
     </ul>
 		<ul class="nav navbar-nav navbar-right">
 		<li class="nav-item">

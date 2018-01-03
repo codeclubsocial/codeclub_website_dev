@@ -1,70 +1,62 @@
 <% include ./partials/header %>
-
-	<div class="container" style="margin-top: 2rem;">
+<div class="container">
+	<div style="margin-top: 2rem;">
 		<h1 style="display: inline;">Forum</h1>
-			<a href="/forum/new" class="btn btn-primary" style="float: right; text-transform: capitalize; text-decoration: none;">New Post</a>
+		<a href="/forum/new" class="btn btn-primary" style="float: right; text-transform: capitalize; text-decoration: none;">New Post</a>
 	</div>
 	&nbsp;
-	<div class="container">
+	<div>
 		<ul id="forumPostsList" class="list-group">
 
-				<% var altListGroupItem = 0; %>
-				<% var listGroupItem; %>
-        <% msg = msg.sort(function(a, b){
-    			var keyA = a.dateCreated.getTime();
-        	var keyB = b.dateCreated.getTime();
-    			if(keyA > keyB) return -1;
-    			if(keyA < keyB) return 1;
-    			return 0;
-				}); %>
+			<% var listGroupItem; %>
+			<% msg = msg.sort(function(a, b){
+				var keyA = a.dateCreated.getTime();
+				var keyB = b.dateCreated.getTime();
+				if(keyA > keyB) return -1;
+				if(keyA < keyB) return 1;
+				return 0;
+			}); %>
 
-				<!-- Start of content loop -->
-				<% var i = 0; %>
-				<% msg.forEach(function(msg){ %>
+			<!-- Start of content loop -->
+			<% msg.forEach(function(msg, i){ %>
 
-					<!-- Alternate BS class per line -->
-					<% if((altListGroupItem % 2) == 0) { %>
-						<% listGroupItem = 'list-group-item-info'; %>
-					<% } else { %>
-						<% listGroupItem = 'list-group-item-default'; %>
-					<% }; %>
-					<% altListGroupItem += 1; %>
+				<!-- Alternate BS class per line -->
+				<% listGroupItem = 'list-group-item-default'; %>
 
-  <li class="list-group-item justify-content-between <%= listGroupItem %>" id="forumPost-<%= altListGroupItem %>" onmouseover="makeActive(this)" onmouseout="makeInactive(this)" onclick="location.href='/forum/<%= msg._id %>';" style="cursor: pointer;">
-      <div class="d-inline lead" style="float: left; width: 80%;"><strong><%= msg.title %></strong></div>
-			<div id="msg<%= i %>" class="d-inline badge badge-default" style="float:right; width: 125px;"><%= msg.dateCreated.toDateString() %></div>
-			<div class="d-block panel-body text-truncate" style="clear: left; width: 100%;">
-				  <% i++; %>
-						<% if(typeof msg.body != 'undefined') { %>
-							<%= msg.text.substring(0,120) %>...
+				<li class="list-group-item justify-content-between <%= listGroupItem %>" id="forum-post<%= i %>" onmouseover="makeActive(this)" onmouseout="makeInactive(this)" onclick="location.href='/forum/<%= msg._id %>';" style="cursor: pointer;">
+					<div class="d-inline lead" style="float: left; width: 80%;"><strong><%= msg.title %></strong></div>
+					<div id="msg<%= i %>" class="d-inline badge badge-default" style="float:right; width: 125px;"><%= msg.dateCreated.toDateString() %></div>
+					<div class="d-block panel-body text-truncate" style="clear: left; width: 100%;">
+						<% if (typeof msg.body != 'undefined') { %>
+							<% if (msg.text.length < 120) { %>
+								<%= msg.text %>
+							<% } else { %>
+							  <%= msg.text.substring(0,120).trim() %>...
+							<% } %>
 						<% } else { %>
-							<%= "..." %>
+						  <%= "..." %>
 						<% } %>
+					</div>
+					<div class="d-block" style="width: 100%; text-align: center;">
+						<div style="float: right; color: grey; font-size: 15px;">
+							<em><%= msg.author %> </em>
+							<% if (msg.vote.likes == 1) { %>
+								<span>| <%= msg.vote.likes %> like</span>
+							<% } else { %>
+								<span>| <%= msg.vote.likes %> likes</span>
+							<% } %>
+							<% if (msg.vote.dislikes == 1) { %>
+								<span>| <%= msg.vote.dislikes %> dislike</span>
+							<% } else { %>
+								<span>| <%= msg.vote.dislikes %> dislikes</span>
+							<% } %>
+						</div>
+					</li>
+				<% }); %> <!-- End of content loop -->
 			</div>
-			<div class="d-block" style="width: 100%; text-align: center;">
-			<!--div class="badge badge-default" style="float:left;"><%= msg.dateCreated.toDateString() %></div-->
-			<div style="float: right; color: grey; font-size: 15px;">
-				<em>By: <%= msg.author %> </em>
-				<% if (msg.vote.likes == 1) { %>
-					<span>| <%= msg.vote.likes %> like</span>
-				<% }
-				else { %>
-					<span>| <%= msg.vote.likes %> likes</span>
-				<% } %>
-				<% if (msg.vote.dislikes == 1) { %>
-					<span>| <%= msg.vote.dislikes %> dislike</span>
-				<% }
-				else { %>
-					<span>| <%= msg.vote.dislikes %> dislikes</span>
-				<% } %>
-			</div>
-		</li>
-
-		<% }); %> <!-- End of content loop -->
+	  </ul>
 	</div>
-</ul>
 </div>
-&nbsp;
 <script src="/js/local-date-forum.js"></script>
 <script type="text/javascript">
 	sessionStorage.referringPage = 'forum';
