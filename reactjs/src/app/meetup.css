@@ -7,11 +7,7 @@ a.button {
     cursor: pointer;
 }
 
-a:visited {
-  color: white;
-  text-decoration: none;
-}
-a:hover {
+a:hover, a:visited, a:link, a:focus, a:active {
   color: white;
   text-decoration: none;
 }
