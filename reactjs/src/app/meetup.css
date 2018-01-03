@@ -7,14 +7,10 @@ a.button {
     cursor: pointer;
 }
 
-#rsvp-button:hover, #rsvp-button:visited, #rsvp-button:link, #rsvp-button:focus, #rsvp-button:active {
+#rsvp-button #rsvp-button:hover, #rsvp-button:visited, #rsvp-button:link, #rsvp-button:focus, #rsvp-button:active {
   color: white;
   text-decoration: none;
-}
-
-.card-link {
   background-color: #414a4f;
-  color: white;
 }
 
 .card-body {
