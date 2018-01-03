@@ -2,13 +2,14 @@ a.button {
     -webkit-appearance: button;
     -moz-appearance: button;
     appearance: button;
-
     text-decoration: none;
-    color: initial;
     padding: 1px 6px 1px 6px;
     cursor: pointer;
-    background-color: #414a4f;
-    color: white;
+}
+
+.card-link {
+  background-color: #414a4f;
+  color: white;
 }
 
 .card-body {
