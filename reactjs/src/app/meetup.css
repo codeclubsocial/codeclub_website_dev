@@ -7,6 +7,10 @@ a.button {
     cursor: pointer;
 }
 
+a:visited {
+  color: white;
+}
+
 .card-link {
   background-color: #414a4f;
   color: white;
