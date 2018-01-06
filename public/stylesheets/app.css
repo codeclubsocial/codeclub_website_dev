@@ -11,6 +11,8 @@ html, body {
 
 body {
   padding-top: 65px;
+  display: flex;
+  flex-direction: column;
 }
 
 #bodyContents {
@@ -20,7 +22,7 @@ body {
 
 .container {
   padding:10px;
-  padding-bottom:177px;   /* Height of the footer */
+  flex: 1 0 auto;
 }
 
 .label{
