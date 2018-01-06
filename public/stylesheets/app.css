@@ -47,9 +47,13 @@ body {
   text-align: center;
 }
 
-.card {
+.meetup-card {
   margin: 0 auto;
   text-align: left;
+}
+
+.forum-reply {
+  padding: 7px;
 }
 
 .index-meetup-flex {

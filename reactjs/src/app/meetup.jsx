@@ -185,7 +185,7 @@ componentDidUpdate() {
         }
         multiCardJSX.push(
           <div>
-            <div className="card" style={cardStyle}>
+            <div className="card meetup-card" style={cardStyle}>
               <div className="card-body">
                 {finalJSX}
               </div>
