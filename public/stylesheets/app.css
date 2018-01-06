@@ -20,9 +20,31 @@ body {
    position:relative;
 }
 
+.heading {
+  padding-left: 10px;
+}
+
 .container {
   padding:10px;
   flex: 1 0 auto;
+}
+
+.index-content-flex {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+.index-text-flex {
+  order: 0;
+  flex: 1 2 60%;
+  min-width: 0;
+  margin: 10px;
+}
+
+.index-meetup-flex {
+  order: 1;
+  flex: 0 0 auto;
 }
 
 .label{
@@ -93,10 +115,6 @@ textarea {
 
 .modal{
   position: fixed;
-}
-
-.body-container{
-  padding: 15px;
 }
 
 #footer-special-container{
@@ -209,8 +227,6 @@ textarea {
 
 footer{
 	display: block;
-	/*flex-direction: column;
-	align-items: center;*/
   margin:0 auto;
 	text-align: center;
 	color: #fff;
