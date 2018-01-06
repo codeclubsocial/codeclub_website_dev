@@ -37,14 +37,24 @@ body {
 }
 .index-text-flex {
   order: 0;
-  flex: 1 2 60%;
+  flex: 1 2 55%;
   min-width: 0;
-  margin: 10px;
+  margin: 15px;
+}
+
+#root {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.card {
+  margin: 0 auto;
+  text-align: left;
 }
 
 .index-meetup-flex {
   order: 1;
-  flex: 0 0 auto;
+  flex: 1 0 auto;
 }
 
 .label{
@@ -231,10 +241,15 @@ footer{
 	text-align: center;
 	color: #fff;
 	background-color: #414a4f;
-	padding: 26px 0;
-  position: relative;
-  bottom:0;
+	padding: 3vmin 1vmin;
   width: 100%;
+  flex-shrink: 0;
+}
+
+.footer-icon {
+  display: inline-block;
+  font-size: 35px;
+  margin: 7px;
 }
 
 footer a {
@@ -243,26 +258,6 @@ footer a {
   cursor: pointer;
 
   opacity: 0.9;
-}
-
-footer ul{
-	display: flex;
-  margin: 0 auto;
-	margin-bottom: 25px;
-	font-size: 32px;
-  list-style: none;
-}
-
-footer ul li{
-	margin: 0 8px;
-}
-
-footer ul li:first-child{
-	margin-left: 0;
-}
-
-footer ul li:last-child{
-	margin-right: 0;
 }
 
 footer p{
@@ -274,13 +269,4 @@ footer p{
 
 footer p a{
 	color: #fff;
-}
-
-
-@media (max-width: 700px){
-
-	footer{
-		padding: 80px 15px;
-	}
-
 }
