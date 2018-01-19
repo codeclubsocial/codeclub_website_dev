@@ -152,7 +152,14 @@ componentDidUpdate() {
         width: "20rem",
       };
       var multiCardJSX = [];
-      for (let i = 0; i < 3; i++) {
+      let numCards;
+      if (this.state.meetupJson.length < 3) {
+        numCards = this.state.meetupJson;
+      }
+      else {
+        numCards = 3;
+      }
+      for (let i = 0; i < numCards; i++) {
         var finalJSX = [];
         var date = new Date(this.state.meetupJson[i]["time"]);
         var year = 1900 + date.getYear();
