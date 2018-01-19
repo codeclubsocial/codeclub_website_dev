@@ -57,7 +57,7 @@ class Meetup extends React.Component {
   constructor() {
     super();
     this.state = {
-      meetupJson: {},
+      meetupJson: [],
       meetupRSVP: {},
       getMeetupRSVP: {},
       urlState: makeState(),
@@ -148,15 +148,14 @@ componentDidUpdate() {
 
   render() {
     console.log(this.state.meetupJson.length);
-    console.log(Object.keys(this.state.meetupJson).length);
-    if (Object.keys(this.state.meetupJson).length !== 0) {
+    if (this.state.meetupJson.length !== 0) {
       var cardStyle = {
         width: "20rem",
       };
       var multiCardJSX = [];
       let numCards;
       if (this.state.meetupJson.length < 3) {
-        numCards = this.state.meetupJson;
+        numCards = this.state.meetupJson.length;
       }
       else {
         numCards = 3;
