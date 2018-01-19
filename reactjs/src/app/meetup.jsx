@@ -147,7 +147,6 @@ componentDidUpdate() {
   }
 
   render() {
-    console.log(this.state.meetupJson.length);
     if (this.state.meetupJson.length !== 0) {
       var cardStyle = {
         width: "20rem",
