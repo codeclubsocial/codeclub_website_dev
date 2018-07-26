@@ -130,7 +130,7 @@ app.get("/", function(req, res){
     res.redirect('/');
   } else if ( app.locals.authenticate(req) ){
     // If session cookie active (previous visitor) direct to index
-    res.render("index", {req: req});
+    res.render("landing", {req: req});
   }
   else{
     // If session cookie not active (not registered or verified) direct to landing
