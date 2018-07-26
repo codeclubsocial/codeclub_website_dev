@@ -134,7 +134,7 @@ app.get("/", function(req, res){
   }
   else{
     // If session cookie not active (not registered or verified) direct to landing
-    res.render("index", {req: req});
+    res.render("landing", {req: req});
   }
 });
 
